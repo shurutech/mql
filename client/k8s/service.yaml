@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: analytics-frontend-service
+
+spec:
+  type: NodePort
+  selector:
+    app.kubernetes.io/name: analytics-frontend
+    process: web
+  ports:
+    - name: default-port
+      protocol: TCP
+      port: 80
+      targetPort: 3000

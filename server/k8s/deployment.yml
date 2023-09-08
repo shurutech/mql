@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: analytics-backend
+    app.kubernetes.io/name: analytics-backend
+    process: web
+  name: analytics-backend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: analytics-backend
+      process: web
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: analytics-backend
+        process: web
+    spec:
+      containers:
+        - env:
+          envFrom:
+          - configMapRef:
+              name: analytics-backend-configmap
+          image: {{image}}
+          command: ["/bin/bash", "-c", "alembic upgrade head; uvicorn app.main:app --host 0.0.0.0 --port 8000"]
+          imagePullPolicy: Always
+          name: analytics-backend
+          ports:
+            - containerPort: 8000
+              name: http
+              protocol: TCP
+          readinessProbe:
+            httpGet:
+              path: /ping
+              port: 8000
+            initialDelaySeconds: 10
+            periodSeconds: 10
+            timeoutSeconds: 2
+          resources:
+            limits:
+              cpu: "1000m"
+              memory: "4Gi"
+            requests:
+              cpu: "1000m"
+              memory: "4Gi"

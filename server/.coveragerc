@@ -1,0 +1,8 @@
+[run]
+source = ./app
+omit =
+    ./app/tests/*
+    *__pycache__*
+
+[html]
+directory = coverage_report

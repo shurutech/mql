@@ -1,0 +1,15 @@
+psycopg2
+fastapi[all]
+sqlalchemy
+pgvector
+openai
+alembic
+bcrypt
+httpx
+pytest
+pytest-mock
+python-jose[cryptography]
+pytest-cov
+black
+openai
+pytest-cov
