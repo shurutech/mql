@@ -10,7 +10,6 @@ client/node_modules
 client/.next
 client/.pnp
 client/.pnp.js
-client/.env
 client/build
 client/out
 client/coverage
