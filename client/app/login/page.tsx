@@ -25,8 +25,8 @@ const Login = () => {
         toast.success("Login successful");
         push("/accounts/home");
       }
-    } catch (error) {
-      toast.error("Something went wrong");
+    } catch (error: any) {
+      toast.error(error.detail);
     }
   };
 

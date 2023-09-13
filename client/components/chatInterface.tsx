@@ -28,7 +28,7 @@ const ChatInterface = ({ dbId }: Props) => {
   const getAllQueryHistory = async () => {
     try {
       const res = await queryHistory(dbId);
-      setQueryHistoryList(res.data.query_history);
+      setQueryHistoryList(res.data.data.query_histories);
     } catch (error) {
       toast.error("Something went wrong");
     }
@@ -39,10 +39,11 @@ const ChatInterface = ({ dbId }: Props) => {
     try {
       setIsFirst(false);
       setSql(null);
+      setShowNlQuery(nlQuery);
       const formData = new FormData();
       formData.append("nl_query", nlQuery);
       const res = await askQuery(dbId, formData);
-      setSql(res.data.sql_query);
+      setSql(res.data.data.sql_query);
       setNlQuery("");
     } catch (error) {
       toast.error("Something went wrong");
@@ -55,8 +56,8 @@ const ChatInterface = ({ dbId }: Props) => {
       setSql(null);
       setShowNlQuery(null);
       const res = await getQueryHistoryById({ dbId, id });
-      setSql(res.data.query_history.sql_query);
-      setShowNlQuery(res.data.query_history.nl_query);
+      setSql(res.data.data.query_history.sql_query);
+      setShowNlQuery(res.data.data.query_history.nl_query);
       setNlQuery("");
     } catch (error) {
       toast.error("Something went wrong");
@@ -158,7 +159,6 @@ const ChatInterface = ({ dbId }: Props) => {
                   value={nlQuery}
                   onChange={(e) => {
                     setNlQuery(e.target.value);
-                    setShowNlQuery(e.target.value);
                   }}
                 />
                 <button className="p-1" type="submit" onClick={handleQuery}>

@@ -28,7 +28,7 @@ const DatabaseView = () => {
     const fetchDB = async () => {
       try {
         const res = await getDatabase(id);
-        setDatabase(res.data);
+        setDatabase(res.data.data);
       } catch (error) {
         toast.error("Something went wrong");
       }

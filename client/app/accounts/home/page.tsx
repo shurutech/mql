@@ -19,7 +19,7 @@ const Home = () => {
     const fetchAllDB = async () => {
       try {
         const response = await getAllDatabase();
-        setDatabases(response.data.user_databases);
+        setDatabases(response.data.data.user_databases);
       } catch (error) {
         toast.error("Something went wrong");
       }

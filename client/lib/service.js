@@ -11,7 +11,10 @@ axios.interceptors.response.use(
   },
   async (error) => {
     const errCode = error.response.status;
-    if (errCode === 401) {
+    if (
+      errCode === 401 &&
+      error.response.data.detail !== "Incorrect Password"
+    ) {
       toast.error("Session Expired. Please Login Again");
       setTimeout(() => {
         Cookies.set("token", "");
