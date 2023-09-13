@@ -6,7 +6,6 @@ log_config = {
             "()": "uvicorn.logging.DefaultFormatter",
             "fmt": "%(asctime)s | %(name)s | %(levelprefix)s | %(message)s",
             "datefmt": "%Y-%m-%d %H:%M:%S",
-
         },
     },
     "handlers": {

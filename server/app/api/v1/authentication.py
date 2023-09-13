@@ -13,6 +13,7 @@ import logging
 router = APIRouter()
 logger = logging.getLogger("analytics")
 
+
 @router.post("/signup")
 async def signup(
     name: Annotated[str, Form()],
@@ -48,7 +49,10 @@ async def signup(
             detail="Internal server error",
         )
     return JSONResponse(
-        content={"message": "User created successfully"},
+        content={
+            "message": "User created successfully",
+            "data": {"name": user.name, "email": user.email},
+        },
         headers={"x-auth-token": token},
         status_code=status.HTTP_201_CREATED,
     )
@@ -86,7 +90,10 @@ async def login(
         )
 
     return JSONResponse(
-        content={"message": "Login Successfully"},
+        content={
+            "message": "Login successfully",
+            "data": {"name": user.name, "email": user.email},
+        },
         headers={"x-auth-token": token},
         status_code=status.HTTP_200_OK,
     )

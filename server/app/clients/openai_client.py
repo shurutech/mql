@@ -23,59 +23,87 @@ class OpenAIClient:
     ) -> dict:
         try:
             response = openai.ChatCompletion.create(
-            model=model,
-            temperature=temperature,
-            messages=messages,
-        )  
+                model=model,
+                temperature=temperature,
+                messages=messages,
+            )
         except openai.error.Timeout as e:
-            logger.error("Timeout while getting chat response from openai. Error is {}".format(e))
+            logger.error(
+                "Timeout while getting chat response from openai. Error is {}".format(e)
+            )
             raise HTTPException(
                 status_code=408,
                 detail="Timeout while getting chat response from openai",
             )
         except openai.error.APIError as e:
-            logger.error("APIError while getting chat response from openai. Error is {}".format(e))
+            logger.error(
+                "APIError while getting chat response from openai. Error is {}".format(
+                    e
+                )
+            )
             raise HTTPException(
                 status_code=500,
                 detail="Internal Server Error",
             )
         except openai.error.APIConnectionError as e:
-            logger.error("APIConnectionError while getting chat response from openai. Error is {}".format(e))
+            logger.error(
+                "APIConnectionError while getting chat response from openai. Error is {}".format(
+                    e
+                )
+            )
             raise HTTPException(
                 status_code=500,
                 detail="Internal Server Error",
             )
         except openai.error.InvalidRequestError as e:
-            logger.error("InvalidRequestError while getting chat response from openai. Error is {}".format(e))
+            logger.error(
+                "InvalidRequestError while getting chat response from openai. Error is {}".format(
+                    e
+                )
+            )
             raise HTTPException(
                 status_code=500,
                 detail="Internal Server Error",
             )
         except openai.error.AuthenticationError as e:
-            logger.error("AuthenticationError while getting chat response from openai. Error is {}".format(e))
+            logger.error(
+                "AuthenticationError while getting chat response from openai. Error is {}".format(
+                    e
+                )
+            )
             raise HTTPException(
                 status_code=500,
                 detail="Internal Server Error",
             )
         except openai.error.PermissionError as e:
-            logger.error("PermissionError while getting chat response from openai. Error is {}".format(e))
+            logger.error(
+                "PermissionError while getting chat response from openai. Error is {}".format(
+                    e
+                )
+            )
             raise HTTPException(
                 status_code=500,
                 detail="Internal Server Error",
             )
         except openai.error.RateLimitError as e:
-            logger.error("RateLimitError while getting chat response from openai. Error is {}".format(e))
+            logger.error(
+                "RateLimitError while getting chat response from openai. Error is {}".format(
+                    e
+                )
+            )
             raise HTTPException(
                 status_code=500,
                 detail="Internal Server Error",
             )
         except Exception as e:
-            logger.error("Error while getting chat response from openai. Error is {}".format(e))
+            logger.error(
+                "Error while getting chat response from openai. Error is {}".format(e)
+            )
             raise HTTPException(
                 status_code=500,
                 detail="Internal Server Error",
             )
-        
+
         return response
 
 

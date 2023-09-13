@@ -8,11 +8,12 @@ from app.core.log_config import log_config
 dictConfig(log_config)
 
 app = FastAPI(
-    # docs_url=None, 
+    # docs_url=None,
     # redoc_url=None
 )
 
 logger = logging.getLogger("analytics")
+
 
 @app.get("/ping")
 async def ping_health():

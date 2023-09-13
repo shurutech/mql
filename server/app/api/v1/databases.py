@@ -24,7 +24,7 @@ import logging
 
 router = APIRouter()
 
-logger = logging.getLogger('analytics')
+logger = logging.getLogger("analytics")
 
 """
 TODO:Put a file structure validation here
@@ -76,14 +76,18 @@ async def upload_file(
             embeddings_service.create_embeddings, user_database.id, db
         )
     except Exception as e:
-        logger.error("Error occurred while uploading file for user_id {}. Error is {}".format(current_user.id, e))
+        logger.error(
+            "Error occurred while uploading file for user_id {}. Error is {}".format(
+                current_user.id, e
+            )
+        )
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             detail="Internal server error",
         )
-    
+
     return JSONResponse(
-        content={"message": "File uploaded successfully"},
+        content={"message": "File uploaded successfully", "data": None},
         status_code=status.HTTP_202_ACCEPTED,
     )
 
@@ -96,15 +100,24 @@ async def get_databases(
         databases = crud_user_database.get_by_user_id(db, current_user.id)
 
     except Exception as e:
-        logger.error("Error occurred while fetching databases for user_id {}. Error is {}".format(current_user.id, e))
+        logger.error(
+            "Error occurred while fetching databases for user_id {}. Error is {}".format(
+                current_user.id, e
+            )
+        )
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             detail="Internal server error",
         )
-    
+
     return JSONResponse(
         content={
-            "user_databases": [user_database.as_dict() for user_database in databases]
+            "message": "Databases fetched successfully",
+            "data": {
+                "user_databases": [
+                    user_database.as_dict() for user_database in databases
+                ]
+            },
         },
         status_code=status.HTTP_200_OK,
     )
@@ -125,7 +138,11 @@ async def get_single_database_details(
         databases = crud_user_database.get_by_user_id(db, current_user.id)
         databases_ids = [str(database.id) for database in databases]
         if database_id not in databases_ids:
-            logger.info("Database with database_id {} not found for user_id {}".format(database_id, current_user.id))
+            logger.info(
+                "Database with database_id {} not found for user_id {}".format(
+                    database_id, current_user.id
+                )
+            )
             raise HTTPException(
                 status_code=status.HTTP_404_NOT_FOUND, detail="Database not found"
             )
@@ -134,9 +151,16 @@ async def get_single_database_details(
     except HTTPException as e:
         raise HTTPException(status_code=e.status_code, detail=e.detail)
     except Exception as e:
-        logger.error("Error occurred while fetching database details for database_id {}. Error is {}".format(database_id, e))
+        logger.error(
+            "Error occurred while fetching database details for database_id {}. Error is {}".format(
+                database_id, e
+            )
+        )
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             detail="Internal server error",
         )
-    return JSONResponse(content=database_detail, status_code=status.HTTP_200_OK)
+    return JSONResponse(
+        content={"message": "Database details", "data": database_detail},
+        status_code=status.HTTP_200_OK,
+    )

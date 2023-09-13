@@ -32,21 +32,27 @@ async def query(
             query_embedding, database_id, db
         )
         sql_query = openai_service.text_2_sql_query(nl_query, relevant_table_text_nodes)
-        crud_query_history.insert_sql_query_by_id(db, query_history_record.id, sql_query)
+        crud_query_history.insert_sql_query_by_id(
+            db, query_history_record.id, sql_query
+        )
 
     except HTTPException as e:
         raise HTTPException(status_code=e.status_code, detail=e.detail)
     except Exception as e:
-        logger.error("Error while processing query {} for user {} and database {}. Error is {}".format(nl_query, current_user.id, database_id, e))
+        logger.error(
+            "Error while processing query {} for user {} and database {}. Error is {}".format(
+                nl_query, current_user.id, database_id, e
+            )
+        )
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             detail="Internal server error",
         )
-    
+
     return JSONResponse(
         content={
-            "sql_query": sql_query,
-            "nl_query": nl_query,
+            "message": "Query processed successfully",
+            "data": {"sql_query": sql_query, "nl_query": nl_query},
         },
         status_code=status.HTTP_200_OK,
     )
@@ -64,18 +70,24 @@ async def get_query_history(
             db, database_id
         )
     except Exception as e:
-        logger.error("Error while fetching query history for user {} and database {}. Error is {}".format(current_user.id, database_id, e))
+        logger.error(
+            "Error while fetching query history for user {} and database {}. Error is {}".format(
+                current_user.id, database_id, e
+            )
+        )
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             detail="Internal server error",
         )
-        
+
     return JSONResponse(
         content={
-            "query_history": [
-                query_history.as_dict() for query_history in query_history
-            ],
-            "database_name": database_name,
+            "message": "Query histories fetched successfully",
+            "data": {
+                "query_histories": [
+                    query_history.as_dict() for query_history in query_history
+                ],
+            },
         },
         status_code=status.HTTP_200_OK,
     )
@@ -91,12 +103,19 @@ async def get_query_history_by_id(
     try:
         query_history = crud_query_history.get_by_id(db, query_history_id)
     except Exception as e:
-        logger.error("Error while fetching query history {} for user {} and database {}. Error is {}".format(query_history_id ,current_user.id, database_id, e))
+        logger.error(
+            "Error while fetching query history {} for user {} and database {}. Error is {}".format(
+                query_history_id, current_user.id, database_id, e
+            )
+        )
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             detail="Internal server error",
         )
     return JSONResponse(
-        content={"query_history": query_history.as_dict()},
+        content={
+            "message": "Query history fetched successfully",
+            "data": {"query_history": query_history.as_dict()},
+        },
         status_code=status.HTTP_200_OK,
     )
