@@ -12,6 +12,7 @@ class UserDatabase(TimestampBase):
     )
     name = mapped_column(String, nullable=False)
     user_id = mapped_column(UUID, nullable=False)
+    connection_string = mapped_column(String, nullable=True)
 
     def as_dict(self) -> dict:
         return {

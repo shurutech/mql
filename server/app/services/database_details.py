@@ -32,5 +32,4 @@ class DatabaseDetails:
                 )
         return content
 
-
 database_details = DatabaseDetails()

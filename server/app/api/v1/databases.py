@@ -11,6 +11,7 @@ from fastapi import (
 from typing import Annotated
 from fastapi.responses import JSONResponse
 from sqlalchemy.orm import Session
+from sqlalchemy import create_engine, MetaData
 from app.api.v1.dependencies import get_current_user, get_db
 from app.crud.crud_database_table import crud_database_table
 from app.crud.crud_table_column import crud_table_column
@@ -29,6 +30,69 @@ logger = logging.getLogger("analytics")
 """
 TODO:Put a file structure validation here
 """
+
+@router.post("/databases/connect")
+async def connect_to_database(
+    database_name: Annotated[str, Form()],
+    database_user: Annotated[str, Form()],
+    database_password: Annotated[str, Form()],
+    database_host: Annotated[str, Form()],
+    database_port: Annotated[str, Form()],
+    background_tasks: BackgroundTasks,
+    db: Session = Depends(get_db),
+    current_user: dict = Depends(get_current_user),
+) -> JSONResponse:
+    try:
+        connection_string = f"postgresql://{database_user}:{database_password}@{database_host}:{database_port}/{database_name}"
+
+        user_database_obj = UserDatabase(name=f"{database_name} conn1", user_id=current_user.id, connection_string=connection_string)
+
+        user_database = crud_user_database.create(
+            db=db, user_database_obj=user_database_obj
+        )
+
+        engine = create_engine(connection_string)
+        metadata = MetaData()
+        metadata.reflect(engine)
+        tables = metadata.tables
+        
+        for table_name in tables.keys():
+            database_table_obj = DatabaseTable(
+                    name=table_name, user_database_id=user_database.id
+                )
+            database_table = crud_database_table.create(
+                    db=db, database_table_obj=database_table_obj
+                )
+            for column in tables[table_name].columns:
+                column_type = str(column.type).split("(")[0]
+                table_column_obj = TableColumn(
+                    name=column.name,
+                    data_type=column_type,
+                    database_table_id=database_table.id,
+                )
+                crud_table_column.create(db=db, table_column_obj=table_column_obj)
+
+        background_tasks.add_task(
+            embeddings_service.create_embeddings, user_database.id, db
+        )
+    except Exception as e:
+        logger.error(
+            "Error occurred while connecting to database for user_id {}. Error is {}".format(
+                current_user.id, e
+            )
+        )
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail="Internal server error",
+        )
+
+    return JSONResponse(
+        content={
+            "message": "Database connected successfully",
+            "data": {"database_id": str(user_database.id), "database_name": user_database.name},
+        },
+        status_code=status.HTTP_202_ACCEPTED,
+    )
 
 
 @router.post("/databases")
