@@ -11,10 +11,10 @@ class CRUDUserDatabase:
         user_database = UserDatabaseModel(
             name=user_database_obj.name,
             user_id=user_database_obj.user_id,
+            connection_string=user_database_obj.connection_string,
         )
         db.add(user_database)
-        db.commit()
-        db.refresh(user_database)
+        db.flush()
         return user_database
 
     def get_by_user_id(self, db: Session, user_id: UUID) -> UserDatabaseModel:

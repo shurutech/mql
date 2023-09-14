@@ -15,8 +15,7 @@ class CRUDDatabaseTable:
             user_database_id=database_table_obj.user_database_id,
         )
         db.add(database_table)
-        db.commit()
-        db.refresh(database_table)
+        db.flush()
         return database_table
 
     def get_by_user_database_id(

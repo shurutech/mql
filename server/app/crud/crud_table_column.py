@@ -14,8 +14,7 @@ class CRUDTableColumn:
             database_table_id=table_column_obj.database_table_id,
         )
         db.add(table_column)
-        db.commit()
-        db.refresh(table_column)
+        db.flush()
         return table_column
 
     def get_by_database_table_id(

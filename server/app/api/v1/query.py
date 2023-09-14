@@ -8,6 +8,10 @@ from app.services.embeddings_service import embeddings_service
 from app.crud.crud_query_history import crud_query_history
 from app.schemas.query_history import QueryHistory as QueryHistorySchema
 from app.crud.crud_user_database import crud_user_database
+from sqlalchemy import create_engine
+from fastapi.encoders import jsonable_encoder
+from sqlalchemy.sql import text
+import json
 from typing import Annotated
 import logging
 
@@ -19,6 +23,7 @@ logger = logging.getLogger("analytics")
 async def query(
     database_id: str,
     nl_query: Annotated[str, Form()],
+    execute: Annotated[bool, Form()] = False,
     db: Session = Depends(get_db),
     current_user: dict = Depends(get_current_user),
 ) -> JSONResponse:
@@ -35,7 +40,28 @@ async def query(
         crud_query_history.insert_sql_query_by_id(
             db, query_history_record.id, sql_query
         )
-
+        if execute:
+            database_connection_string = crud_user_database.get_by_id(db, database_id).connection_string
+            if database_connection_string:
+                engine = create_engine(database_connection_string)
+                with engine.connect() as connection:
+                    result = connection.execute(text(sql_query))
+                    result = result.mappings().all()
+                    result_in_json_format = jsonable_encoder(result)
+                    logger.info(
+                        "Query {} executed successfully for user {} and database {}".format(
+                            sql_query, current_user.id, database_id
+                        )
+                    )
+                    return JSONResponse(
+                        content={
+                            "message": "Query processed successfully",
+                            "data": {"sql_query": sql_query, "nl_query": nl_query, "query_result": result_in_json_format},
+                        },
+                        status_code=status.HTTP_200_OK,
+                    )
+            
+            
     except HTTPException as e:
         raise HTTPException(status_code=e.status_code, detail=e.detail)
     except Exception as e:

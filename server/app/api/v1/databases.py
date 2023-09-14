@@ -45,7 +45,7 @@ async def connect_to_database(
     try:
         connection_string = f"postgresql://{database_user}:{database_password}@{database_host}:{database_port}/{database_name}"
 
-        user_database_obj = UserDatabase(name=f"{database_name} conn1", user_id=current_user.id, connection_string=connection_string)
+        user_database_obj = UserDatabase(name=f"{database_name}", user_id=current_user.id, connection_string=connection_string)
 
         user_database = crud_user_database.create(
             db=db, user_database_obj=user_database_obj
@@ -74,8 +74,11 @@ async def connect_to_database(
 
         background_tasks.add_task(
             embeddings_service.create_embeddings, user_database.id, db
+     
         )
+ 
     except Exception as e:
+        db.rollback()
         logger.error(
             "Error occurred while connecting to database for user_id {}. Error is {}".format(
                 current_user.id, e
@@ -140,6 +143,7 @@ async def upload_file(
             embeddings_service.create_embeddings, user_database.id, db
         )
     except Exception as e:
+        db.rollback()
         logger.error(
             "Error occurred while uploading file for user_id {}. Error is {}".format(
                 current_user.id, e
