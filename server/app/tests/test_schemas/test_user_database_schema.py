@@ -7,11 +7,13 @@ from app.schemas.user_database import UserDatabase
 def test_user_database_schema_with_valid_data() -> None:
     name = "Test Database"
     user_id = uuid4()
+    connection_string = "connection string"
 
-    user_database = UserDatabase(name=name, user_id=user_id)
+    user_database = UserDatabase(name=name, user_id=user_id, connection_string=connection_string)
 
     assert user_database.name == name
     assert user_database.user_id == user_id
+    assert user_database.connection_string == connection_string
 
 
 def test_user_database_schema_with_missing_name() -> None:
@@ -42,3 +44,11 @@ def test_user_database_schema_with_invalid_user_id() -> None:
 
     with pytest.raises(ValidationError):
         UserDatabase(name=name, user_id=user_id)
+
+def test_user_database_schema_with_invalid_connection_string() -> None:
+    name = "Test Database"
+    user_id = uuid4()
+    connection_string = 123
+
+    with pytest.raises(ValidationError):
+        UserDatabase(name=name, user_id=user_id, connection_string=connection_string)

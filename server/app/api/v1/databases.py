@@ -71,10 +71,10 @@ async def connect_to_database(
                     database_table_id=database_table.id,
                 )
                 crud_table_column.create(db=db, table_column_obj=table_column_obj)
-
+        db.commit()
         background_tasks.add_task(
             embeddings_service.create_embeddings, user_database.id, db
-     
+
         )
  
     except Exception as e:
@@ -139,6 +139,8 @@ async def upload_file(
                     database_table_id=database_table.id,
                 )
                 crud_table_column.create(db=db, table_column_obj=table_column_obj)
+        db.commit()
+        
         background_tasks.add_task(
             embeddings_service.create_embeddings, user_database.id, db
         )

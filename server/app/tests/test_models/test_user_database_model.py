@@ -5,7 +5,7 @@ from app.models.user_database import UserDatabase
 
 def test_as_dict_method(db: Session) -> None:
     user_id = uuid.uuid4()
-    user_database_instance = UserDatabase(name="test_database", user_id=user_id)
+    user_database_instance = UserDatabase(name="test_database", user_id=user_id,connection_string="connection_string")
     db.add(user_database_instance)
     db.commit()
     result = user_database_instance.as_dict()
@@ -16,6 +16,7 @@ def test_as_dict_method(db: Session) -> None:
     assert result == {
         "name": "test_database",
         "user_id": str(user_id),
+        "connection_string": "connection_string",
         "id": result["id"],
         "created_at": result["created_at"],
         "updated_at": result["updated_at"],
@@ -45,3 +46,16 @@ def test_timestamp_on_update(db: Session) -> None:
     assert user_database_instance.created_at is not None
     assert user_database_instance.updated_at is not None
     assert user_database_instance.created_at != user_database_instance.updated_at
+
+def test_connection_string(db: Session) -> None:
+        user_id = uuid.uuid4()
+        connection_string = "connection_string"
+        user_database_instance = UserDatabase(name="test_database", user_id=user_id,connection_string=connection_string)
+
+        db.add(user_database_instance)
+        db.commit()
+        result = user_database_instance.as_dict()
+        print("result is",result)
+
+        assert "connection_string" in result
+        assert user_database_instance.connection_string == connection_string

@@ -33,6 +33,32 @@ mock_openai_chat_response = {
     "usage": {"prompt_tokens": 9, "completion_tokens": 12, "total_tokens": 21},
 }
 
+mock_openai_chat_response_with_connection_db = {
+    "id": "chatcmpl-123",
+    "object": "chat.completion",
+    "created": 1677652288,
+    "model": "gpt-4",
+    "choices": [
+        {
+            "index": 0,
+            "message": {
+                "role": "shuru",
+                "content": "SELECT count(*) FROM users",
+            },
+            "finish_reason": "stop",
+        }
+    ],
+    "usage": {"prompt_tokens": 9, "completion_tokens": 12, "total_tokens": 21},
+}
+
+mock_database_connection_response = {
+    "message": "Database connected successfully",
+    "data": {
+        "database_id": "15b18c1a-6939-4b82-9166-3e98e175f500",
+        "database_name": "test"
+    }
+}
+
 
 def mock_embedding_create(*args, **kwargs) -> dict:
     return mock_openai_embedding_response
@@ -40,6 +66,12 @@ def mock_embedding_create(*args, **kwargs) -> dict:
 
 def mock_chat_response(*args, **kwargs) -> dict:
     return mock_openai_chat_response
+
+def mock_chat_response_with_connection_db(*args, **kwargs) -> dict:
+    return mock_openai_chat_response_with_connection_db
+
+def mock_database_connection(*args, **kwargs) -> dict:
+    return mock_database_connection_response   
 
 
 def test_query(
@@ -84,8 +116,11 @@ def test_query(
 
     assert response.status_code == 200
     assert response.json() == {
-        "sql_query": "SELECT * FROM employee",
-        "nl_query": "show me the table schema of the table employee",
+        "message": "Query processed successfully",
+        "data": {
+            "sql_query": "SELECT * FROM employee",
+            "nl_query": "show me the table schema of the table employee",
+        },
     }
 
 
@@ -113,19 +148,23 @@ def test_query_history(
     )
     assert response.status_code == 200
     assert response.json() == {
-        "query_history": [
-            {
-                "id": str(query_history_obj.id),
-                "nl_query": "show me the table schema of the table employee",
-                "sql_query": "SELECT * FROM employee",
-                "user_database_id": str(database_obj.id),
-                "created_at": query_history_obj.created_at.isoformat(),
-                "updated_at": query_history_obj.updated_at.isoformat(),
-            }
-        ],
-        "database_name": "Test",
+        "message": "Query histories fetched successfully",
+        "data": {
+            "query_histories": [
+                {
+                    "id": str(query_history_obj.id),
+                    "nl_query": "show me the table schema of the table employee",
+                    "sql_query": "SELECT * FROM employee",
+                    "user_database_id": str(database_obj.id),
+                    "created_at": query_history_obj.created_at.isoformat(),
+                    "updated_at": query_history_obj.updated_at.isoformat(),
+                }
+            ],
+        },
     }
-
+        
+        
+   
 
 def test_query_history_by_id(
     client: TestClient, db: Session, valid_jwt: str, valid_user_model: UserModel
@@ -151,12 +190,73 @@ def test_query_history_by_id(
     )
     assert response.status_code == 200
     assert response.json() == {
-        "query_history": {
-            "id": str(query_history_obj.id),
-            "nl_query": "show me the table schema of the table employee",
-            "sql_query": "SELECT * FROM employee",
-            "user_database_id": str(database_obj.id),
-            "created_at": query_history_obj.created_at.isoformat(),
-            "updated_at": query_history_obj.updated_at.isoformat(),
+        "message": "Query history fetched successfully",
+        "data":{
+            "query_history": {
+                "id": str(query_history_obj.id),
+                "nl_query": "show me the table schema of the table employee",
+                "sql_query": "SELECT * FROM employee",
+                "user_database_id": str(database_obj.id),
+                "created_at": query_history_obj.created_at.isoformat(),
+                "updated_at": query_history_obj.updated_at.isoformat(),
+        }
+            
         }
     }
+
+def test_query_for_connected_database(
+    client: TestClient, db: Session, valid_jwt: str, valid_user_model: UserModel
+) -> None:
+    headers = {"Authorization": f"Bearer {valid_jwt}"}
+    test_data = {
+        "database_name": "analytics_test",
+        "database_user": "shuru",
+        "database_password": "password",
+        "database_host": "localhost",
+        "database_port": "5432",
+    }
+
+    with patch(
+        "app.services.embeddings_service.embeddings_service.create_embeddings",
+        side_effect=None,
+    ):
+            response = client.post(
+            "/v1/databases/connect",
+            data=test_data,
+            headers=headers,
+        )
+    assert response.status_code == 202
+    database_id = crud_user_database.get_by_user_id(db=db, user_id=valid_user_model.id)[
+        0
+    ].id
+    with (
+        patch(
+            "app.clients.openai_client.openai.ChatCompletion.create",
+            side_effect=mock_chat_response_with_connection_db,
+        ),
+        patch(
+            "app.clients.openai_client.openai.Embedding.create",
+            side_effect=mock_embedding_create,
+        ),
+    ):
+        response = client.post(
+            f"/v1/query/{database_id}",
+            headers={
+                "Content-Type": "application/x-www-form-urlencoded",
+                "Authorization": f"Bearer {valid_jwt}",
+            },
+            data={"nl_query": "show me the number of users in the table users","execute":True},
+        )
+
+    assert response.status_code == 200
+    assert response.json() == {
+        "message": "Query processed successfully",
+        "data": {
+            
+            "sql_query": "SELECT count(*) FROM users",
+            "nl_query": "show me the number of users in the table users",
+            'query_result': [{'count': 1}],
+            
+        }
+    }
+

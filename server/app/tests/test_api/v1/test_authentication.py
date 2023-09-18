@@ -16,7 +16,10 @@ def test_signup_new_user(client: TestClient, valid_user: UserSchema) -> None:
     )
     assert response.status_code == 201
     assert response.headers["x-auth-token"] is not None
-    assert response.json() == {"message": "User created successfully"}
+    assert response.json() == {
+        "message": "User created successfully",
+        "data": {"name": valid_user.name, "email": valid_user.email}
+        }
 
 
 def test_signup_user_already_exists(
@@ -46,7 +49,10 @@ def test_login_user(client: TestClient, db: Session, valid_user: UserSchema) -> 
     )
     assert response.status_code == 200
     assert response.headers["x-auth-token"] is not None
-    assert response.json() == {"message": "Login Successfully"}
+    assert response.json() == {
+        "message": "Login successfully",
+        "data": {"name": valid_user.name, "email": valid_user.email}
+        }
 
 
 def test_login_user_not_found(client: TestClient, valid_user: UserSchema) -> None:
