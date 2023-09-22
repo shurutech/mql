@@ -1,0 +1,35 @@
+Table: embeddings
+ embedding | USER-DEFINED
+ table_name | character varying
+
+
+Table: alembic_version
+ version_num | character varying
+
+
+Table: users
+ id | uuid
+ name | character varying
+ email | character varying
+ hashed_password | character varying
+
+
+Table: user_databases
+ id | uuid
+ user_id | uuid
+ name | character varying
+
+
+Table: database_tables
+ id | uuid
+ user_database_id | uuid
+ name | character varying
+
+
+Table: table_columns
+ id | uuid
+ database_table_id | uuid
+ name | character varying
+ data_type | character varying
+
+
