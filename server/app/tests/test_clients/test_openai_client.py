@@ -45,7 +45,7 @@ def test_get_embeddings(openai_client) -> None:
     nodes = ["Hello", "World"]
 
     with patch(
-        "app.clients.openai_client.openai.Embedding.create",
+        "app.clients.openai_client.openai.embeddings.create",
         side_effect=mock_embedding_create,
     ):
         embeddings = openai_client.get_embeddings(nodes)

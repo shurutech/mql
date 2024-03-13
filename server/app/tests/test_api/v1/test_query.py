@@ -97,11 +97,11 @@ def test_query(
     ].id
     with (
         patch(
-            "app.clients.openai_client.openai.ChatCompletion.create",
+            "app.clients.openai_client.chat.completions.create",
             side_effect=mock_chat_response,
         ),
         patch(
-            "app.clients.openai_client.openai.Embedding.create",
+            "app.clients.openai_client.openai.embeddings.create",
             side_effect=mock_embedding_create,
         ),
     ):
@@ -231,11 +231,11 @@ def test_query_for_connected_database(
     ].id
     with (
         patch(
-            "app.clients.openai_client.openai.ChatCompletion.create",
+            "app.clients.openai_client.chat.completions.create",
             side_effect=mock_chat_response_with_connection_db,
         ),
         patch(
-            "app.clients.openai_client.openai.Embedding.create",
+            "app.clients.openai_client.openai.embedding.create",
             side_effect=mock_embedding_create,
         ),
     ):

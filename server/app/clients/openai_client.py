@@ -10,23 +10,24 @@ logger = logging.getLogger("analytics")
 
 
 class OpenAIClient:
-    def get_embeddings(self, nodes: list) -> List[list]:
-        return [
-            v["embedding"]
-            for v in openai.Embedding.create(
-                input=nodes, model="text-embedding-ada-002"
-            )["data"]
-        ]
+    def get_embeddings(self, nodes: list) -> list:
+        response = openai.embeddings.create(
+            input=nodes, model="text-embedding-ada-002"
+        )
+        embeddings = [v.embedding for v in response.data]  
+        return embeddings
+
 
     def get_chat_response(
         self, messages: List[dict], model: str = "gpt-4", temperature: float = 0.5
     ) -> dict:
         try:
-            response = openai.ChatCompletion.create(
-                model=model,
-                temperature=temperature,
-                messages=messages,
+            response = openai.chat.completions.create(
+            model=model,
+            temperature=temperature,
+            messages=messages,
             )
+            chat_response = response
         except openai.error.Timeout as e:
             logger.error(
                 "Timeout while getting chat response from openai. Error is {}".format(e)
@@ -103,8 +104,8 @@ class OpenAIClient:
                 status_code=500,
                 detail="Internal Server Error",
             )
+        return {'response': chat_response} if chat_response else {}
 
-        return response
 
 
 openai_client = OpenAIClient()

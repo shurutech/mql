@@ -37,14 +37,14 @@ class OpenAIService:
                 {"role": "system", "content": formatted_text_2_sql_prompt},
             ],
         )
-        response = openai_response["choices"][0]["message"]["content"]
+        chat_completion_object = openai_response['response']
+        response = chat_completion_object.choices[0].message.content
 
         text2sql_response_copy = response
         sql_result_start = text2sql_response_copy.find("SQLResult:")
         if sql_result_start != -1:
             text2sql_response_copy = text2sql_response_copy[:sql_result_start]
         sql_query = text2sql_response_copy.strip()
-
         return sql_query
 
 
