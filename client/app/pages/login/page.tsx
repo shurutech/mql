@@ -1,7 +1,7 @@
 "use client";
 
 import Header from "@/app/components/header";
-import useLoginViewController from "@/app/viewControllers/login_view_controller";
+import useLoginViewController from "@/app/viewControllers/loginViewController";
 
 const Login = () => {
 

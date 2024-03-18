@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import Header from "@/app/components/header";
-import useHomeViewController from "./viewControllers/home_view_controller";
+import useHomeViewController from "./viewControllers/homeViewController";
 import { cookies } from "next/headers";
 
 const Home = () => {
