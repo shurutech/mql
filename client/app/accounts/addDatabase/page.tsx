@@ -3,7 +3,7 @@
 import CodeBlock from "@/app/components/codeBlock";
 import FileUploader from "@/app/components/fileUploader";
 import { uploadSchema } from "@/app/lib/service";
-import { COMMAND, CURL } from "@/app/utils/constant";
+import { COMMAND_RUN_SCRIPT, COMMAND_DOWNLOAD_SCRIPT } from "@/app/utils/constant";
 import Image from "next/image";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
@@ -74,7 +74,7 @@ const AddDatabase = () => {
                 a bash script which will generate a schema file for you.
               </p>
               <div className="container mx-auto py-8 px-4">
-                <CodeBlock codeString={CURL} language="bash" />
+                <CodeBlock codeString={COMMAND_DOWNLOAD_SCRIPT} language="bash" />
               </div>
             </div>
             <div>
@@ -84,7 +84,7 @@ const AddDatabase = () => {
                 which you ran the curl command.
               </p>
               <div className="container mx-auto py-8 px-4">
-                <CodeBlock codeString={COMMAND} language="bash" />
+                <CodeBlock codeString={COMMAND_RUN_SCRIPT} language="bash" />
               </div>
             </div>
             <div>
