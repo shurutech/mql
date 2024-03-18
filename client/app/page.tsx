@@ -13,7 +13,7 @@ import Image from "next/image";
 import { BiLogoLinkedin, BiLogoTwitter } from "react-icons/bi";
 import Link from "next/link";
 import { cookies } from "next/headers";
-import Header from "@/components/header";
+import Header from "@/app/components/header";
 
 const features = [
   {

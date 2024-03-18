@@ -1,6 +1,6 @@
 "use client";
 
-import ChatInterface from "@/components/chatInterface";
+import ChatInterface from "@/app/components/chatInterface";
 import { useParams } from "next/navigation";
 import React from "react";
 

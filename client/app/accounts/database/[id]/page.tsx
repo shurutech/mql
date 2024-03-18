@@ -1,6 +1,6 @@
 "use client";
 
-import DatabaseInfo from "@/components/databaseInfo";
+import DatabaseInfo from "@/app/components/databaseInfo";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { getDatabase } from "@/lib/service";

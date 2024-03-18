@@ -1,7 +1,7 @@
 "use client";
 
-import CodeBlock from "@/components/codeBlock";
-import FileUploader from "@/components/fileUploader";
+import CodeBlock from "@/app/components/codeBlock";
+import FileUploader from "@/app/components/fileUploader";
 import { uploadSchema } from "@/lib/service";
 import { COMMAND, CURL } from "@/utils/constant";
 import Image from "next/image";
