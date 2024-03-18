@@ -1,32 +1,15 @@
 "use client";
 
 import Link from "next/link";
-import { getAllDatabase } from "@/app/lib/service";
-import { useEffect, useState } from "react";
 import { handleDate } from "@/app/utils/helper";
-import { toast } from "react-toastify";
-
-type Database = {
-  id: number;
-  name: string;
-  created_at: string;
-};
+import useHomeAccountsViewController  from "@/app/viewControllers/homeAccountsViewController";
 
 const Home = () => {
-  const [databases, setDatabases] = useState<Database[]>([]);
 
-  useEffect(() => {
-    const fetchAllDB = async () => {
-      try {
-        const response = await getAllDatabase();
-        setDatabases(response.data.data.user_databases);
-      } catch (error) {
-        toast.error("Something went wrong");
-      }
-    };
-    fetchAllDB();
-  }, []);
-
+  const {
+    databases
+  } = useHomeAccountsViewController();
+  
   return (
     <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 mt-8">
       <div className="mt-6 md:flex md:items-center md:justify-between">
