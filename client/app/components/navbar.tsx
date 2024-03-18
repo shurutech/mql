@@ -27,7 +27,7 @@ const Navbar = () => {
             <div className="flex items-center">
               <div>
                 <Link
-                  href="/accounts/addDatabase"
+                  href="/accounts/add-database"
                   className="text-white bg-blue-500 rounded-full hover:text-black hover:bg-white border px-4 py-2"
                 >
                   Add Database
