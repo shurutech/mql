@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { signUp } from "@/lib/service";
+import { signUp } from "@/app/lib/service";
 import { toast } from "react-toastify";
 
 const Signup = () => {

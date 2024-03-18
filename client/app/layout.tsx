@@ -2,7 +2,7 @@ import { ToastContainer } from "./toast";
 import type { Metadata } from "next";
 import "react-loading-skeleton/dist/skeleton.css";
 import "react-toastify/dist/ReactToastify.css";
-import "../styles/globals.css";
+import "./styles/globals.css";
 
 export const metadata: Metadata = {
   title: "Analyitcs",

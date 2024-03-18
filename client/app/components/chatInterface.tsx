@@ -8,7 +8,7 @@ import {
 import Link from "next/link";
 import { useState } from "react";
 import CodeBlock from "./codeBlock";
-import { askQuery, getQueryHistoryById, queryHistory } from "@/lib/service";
+import { askQuery, getQueryHistoryById, queryHistory } from "@/app/lib/service";
 import Skeleton from "react-loading-skeleton";
 import { toast } from "react-toastify";
 import QueryHistory from "./queryHistory";

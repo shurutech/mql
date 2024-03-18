@@ -3,7 +3,7 @@
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { toast } from "react-toastify";
-import { login } from "@/lib/service";
+import { login } from "@/app/lib/service";
 import Cookies from "js-cookie";
 import Header from "@/app/components/header";
 

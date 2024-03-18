@@ -1,4 +1,4 @@
-import { DATABASE, LOGIN, QUERY, SIGNUP } from "@/utils/routes";
+import { DATABASE, LOGIN, QUERY, SIGNUP } from "@/app/utils/routes";
 import axios from "axios";
 import Cookies from "js-cookie";
 import { toast } from "react-toastify";

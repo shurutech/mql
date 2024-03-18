@@ -3,7 +3,7 @@
 import DatabaseInfo from "@/app/components/databaseInfo";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
-import { getDatabase } from "@/lib/service";
+import { getDatabase } from "@/app/lib/service";
 import { toast } from "react-toastify";
 
 type Database = {

@@ -1,7 +1,7 @@
 import { Fragment, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { XMarkIcon } from "@heroicons/react/24/outline";
-import { handleDate } from "@/utils/helper";
+import { handleDate } from "@/app/utils/helper";
 
 type Props = {
   open: boolean;

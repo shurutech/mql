@@ -2,8 +2,8 @@
 
 import CodeBlock from "@/app/components/codeBlock";
 import FileUploader from "@/app/components/fileUploader";
-import { uploadSchema } from "@/lib/service";
-import { COMMAND, CURL } from "@/utils/constant";
+import { uploadSchema } from "@/app/lib/service";
+import { COMMAND, CURL } from "@/app/utils/constant";
 import Image from "next/image";
 import { useState } from "react";
 import { useRouter } from "next/navigation";

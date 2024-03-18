@@ -1,9 +1,9 @@
 "use client";
 
 import Link from "next/link";
-import { getAllDatabase } from "@/lib/service";
+import { getAllDatabase } from "@/app/lib/service";
 import { useEffect, useState } from "react";
-import { handleDate } from "@/utils/helper";
+import { handleDate } from "@/app/utils/helper";
 import { toast } from "react-toastify";
 
 type Database = {
