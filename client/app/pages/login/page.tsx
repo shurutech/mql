@@ -1,34 +1,17 @@
 "use client";
 
-import { useRouter } from "next/navigation";
-import { useState } from "react";
-import { toast } from "react-toastify";
-import { login } from "@/app/lib/service";
-import Cookies from "js-cookie";
 import Header from "@/app/components/header";
+import useLoginViewController from "@/app/viewControllers/login_view_controller";
 
 const Login = () => {
-  const [email, setEmail] = useState<string>("");
-  const [password, setPassword] = useState<string>("");
 
-  const { push } = useRouter();
-
-  const handleLogin = async (e: React.ChangeEvent<any>) => {
-    e.preventDefault();
-    try {
-      const formData = new FormData();
-      formData.append("email", email);
-      formData.append("password", password);
-      const res = await login(formData);
-      if (res.status === 200) {
-        Cookies.set("token", res.headers["x-auth-token"]);
-        toast.success("Login successful");
-        push("/accounts/home");
-      }
-    } catch (error: any) {
-      toast.error(error.detail);
-    }
-  };
+  const {
+    handleLogin,
+    setEmail,
+    setPassword,
+    email,
+    password,
+  } = useLoginViewController();
 
   return (
     <>
