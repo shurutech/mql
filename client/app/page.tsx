@@ -1,90 +1,21 @@
-import {
-  ArrowTrendingUpIcon,
-  BoltIcon,
-  LightBulbIcon,
-  TableCellsIcon,
-} from "@heroicons/react/24/outline";
-import {
-  ChatBubbleOvalLeftEllipsisIcon,
-  CircleStackIcon,
-  QuestionMarkCircleIcon,
-} from "@heroicons/react/24/solid";
 import Image from "next/image";
-import { BiLogoLinkedin, BiLogoTwitter } from "react-icons/bi";
 import Link from "next/link";
-import { cookies } from "next/headers";
 import Header from "@/app/components/header";
-
-const features = [
-  {
-    name: "Insights Empowered",
-    description:
-      "Discover the power of AI-driven insights, as we revolutionise the way you interact with your data.",
-    icon: LightBulbIcon,
-  },
-  {
-    name: "Simplified Queries",
-    description:
-      "Simplify intricate queries through our user-friendly natural language interface, enabling non-technical users to make informed choices.",
-    icon: TableCellsIcon,
-  },
-  {
-    name: "Powerful Decisions",
-    description:
-      "Unleash the true potential of your business with effortless data-driven decision-making.",
-    icon: BoltIcon,
-  },
-  {
-    name: "Data Empowerment",
-    description:
-      "Unlock the power of AI to harness insights easily, from individual shoppers to global corporations.",
-    icon: ArrowTrendingUpIcon,
-  },
-];
-
-const footerNavigation = {
-  main: [
-    { name: "About", href: "#" },
-    { name: "Blog", href: "#" },
-  ],
-  social: [
-    {
-      name: "LinkedIn",
-      href: "#",
-      icon: BiLogoLinkedin,
-    },
-    {
-      name: "Twitter",
-      href: "#",
-      icon: BiLogoTwitter,
-    },
-  ],
-};
-
-const steps = [
-  {
-    name: "Set the Stage",
-    description: "Begin by Uploading Your Database Schema!",
-    icon: CircleStackIcon,
-  },
-  {
-    name: "Ask Away",
-    description:
-      "Pop Your Questions, something like 'How many bookings done in last week?'",
-    icon: QuestionMarkCircleIcon,
-  },
-  {
-    name: "Voila, Query Delivered",
-    description: "AI generated working SQL query in your hands!",
-    icon: ChatBubbleOvalLeftEllipsisIcon,
-  },
-];
+import useHomeViewController from "./viewControllers/home_view_controller";
+import { cookies } from "next/headers";
 
 const Home = () => {
-  const cookieStore = cookies();
+
+  const {
+    features,
+    setupSteps,
+    footerNavigation,
+    token,
+  } = useHomeViewController();
+
   return (
     <div className="">
-      <Header token={cookieStore.get("token")?.value} />
+      <Header token={token} />
 
       <main className="isolate">
         <div className="relative">
@@ -225,7 +156,7 @@ const Home = () => {
             </p>
           </div>
           <div className="flex sm:flex-row flex-col flex-wrap items-stretch mt-8">
-            {steps.map((step) => (
+            {setupSteps.map((step) => (
               <div className="sm:w-1/3 w-full p-4">
                 <div className="flex flex-col  gap-4 items-stretch h-full rounded-lg border-[1.2px] border-mqlBlue-100 box-border border-b-4 p-8">
                   <div className="flex flex-row items-center gap-2">
