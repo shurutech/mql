@@ -1,4 +1,4 @@
-import { ToastContainer } from "./toast";
+import { ToastContainer } from "./components/toast";
 import type { Metadata } from "next";
 import "react-loading-skeleton/dist/skeleton.css";
 import "react-toastify/dist/ReactToastify.css";
