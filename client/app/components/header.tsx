@@ -4,24 +4,23 @@ import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import { Dialog } from "@headlessui/react";
 
 import Link from "next/link";
-import React, { useState } from "react";
+import React from "react";
 
-import { usePathname } from "next/navigation";
-
-const navigation = [
-  { name: "Features", href: "#features" },
-  { name: "Steps", href: "#steps" },
-  { name: "Waitlist", href: "#waitlist" },
-];
+import useGenericViewController from "../viewControllers/genericViewController";
 
 type Props = {
   token: string | undefined;
 };
 
 const Header = ({ token }: Props) => {
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const pathname = usePathname();
 
+
+  const {
+    headerNavigation,
+    setMobileMenuOpen,
+    mobileMenuOpen,
+    pathname,
+  } = useGenericViewController();
   return (
     <header className="mx-auto max-w-7xl px-6 lg:px-8">
       <nav className="flex items-center justify-between p-6">
@@ -42,7 +41,7 @@ const Header = ({ token }: Props) => {
         </div>
         <div className="hidden lg:flex lg:gap-x-12 z-50">
           {pathname !== "/login" &&
-            navigation.map((item) => (
+            headerNavigation.map((item) => (
               <Link
                 key={item.name}
                 href={item.href}
@@ -95,7 +94,7 @@ const Header = ({ token }: Props) => {
           <div className="mt-6 flow-root">
             <div className="-my-6 divide-y divide-gray-500/10">
               <div className="space-y-2 py-6 z-50">
-                {navigation.map((item) => (
+                {headerNavigation.map((item) => (
                   <a
                     key={item.name}
                     href={item.href}

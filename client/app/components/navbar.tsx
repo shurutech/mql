@@ -1,14 +1,13 @@
 "use client";
 
-import Cookies from "js-cookie";
 import Link from "next/link";
+import useGenericViewController from "../viewControllers/genericViewController";
+import { log } from "console";
 
 const Navbar = () => {
-  const handleLogout = () => {
-    Cookies.set("token", "");
-    window.location.href = "/";
-  };
-
+  const {
+    logout
+  } = useGenericViewController();
   return (
     <div className="bg-gray-100">
       <header className="bg-white shadow-md">
@@ -34,7 +33,7 @@ const Navbar = () => {
                 </Link>
                 <button
                   className="text-gray-600 hover:text-gray-900 px-3 py-2"
-                  onClick={handleLogout}
+                  onClick={logout}
                 >
                   Logout
                 </button>
