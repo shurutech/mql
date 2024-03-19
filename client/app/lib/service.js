@@ -43,16 +43,6 @@ export const login = async (data) => {
   }
 };
 
-export const signUp = async (data) => {
-  try {
-    const res = await axios.post(SIGNUP, data);
-    return res;
-  } catch (err) {
-    if (err.response) throw err.response.data;
-    else throw err.message;
-  }
-};
-
 export const getAllDatabase = async () => {
   try {
     const res = await axios.get(DATABASE);

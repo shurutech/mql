@@ -33,29 +33,6 @@ const Home = () => {
           </div>
           <div>
             <div className="mx-auto max-w-7xl px-6 lg:px-8 mt-20 lg:mt-0">
-              {/* <div className="flex flex-col gap-8 md:flex-row">
-                <div className="my-auto w-full md:w-1/2">
-                  <div className="w-4/5">
-                    <p className="text-4xl font-bold tracking-tight text-gray-900 sm:text-5xl text-transparent bg-clip-text bg-gradient-to-r from-[#1D85FF] to-[#1106A8]">
-                      Unleash the true potential of your data today!
-                    </p>
-                    <p className="mt-6 text-xl leading-7 text-gray-600">
-                      Easily upload your database schema and experience the
-                      power of our AI. Empower your database interactions with
-                      power of AI. <br />
-                    </p>
-                  </div>
-                </div>
-                <div className="flex mb-16 align-middle justify-center w-full md:w-1/2">
-                  <Image
-                    src="/database_4.png"
-                    alt="database"
-                    className="items-center"
-                    width={700}
-                    height={700}
-                  />
-                </div>
-              </div> */}
               <div className="mx-auto max-w-2xl text-center sm:mt-40 mb-20">
                 <h1 className="text-4xl font-bold tracking-tight text-gray-900 sm:text-6xl text-transparent bg-clip-text bg-gradient-to-t from-[#1D85FF] to-[#1106A8]">
                   Unleash the true potential of your data today!

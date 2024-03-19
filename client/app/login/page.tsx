@@ -63,12 +63,6 @@ const Login = () => {
               Login
             </button>
           </form>
-          {/* <p className="mt-4 text-sm text-gray-600">
-          Don't have an account?{" "}
-          <Link href="/signup">
-            <span className="text-blue-500 underline">Signup here</span>
-          </Link>
-        </p> */}
         </div>
       </div>
     </>

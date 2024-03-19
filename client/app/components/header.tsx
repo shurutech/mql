@@ -13,8 +13,6 @@ type Props = {
 };
 
 const Header = ({ token }: Props) => {
-
-
   const {
     headerNavigation,
     setMobileMenuOpen,
