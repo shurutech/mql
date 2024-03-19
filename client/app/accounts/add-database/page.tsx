@@ -2,42 +2,20 @@
 
 import CodeBlock from "@/app/components/codeBlock";
 import FileUploader from "@/app/components/fileUploader";
-import { uploadSchema } from "@/app/lib/service";
 import { COMMAND_RUN_SCRIPT, COMMAND_DOWNLOAD_SCRIPT } from "@/app/utils/constant";
 import Image from "next/image";
-import { useState } from "react";
-import { useRouter } from "next/navigation";
-import { toast } from "react-toastify";
+import useAddDatabaseViewController from "@/app/viewControllers/addDatabaseViewController";
 
 const AddDatabase = () => {
-  const [file, setFile] = useState<any>(null);
-  const [databaseName, setDatabaseName] = useState("");
-  const [showLoader, setShowLoader] = useState(false);
-
-  const { push } = useRouter();
-
-  const handleFileChange = (event: React.ChangeEvent<any>) => {
-    const selectedFile = event.target.files[0];
-    setFile(selectedFile);
-  };
-
-  const handleUpload = async () => {
-    setShowLoader(true);
-    try {
-      const formData = new FormData();
-      formData.append("database_name", databaseName);
-      formData.append("file", file);
-
-      const res = await uploadSchema(formData);
-      toast.success("Upload successfully");
-      push("/accounts/home");
-      setShowLoader(false);
-    } catch (error) {
-      setShowLoader(false);
-      toast.error("Something went wrong");
-    }
-  };
-
+  const {
+    file,
+    databaseName,
+    setDatabaseName,
+    showLoader,
+    handleFileChange,
+    handleUpload,
+  } = useAddDatabaseViewController();
+  
   return (
     <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
       <div className="flex flex-col gap-8 md:flex-row mt-8">
