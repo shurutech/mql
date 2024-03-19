@@ -1,9 +1,9 @@
 "use client";
 
-import { useState } from "react";
 import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/20/solid";
 import Link from "next/link";
 import Accordion from "./accordion";
+import useDatabaseInfoViewController from "../viewControllers/databaseInfoViewController";
 
 type Database = {
   database: {
@@ -22,12 +22,10 @@ type Database = {
 };
 
 const DatabaseInfo = ({ database }: Database) => {
-  const [activeIndex, setActiveIndex] = useState<number | null>(null);
-
-  const handleAccordionToggle = (index: number) => {
-    setActiveIndex((prevIndex) => (prevIndex === index ? null : index));
-  };
-
+  const {
+    activeIndex,
+    handleAccordionToggle,
+  } = useDatabaseInfoViewController();
   return (
     <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 mt-8">
       <div className="mb-6">
