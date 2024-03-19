@@ -1,7 +1,7 @@
 "use client";
 
-import { useState } from "react";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
+import useCodeBlockViewController from "../viewControllers/codeBlockViewController";
 import { kimbieDark } from "react-syntax-highlighter/dist/esm/styles/hljs";
 
 type Props = {
@@ -10,14 +10,12 @@ type Props = {
 };
 
 const CodeBlock = ({ codeString, language }: Props) => {
-  const [copySuccess, setCopySuccess] = useState(false);
-
-  const handleCopyClick = () => {
-    navigator.clipboard.writeText(codeString);
-    setCopySuccess(true);
-    setTimeout(() => setCopySuccess(false), 1500);
-  };
-
+  
+  const {
+    handleCopyClick,
+    copySuccess,
+  } = useCodeBlockViewController({ codeString });
+  
   return (
     <div className="relative rounded-md overflow-hidden">
       <SyntaxHighlighter language={language} style={kimbieDark}>
