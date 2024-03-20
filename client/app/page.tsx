@@ -42,14 +42,6 @@ const Home = () => {
                   you can ask questions in plain English and instantly receive
                   AI-driven insights along with the corresponding SQL queries.
                 </p>
-                <div className="mt-10 flex items-center justify-center gap-x-6">
-                  <Link
-                    href="#waitlist"
-                    className="rounded-md bg-mqlBlue-100 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-mqlBlue-80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-mqlBlue"
-                  >
-                    Join Waitlist
-                  </Link>
-                </div>
               </div>
             </div>
           </div>
@@ -146,46 +138,6 @@ const Home = () => {
                 </div>
               </div>
             ))}
-          </div>
-        </div>
-
-        <div
-          id="waitlist"
-          className="bg-white mx-auto max-w-7xl px-6 lg:px-8 mt-32"
-        >
-          <div className="border-mqlBlue-100 border rounded-lg mx-auto grid max-w-7xl grid-cols-1 gap-10 p-10 lg:p-16 lg:grid-cols-12 lg:gap-8">
-            <div className=" text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl lg:col-span-7 lg:text-left text-center">
-              <h2 className="inline sm:block lg:inline xl:block">
-                Want to Explore our product?
-                <br />
-              </h2>
-
-              <p className="inline sm:block lg:inline xl:block">
-                Join the waiting list.
-              </p>
-            </div>
-            <form className="w-full mx-auto max-w-md lg:col-span-5 lg:pt-2">
-              <div className="flex sm:flex-row flex-col gap-4 gap-x-4">
-                <label htmlFor="email-address" className="sr-only">
-                  Email address
-                </label>
-                <input
-                  id="email-address"
-                  name="email"
-                  type="email"
-                  autoComplete="email"
-                  required
-                  className="min-w-0 flex-auto rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-mqlBlue-100 sm:text-sm sm:leading-6"
-                  placeholder="Enter your email"
-                />
-                <button
-                  type="submit"
-                  className="flex-none rounded-md bg-mqlBlue-100 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-mqlBlue-80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-mqlBlue-100"
-                >
-                  Add to Waitlist
-                </button>
-              </div>
-            </form>
           </div>
         </div>
       </main>

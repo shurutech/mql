@@ -10,7 +10,6 @@ const useGenericViewController = () => {
     const headerNavigation = [
         { name: "Features", href: "#features" },
         { name: "Steps", href: "#steps" },
-        { name: "Waitlist", href: "#waitlist" },
     ];
 
     const logout = () => {
