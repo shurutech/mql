@@ -16,6 +16,8 @@ COPY .env /analytics/.env
 
 COPY ./app ./app
 
+COPY ./scripts ./scripts
+
 COPY ./alembic ./alembic
 
 COPY ./alembic.ini /analytics/alembic.ini
