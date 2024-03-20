@@ -91,7 +91,6 @@ async def get_query_history(
     current_user: dict = Depends(get_current_user),
 ) -> JSONResponse:
     try:
-        database_name = crud_user_database.get_by_id(db, database_id).name
         query_history = crud_query_history.get_by_datatbase_id_where_sql_query_not_null(
             db, database_id
         )

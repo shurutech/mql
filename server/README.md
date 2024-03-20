@@ -1,6 +1,6 @@
 # Project Setup Guide
 
-This is backend application for a analytics platform wher users can ask natural language queries over their database & get corresponding SQL queries.
+This is backend application for a analytics platform where users can ask natural language queries over their database & get corresponding SQL queries.
 
 ## Requirements
 
@@ -184,7 +184,7 @@ app
 │   ├── crud #includes data access layer operations
 │   └── db #includes setup for database
 │   └── models #includes all sqlalchemy models for db tables
-│   └── schemas #includes pydantics schemsa for request/response
+│   └── schemas #includes pydantics schemas for request/response
 │   └── tests #houses all tests
 │   └── main.py
 ├── requirements.txt

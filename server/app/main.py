@@ -7,10 +7,7 @@ from app.core.log_config import log_config
 
 dictConfig(log_config)
 
-app = FastAPI(
-    # docs_url=None,
-    # redoc_url=None
-)
+app = FastAPI()
 
 logger = logging.getLogger("analytics")
 

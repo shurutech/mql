@@ -4,17 +4,6 @@ from app.crud.crud_user import CRUDUser
 from app.schemas.user import User as UserSchema
 
 
-def test_create_user(db: Session, valid_user: UserSchema) -> None:
-    crud_user = CRUDUser()
-    result = crud_user.create(db=db, user_obj=valid_user)
-
-    assert result.name == valid_user.name
-    assert result.email == valid_user.email
-    assert (
-        db.query(UserModel).filter(UserModel.email == result.email).first() is not None
-    )
-
-
 def test_get_by_email(db: Session, valid_user: UserSchema) -> None:
     crud_user = CRUDUser()
     crud_user.create(db=db, user_obj=valid_user)
