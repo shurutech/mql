@@ -1,0 +1,233 @@
+Table: account
+ id | integer
+ user_id | integer
+ password | character varying
+ role | character varying
+ username | character varying
+
+
+Table: assignment_rating
+ id | integer
+ assignment | integer
+ rating | integer
+ student | integer
+ timestamp | timestamp without time zone
+
+
+Table: book_rating
+ id | integer
+ book | integer
+ rating | integer
+ student | integer
+ timestamp | timestamp without time zone
+
+
+Table: category
+ id | integer
+ parent | integer
+ name | character varying
+
+
+Table: book_subject
+ id | integer
+ book | integer
+ subject | integer
+
+
+Table: course_subject
+ id | integer
+ course | integer
+ subject | integer
+
+
+Table: enrollment
+ subject | integer
+ student | integer
+ id | integer
+ status | integer
+ lesson | integer
+
+
+Table: lecturer
+ id | integer
+ account | integer
+ name | character varying
+ email | character varying
+
+
+Table: faculty
+ id | integer
+ name | character
+ faculty_describtion | text
+
+
+Table: friendship
+ id | integer
+ start | integer
+ end | integer
+
+
+Table: group_discuss
+ id | integer
+ subject | integer
+ type | integer
+ group_name | character
+ topic | character
+
+
+Table: lecture_note
+ id | integer
+ lesson | integer
+ title | character
+ note_url | text
+
+
+Table: lecturer_rating
+ id | integer
+ lecturer | integer
+ student | integer
+ rating | integer
+
+
+Table: multimedia
+ id | integer
+ type | integer
+ url | character
+ name | character
+ author | character varying
+
+
+Table: note_rating
+ id | integer
+ rating | integer
+ student | integer
+ note | integer
+ timestamp | timestamp without time zone
+
+
+Table: multimedia_rating
+ id | integer
+ rating | integer
+ multimedia | integer
+ student | integer
+ timestamp | timestamp without time zone
+
+
+Table: multimedia_subject
+ multimedia | integer
+ subject | integer
+ id | integer
+
+
+Table: note
+ chapter | integer
+ subject | integer
+ student | integer
+ id | integer
+ type | integer
+ content | text
+
+
+Table: student_preference
+ id | integer
+ student | integer
+ style_preference | integer
+ category_preference | integer
+
+
+Table: subject_requirement
+ id | integer
+ subject | integer
+ pre-requires_subject | integer
+
+
+Table: student
+ account | integer
+ course | integer
+ last_login | timestamp without time zone
+ accumulated_online_time | timestamp without time zone
+ id | integer
+ email | character varying
+ name | character varying
+ dob | character varying
+ gender | character varying
+ nationality | character varying
+ occupy | character varying
+ graduated_university | character varying
+
+
+Table: subject
+ id | integer
+ category | integer
+ name | character varying
+ thumb | character
+ pic | character
+ description | character varying
+
+
+Table: subject_rating
+ id | integer
+ subject | integer
+ student | integer
+ rating | integer
+ timestamp | timestamp without time zone
+ commence | text
+
+
+Table: subject_tag
+ id | integer
+ student | integer
+ subject | integer
+ timestamp | timestamp without time zone
+ tag | character
+
+
+Table: lesson
+ id | integer
+ year | integer
+ lecturer | integer
+ subject | integer
+ book | integer
+ semester | character
+
+
+Table: assignment
+ due_date | date
+ id | integer
+ lesson | integer
+ type | integer
+ assignment_task | text
+
+
+Table: style_preference
+ id | integer
+ style_preference | character
+
+
+Table: book
+ category | integer
+ id | integer
+ type | integer
+ publish_year | integer
+ name | character
+ isbn | text
+ author | character
+ publisher | character
+
+
+Table: course
+ faculty | integer
+ id | integer
+ category | integer
+ name | character
+ course_describtion | text
+
+
+Table: gorup_discuss_rating
+ id | integer
+ group_discuss | integer
+ student | integer
+ rating | integer
+ timestamp | timestamp without time zone
+
+

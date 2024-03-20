@@ -1,0 +1,147 @@
+Prompt ,Query,Is Correct,
+General Information Retrieval,,,
+List all courses available.,"SELECT id, name FROM course",TRUE,
+Retrieve details of a specific course.,"SELECT course.id, course.name, course.course_describtion, faculty.name AS faculty_name FROM course JOIN faculty ON course.faculty = faculty.id WHERE course.id = 101;",TRUE,
+Get all categories of courses.,"SELECT id, name FROM category",TRUE,
+List courses under a specific category.,"SELECT course.id, course.name FROM course JOIN category ON course.category = category.id WHERE category.name = 'Education' ORDER BY course.name;",TRUE,
+Get information on a specific student.,"SELECT student.id, student.name, student.email, student.gender, student.nationality, student.occupy, student.graduated_university FROM student WHERE student.id = 1;",TRUE,
+Retrieve all lecturers’ details.,"SELECT id, account, name, email FROM lecturer;",TRUE,
+List all books available.,"SELECT id, name, author, publisher FROM book;",TRUE,
+Retrieve detailed information about a book.,"SELECT book.id, book.name, book.author, book.publish_year, book.publisher FROM book WHERE book.id = 1;",TRUE,
+List all subjects.,"SELECT id, name FROM subject;",TRUE,
+Get detailed information about a specific subject.,"SELECT id, category, name, thumb, pic, description FROM subject WHERE id = 1;",TRUE,
+User-Specific Queries,,,
+Retrieve all courses enrolled by a specific student.,SELECT course.name FROM course JOIN course_subject ON course.id = course_subject.course JOIN enrollment ON course_subject.subject = enrollment.subject WHERE enrollment.student = <specific student id>;,TRUE,No Rows in course_subject
+Get course progress for a specific student.,"SELECT enrollment.student, enrollment.status 
+FROM enrollment 
+WHERE enrollment.student = specific_student_id;",TRUE,
+List all assignments submitted by a specific student.,"SELECT assignment.id, assignment.assignment_task FROM assignment_rating INNER JOIN assignment ON assignment_rating.assignment = assignment.id WHERE assignment_rating.student = specific_student_id;",TRUE,No Data
+Retrieve all ratings given by a specific student to courses.,"SELECT subject, rating FROM subject_rating WHERE student = specific_student_id ORDER BY rating DESC;",TRUE,
+Get all multimedia resources accessed by a specific student.,"SELECT multimedia.id, multimedia.name, multimedia.author 
+FROM multimedia 
+JOIN multimedia_rating ON multimedia.id = multimedia_rating.multimedia 
+WHERE multimedia_rating.student = specific_student_id
+ORDER BY multimedia.name;",TRUE,
+List friends of a specific student.,"SELECT friendship.start, friendship.end FROM friendship WHERE friendship.start = specific_student_id OR friendship.end = specific_student_id;",TRUE,No Rows in the table
+Retrieve lecture notes for a specific course.,"SELECT lecture_note.title, lecture_note.note_url 
+FROM lecture_note 
+JOIN lesson ON lecture_note.lesson = lesson.id 
+JOIN course_subject ON lesson.subject = course_subject.subject 
+WHERE course_subject.course = 'specific_course_id'
+ORDER BY lecture_note.title;",TRUE,0 row
+Get the enrollment status of a student in a specific course.,SELECT enrollment.status FROM enrollment INNER JOIN student ON enrollment.student = student.id INNER JOIN course ON student.course = course.id WHERE student.name = 'StudentName' AND course.name = 'CourseName';,TRUE,0 row
+List all ratings given by a specific student to lecturers.,"SELECT lecturer, rating FROM lecturer_rating WHERE student = specific_student_id",TRUE,
+Retrieve personal preferences of a specific student.,"SELECT student.name, style_preference.style_preference, student_preference.category_preference
+FROM student
+JOIN student_preference ON student.id = student_preference.student
+JOIN style_preference ON student_preference.style_preference = style_preference.id
+WHERE student.id = specific_student_id;",TRUE,
+Analytics and Reporting,,,
+Get average ratings of all courses.,"SELECT subject, AVG(rating) as average_rating FROM subject_rating GROUP BY subject",TRUE,
+Retrieve courses with the highest ratings.,"SELECT subject, AVG(rating) as average_rating 
+FROM subject_rating 
+GROUP BY subject 
+ORDER BY average_rating DESC;",TRUE,
+List lecturers with the highest ratings.,"SELECT lecturer.name, AVG(lecturer_rating.rating) as average_rating
+FROM lecturer
+JOIN lecturer_rating ON lecturer.id = lecturer_rating.lecturer
+GROUP BY lecturer.name
+ORDER BY average_rating DESC;",TRUE,
+Get subjects most enrolled in by students.,"SELECT subject, COUNT(student) as student_count
+FROM enrollment
+GROUP BY subject
+ORDER BY student_count DESC;",TRUE,
+Retrieve count of students enrolled in each course.,"SELECT course, COUNT(student) AS student_count
+FROM enrollment
+GROUP BY course;",FALSE,Error
+List most accessed multimedia resources.,"SELECT multimedia.id, multimedia.name, COUNT(multimedia_rating.multimedia) AS access_count 
+FROM multimedia 
+JOIN multimedia_rating 
+ON multimedia.id = multimedia_rating.multimedia 
+GROUP BY multimedia.id 
+ORDER BY access_count DESC;",TRUE,
+Get subjects with the most lecture notes.,"SELECT lecture_note.lesson as subject, COUNT(*) as note_count 
+FROM lecture_note 
+GROUP BY lecture_note.lesson 
+ORDER BY note_count DESC;",TRUE,0 row
+Retrieve the number of assignments per course.,"SELECT course.id, COUNT(assignment.id) AS num_assignments
+FROM course
+JOIN assignment ON course.id = assignment.lesson
+GROUP BY course.id;",TRUE,
+List students with the most course completions.,"SELECT student, COUNT(*) as completions 
+FROM enrollment 
+WHERE status = 1 
+GROUP BY student 
+ORDER BY completions DESC;",TRUE,
+Get detailed report of student logins and activity.,"SELECT student.name, student.last_login, student.accumulated_online_time 
+FROM student 
+ORDER BY student.last_login DESC;",TRUE,
+Recommendations and Personalizations,,,
+Recommend courses based on a student’s past enrollments.,"SELECT course.name, course.course_describtion 
+FROM course 
+INNER JOIN course_subject ON course.id = course_subject.course 
+INNER JOIN enrollment ON course_subject.subject = enrollment.subject 
+WHERE enrollment.student = <student_id> 
+ORDER BY enrollment.status DESC;",TRUE,0 row
+Suggest books based on a student’s course enrollments.,"SELECT book.name, book.author, book.publish_year FROM book
+JOIN lesson ON book.id = lesson.book
+JOIN enrollment ON lesson.subject = enrollment.subject
+WHERE enrollment.student = 123
+ORDER BY book.publish_year DESC;",TRUE,
+Recommend lecturers based on student ratings.,"SELECT lecturer.id, lecturer.name, AVG(lecturer_rating.rating) as average_rating 
+FROM lecturer 
+JOIN lecturer_rating ON lecturer.id = lecturer_rating.lecturer 
+GROUP BY lecturer.id 
+ORDER BY average_rating DESC;",TRUE,
+Suggest friends to a student based on mutual course enrollments.,"SELECT e1.student AS suggested_friend
+FROM enrollment e1
+INNER JOIN enrollment e2 ON e1.subject = e2.subject
+WHERE e2.student = <student_id> AND e1.student != <student_id>
+GROUP BY e1.student
+ORDER BY COUNT(*) DESC;",TRUE,
+Recommend multimedia resources based on student’s subject interest.,"SELECT multimedia.id, multimedia.type, multimedia.url, multimedia.name, multimedia.author 
+FROM multimedia 
+INNER JOIN multimedia_subject ON multimedia.id = multimedia_subject.multimedia 
+INNER JOIN student_preference ON multimedia_subject.subject = student_preference.category_preference 
+ORDER BY multimedia_rating.rating DESC 
+LIMIT 10;",FALSE,Error
+Detailed Course Information,,,
+List all assignments for a specific course.,"SELECT assignment.id, assignment.assignment_task
+FROM assignment
+JOIN lesson ON assignment.lesson = lesson.id
+JOIN course ON lesson.course = course.id
+WHERE course.id = specific_course_id
+ORDER BY assignment.due_date;",FALSE,Error
+Retrieve all lecture notes for a specific subject.,"SELECT lecture_note.title, lecture_note.note_url 
+FROM lecture_note 
+JOIN lesson ON lecture_note.lesson = lesson.id 
+WHERE lesson.subject = <specific_subject_id>;",TRUE,0 row
+Get detailed information about the lecturer of a specific course.,"SELECT lecturer.name, lecturer.email, faculty.name AS faculty_name, faculty.faculty_describtion 
+FROM lecturer 
+INNER JOIN lesson ON lecturer.id = lesson.lecturer 
+INNER JOIN course ON lesson.subject = course.id 
+WHERE course.name = 'Specific Course Name';",FALSE,Error
+List all subjects related to a specific course.,SELECT course_subject.subject FROM course_subject WHERE course_subject.course = <specific course id>;,TRUE,0 row
+Retrieve all books recommended for a specific subject.,"SELECT book.name, book.author, book.publish_year 
+FROM book 
+JOIN book_subject ON book.id = book_subject.book 
+WHERE book_subject.subject = specific_subject_id;",TRUE,0 row
+Feedback and Ratings,,,
+List ratings for a specific lecture note.,"SELECT note, rating FROM note_rating WHERE note = specific_note_id ORDER BY rating DESC;",TRUE,0 row
+Retrieve ratings for multimedia resources.,"SELECT multimedia_rating.multimedia, multimedia_rating.rating FROM multimedia_rating",TRUE,
+Get all feedback on assignments.,"SELECT assignment_rating.assignment, assignment_rating.rating, assignment_rating.student FROM assignment_rating",TRUE,
+List all ratings for books.,"SELECT book, rating FROM book_rating",TRUE,
+Retrieve ratings and comments on group discussions.,"SELECT group_discuss_rating.rating, group_discuss_rating.timestamp FROM group_discuss_rating",FALSE,Error
+Administrative Queries,,,
+List all students in a specific faculty.,"SELECT student.name FROM student 
+JOIN enrollment ON student.id = enrollment.student 
+JOIN course ON enrollment.subject = course.id 
+JOIN faculty ON course.faculty = faculty.id 
+WHERE faculty.name = 'specific faculty';",TRUE,0 rows
+Get courses offered by a specific faculty.,"SELECT course.id, course.name FROM course WHERE course.faculty = specific_faculty_id;",TRUE,
+Retrieve details of lecturers in a specific faculty.,"SELECT lecturer.id, lecturer.name, lecturer.email, faculty.name AS faculty_name 
+FROM lecturer 
+JOIN course ON lecturer.id = course.faculty 
+JOIN faculty ON course.faculty = faculty.id;",TRUE,
+List subjects requiring prerequisites.,SELECT DISTINCT subject FROM subject_requirement WHERE pre-requires_subject IS NOT NULL;,FALSE,Error
+Get information on course prerequisites for student advisement.,"SELECT subject_requirement.subject, subject_requirement.pre_requires_subject FROM subject_requirement",FALSE,"Error , pre_requirement_subject. not detected as column, single quote requires"
