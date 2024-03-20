@@ -17,16 +17,22 @@ install:
     endif
 
 	@echo "$(COLOR_BOLD)=== Putting the services down (if already running) ===$(COLOR_RESET)"
-	$(DOCKER_COMPOSE) down #--remove-orphans
-
-	$(DOCKER_COMPOSE) build --no-cache #--no-cache
-	$(DOCKER_COMPOSE) up
+	$(DOCKER_COMPOSE) down
+	@echo "$(COLOR_BOLD)=== Building services ===$(COLOR_RESET)"
+	$(DOCKER_COMPOSE) build --no-cache
+	$(DOCKER_COMPOSE) up -d
 	@echo "$(COLOR_BOLD)=== Waiting for services to start (~20 seconds) ===$(COLOR_RESET)"
 	@sleep 20
-
+	@$(MAKE) create-default-user
+	@echo "$(COLOR_BOLD)=== Default Login Credentials >>> Email -> admin@example.com , Password -> admin ===$(COLOR_RESET)"
 	@echo "$(COLOR_BOLD)=== Installation completed ===$(COLOR_RESET)"
 	@echo "$(COLOR_BOLD)=== 🔥🔥 You can now access the dashboard at -> http://localhost:3000 ===$(COLOR_RESET)"
 	@echo "$(COLOR_BOLD)=== Enjoy! ===$(COLOR_RESET)"
+
+create-default-user:
+	@echo "$(COLOR_BOLD)Creating default user...$(COLOR_RESET)"
+	$(DOCKER_COMPOSE) exec -T backend python3 -m app.user_utils
+	@echo "$(COLOR_BOLD)Default user creation attempted. Check logs for details.$(COLOR_RESET)"
 
 down:
 	$(DOCKER_COMPOSE) down --remove-orphans
