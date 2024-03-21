@@ -52,7 +52,19 @@ const appText = {
         viewDb: "View DB",
         askQuery: "Ask Query",
         noDatabase: "No database found. Add database to ask the query.",
-    }
+    },
+
+    addDatabase: {
+        title: "Unleash the true potential of your data today!",
+        description: "Easily upload your database schema and experience the power of our AI. Empower your database interactions with power of AI.",
+        steps: "Steps",
+        firstStep: "1. Copy the curl below and run it on your system. It will fetch a bash script which will generate a schema file for you.",
+        secondStep: "2. Now copy the command below to run the bash script and provide the asked parameters. Run the command in the same directory in which you ran the curl command.",
+        thirdStep: "3. Now upload the generated schema file to the form below.",
+        chooseFileTitle: "Choose the schema file:",
+        databaseName: "Database Name",
+        upload: "Upload",
+    },
 }
 
 export default appText;

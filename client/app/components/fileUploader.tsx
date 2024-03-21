@@ -1,4 +1,5 @@
 import Image from "next/image";
+import appText from "../assets/strings";
 
 type Props = {
   file: File | null;
@@ -17,17 +18,20 @@ const FileUploader = ({
   setDatabaseName,
   showLoader,
 }: Props) => {
+
+  const text = appText.addDatabase;
+
   return (
     <div className="bg-white border border-gray-300 rounded-md p-4 shadow-md">
       <div>
         <label className="block mb-2 font-semibold text-gray-800">
-          Choose the schema file:
+          {text.chooseFileTitle}
         </label>
         <input type="file" className="mb-4" onChange={handleFileChange} />
       </div>
       <div>
         <label className="block mb-2 font-semibold text-gray-800">
-          Database name
+          {text.databaseName}
         </label>
         <input
           type="text"
@@ -43,7 +47,7 @@ const FileUploader = ({
           disabled={!file || !databaseName}
           className="bg-blue-500 text-white font-semibold py-1 px-4 rounded-full disabled:bg-blue-500 disabled:text-white disabled:opacity-75 hover:bg-white border-2 border-white hover:border-gray-200 hover:text-black"
         >
-          Upload
+          {text.upload}
         </button>
         {showLoader && (
           <Image src="/loading.gif" alt="loading" width={35} height={20} />

@@ -5,6 +5,7 @@ import FileUploader from "@/app/components/fileUploader";
 import { COMMAND_RUN_SCRIPT, COMMAND_DOWNLOAD_SCRIPT } from "@/app/utils/constant";
 import Image from "next/image";
 import useAddDatabaseViewController from "@/app/viewControllers/addDatabaseViewController";
+import appText from "@/app/assets/strings";
 
 const AddDatabase = () => {
   const {
@@ -15,6 +16,8 @@ const AddDatabase = () => {
     handleFileChange,
     handleUpload,
   } = useAddDatabaseViewController();
+
+  const text = appText.addDatabase;
   
   return (
     <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
@@ -22,11 +25,10 @@ const AddDatabase = () => {
         <div className="my-auto w-full md:w-1/2">
           <div className="w-4/5">
             <p className="text-3xl font-bold text-[#2b4499]">
-              Unleash the true potential of your data today!
+              {text.title}
             </p>
             <p className="text-2xl mt-8 text-[#0a2355]">
-              Easily upload your database schema and experience the power of our
-              AI. Empower your database interactions with power of AI. <br />{" "}
+              {text.description} <br />{" "}
             </p>
           </div>
         </div>
@@ -42,14 +44,13 @@ const AddDatabase = () => {
       </div>
       <div>
         <div className="mt-8">
-          <h2 className="text-4xl font-bold mb-6">Steps</h2>
+          <h2 className="text-4xl font-bold mb-6">{text.steps}</h2>
         </div>
         <ul role="list" className="space-y-3">
           <li className="overflow-hidden bg-orange-50 px-4 pt-8 pb-4 shadow sm:rounded-md sm:px-6">
             <div>
               <p className="text-lg">
-                1. Copy the curl below and run it on your system. It will fetch
-                a bash script which will generate a schema file for you.
+                {text.firstStep}
               </p>
               <div className="container mx-auto py-8 px-4">
                 <CodeBlock codeString={COMMAND_DOWNLOAD_SCRIPT} language="bash" />
@@ -57,9 +58,7 @@ const AddDatabase = () => {
             </div>
             <div>
               <p className="text-lg">
-                2. Now copy the command below to run the bash script and provide
-                the asked parameters. Run the command in the same directory in
-                which you ran the curl command.
+                {text.secondStep}
               </p>
               <div className="container mx-auto py-8 px-4">
                 <CodeBlock codeString={COMMAND_RUN_SCRIPT} language="bash" />
@@ -67,7 +66,7 @@ const AddDatabase = () => {
             </div>
             <div>
               <p className="text-lg">
-                3. Now upload the generated schema file to the form below.
+                {text.thirdStep}
               </p>
               <div className="container mx-auto py-8 px-4">
                 <FileUploader
