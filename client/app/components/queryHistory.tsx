@@ -2,6 +2,7 @@ import { Fragment, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import { handleDate } from "@/app/utils/helper";
+import appText from "../assets/strings";
 
 type Props = {
   open: boolean;
@@ -48,7 +49,7 @@ const QueryHistory = ({
                     as="h3"
                     className="text-lg leading-6 font-medium text-gray-900"
                   >
-                    Query History
+                    {appText.chatInterface.queryHistory}
                   </Dialog.Title>
                   <button
                     type="button"
@@ -61,7 +62,7 @@ const QueryHistory = ({
                 </div>
                 <div className="mt-2">
                   <p className="text-sm text-gray-500">
-                    Your query history is listed below.
+                    {appText.chatInterface.queryHistoryDescription}
                   </p>
                 </div>
                 <div className="overflow-y-scroll max-h-[26rem] mt-4 custom-scrollbar">

@@ -71,6 +71,28 @@ const appText = {
         databaseName: "Database Name",
         upload: "Upload",
     },
+
+    database: {
+        back: "Back",
+        home: "Home",
+        databaseDetail: "Database Detail",
+        description: "Description",
+        tableInfo: "Table Info",
+        tablesCount: "This database has {tablesCount} tables.",
+    },
+
+    chatInterface: {
+        back: "Back",
+        home: "Home",
+        query: "Query",
+        history: "History",
+        askYourQuery: "Ask your query",
+        response: "Response:",
+        copy: "Copy",
+        queryColon: "Query:",
+        queryHistory: "Query History",
+        queryHistoryDescription: "Your query history is listed below.",
+    }
 }
 
 export default appText;

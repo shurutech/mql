@@ -10,6 +10,7 @@ import CodeBlock from "./codeBlock";
 import Skeleton from "react-loading-skeleton";
 import QueryHistory from "./queryHistory";
 import useChatViewController from "../viewControllers/chatViewController";
+import appText from "../assets/strings";
 
 type Props = {
   dbId: string | string[];
@@ -31,6 +32,8 @@ const ChatInterface = ({ dbId }: Props) => {
     getQueryHistory,
   } = useChatViewController({ dbId });
 
+  const text = appText.chatInterface;
+
   return (
     <>
       <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 mt-8">
@@ -44,7 +47,7 @@ const ChatInterface = ({ dbId }: Props) => {
                 className="-ml-1 mr-1 h-5 w-5 flex-shrink-0 text-gray-400"
                 aria-hidden="true"
               />
-              Back
+              {text.back}
             </Link>
           </nav>
           <nav className="hidden sm:flex" aria-label="Breadcrumb">
@@ -55,7 +58,7 @@ const ChatInterface = ({ dbId }: Props) => {
                     href="/accounts/home"
                     className="text-sm font-medium text-gray-500 hover:text-gray-700"
                   >
-                    Home
+                    {text.home}
                   </Link>
                 </div>
               </li>
@@ -69,7 +72,7 @@ const ChatInterface = ({ dbId }: Props) => {
                     href="#"
                     className="ml-4 text-sm font-medium text-gray-500 hover:text-gray-700"
                   >
-                    Query
+                    {text.query}
                   </Link>
                 </div>
               </li>
@@ -87,7 +90,7 @@ const ChatInterface = ({ dbId }: Props) => {
                   setOpen(true);
                 }}
               >
-                History
+                {text.history}
               </button>
             </div>
             <div
@@ -95,11 +98,11 @@ const ChatInterface = ({ dbId }: Props) => {
                 } overflow-y-scroll mt-8 rounded transition-all duration-1000 shadow-custom_shadow`}
             >
               <div className="bg-gray-200 rounded-t p-6">
-                <p className="text-lg font-bold">Query:</p>
+                <p className="text-lg font-bold">{text.queryColon}</p>
                 <p>{showNlQuery || <Skeleton />}</p>
               </div>
               <div className="p-6">
-                <p className="text-lg font-bold ">Response:</p>
+                <p className="text-lg font-bold ">{text.response}</p>
                 <p>{!sql ? <Skeleton count={5} /> : null}</p>
                 {sql && (
                   <div className="mt-4">
@@ -120,7 +123,7 @@ const ChatInterface = ({ dbId }: Props) => {
                   type="text"
                   name="text"
                   id="text"
-                  placeholder="Ask your query"
+                  placeholder= {text.askYourQuery}
                   value={nlQuery}
                   onChange={(e) => {
                     setNlQuery(e.target.value);

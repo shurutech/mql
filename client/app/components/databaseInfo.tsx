@@ -4,6 +4,7 @@ import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/20/solid";
 import Link from "next/link";
 import Accordion from "./accordion";
 import useDatabaseInfoViewController from "../viewControllers/databaseInfoViewController";
+import appText from "../assets/strings";
 
 type Database = {
   database: {
@@ -26,6 +27,9 @@ const DatabaseInfo = ({ database }: Database) => {
     activeIndex,
     handleAccordionToggle,
   } = useDatabaseInfoViewController();
+
+  const text = appText.database;
+
   return (
     <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 mt-8">
       <div className="mb-6">
@@ -39,7 +43,7 @@ const DatabaseInfo = ({ database }: Database) => {
                 className="-ml-1 mr-1 h-5 w-5 flex-shrink-0 text-gray-400"
                 aria-hidden="true"
               />
-              Back
+              {text.back}
             </Link>
           </nav>
           <nav className="hidden sm:flex" aria-label="Breadcrumb">
@@ -50,7 +54,7 @@ const DatabaseInfo = ({ database }: Database) => {
                     href="/accounts/home"
                     className="text-sm font-medium text-gray-500 hover:text-gray-700"
                   >
-                    Home
+                    {text.home}
                   </Link>
                 </div>
               </li>
@@ -64,7 +68,7 @@ const DatabaseInfo = ({ database }: Database) => {
                     href="#"
                     className="ml-4 text-sm font-medium text-gray-500 hover:text-gray-700"
                   >
-                    Database Detail
+                    {text.databaseDetail}
                   </Link>
                 </div>
               </li>
@@ -85,13 +89,13 @@ const DatabaseInfo = ({ database }: Database) => {
       </div>
 
       <div>
-        <label className="text-gray-500 text-sm">Description</label>
+        <label className="text-gray-500 text-sm">{text.description}</label>
         <h1 className="text-[16px]">
-          This database has {database.database_tables?.length} tables.
+          {text.tablesCount.replace("{tablesCount}", database.database_tables.length.toString())}
         </h1>
       </div>
       <div className="my-8">
-        <p className="font-semibold text-xl">Table Info</p>
+        <p className="font-semibold text-xl">{text.tableInfo}</p>
         <hr
           className="mt-2 w-full border-t border-gray-300"
           aria-hidden="true"
