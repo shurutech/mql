@@ -23,9 +23,13 @@ const appText = {
         setTheStageDescription: "Begin by Uploading Your Database Schema!",
         askAwayDescription: "Pop Your Questions, something like 'How many bookings done in last week?'",
         queryDeliveredDescription: "AI generated working SQL query in your hands!",
-        about: "About",
-        blog: "Blog",
-        copyrightsText: "© 2023 Shuru Technologies. All rights reserved.",
+    },
+
+    header: {
+        features: "Features",
+        steps: "Steps",
+        dashboard: "Dashboard",
+        login: "Log in",
     }
 }
 
