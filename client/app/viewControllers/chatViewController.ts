@@ -4,6 +4,7 @@ import QueryHistory from "@/app/components/queryHistory";
 import { useState } from "react";
 import { askQuery, getQueryHistoryById, queryHistory } from "@/app/lib/service";
 import { toast } from "react-toastify";
+import appText from "../assets/strings";
 
 type Props = {
     dbId: string | string[];
@@ -22,7 +23,7 @@ const useChatViewController = ({ dbId }: Props) => {
             const res = await queryHistory(dbId);
             setQueryHistoryList(res.data.data.query_histories);
         } catch (error) {
-            toast.error("Something went wrong");
+            toast.error(appText.toast.errGeneric);
         }
     };
 
@@ -38,7 +39,7 @@ const useChatViewController = ({ dbId }: Props) => {
             setSql(res.data.data.sql_query);
             setNlQuery("");
         } catch (error) {
-            toast.error("Something went wrong");
+            toast.error(appText.toast.errGeneric);
         }
     };
 
@@ -52,7 +53,7 @@ const useChatViewController = ({ dbId }: Props) => {
             setShowNlQuery(res.data.data.query_history.nl_query);
             setNlQuery("");
         } catch (error) {
-            toast.error("Something went wrong");
+            toast.error(appText.toast.errGeneric);
         }
     };
 

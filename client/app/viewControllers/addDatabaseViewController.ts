@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
 import { uploadSchema } from "@/app/lib/service";
+import appText from "../assets/strings";
 
 const useAddDatabaseViewController = () => {
     const [file, setFile] = useState<any>(null);
@@ -23,12 +24,12 @@ const useAddDatabaseViewController = () => {
         formData.append("file", file);
   
         const res = await uploadSchema(formData);
-        toast.success("Upload successfully");
+        toast.success(appText.toast.uploadSuccess);
         push("/accounts/home");
         setShowLoader(false);
       } catch (error) {
         setShowLoader(false);
-        toast.error("Something went wrong");
+        toast.error(appText.toast.errGeneric);
       }
     };
 

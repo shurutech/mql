@@ -1,6 +1,7 @@
 import { getAllDatabase } from "@/app/lib/service";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
+import appText from "../assets/strings";
 
 type Database = {
     id: number;
@@ -17,7 +18,7 @@ const useHomeAccountsViewController = () => {
                 const response = await getAllDatabase();
                 setDatabases(response.data.data.user_databases);
             } catch (error) {
-                toast.error("Something went wrong");
+                toast.error(appText.toast.errGeneric);
             }
         };
         fetchAllDB();

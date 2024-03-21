@@ -2,6 +2,7 @@ import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { getDatabase } from "@/app/lib/service";
 import { toast } from "react-toastify";
+import appText from "../assets/strings";
 
 type Database = {
     database_id: string;
@@ -27,7 +28,7 @@ const useDatabaseViewController = () => {
           const res = await getDatabase(id);
           setDatabase(res.data.data);
         } catch (error) {
-          toast.error("Something went wrong");
+          toast.error(appText.toast.errGeneric);
         }
       };
       fetchDB();

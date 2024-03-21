@@ -1,4 +1,10 @@
 const appText = {
+    toast: {
+        errSessionExpired: "Session expired. Please login again",
+        errGeneric: "Something went wrong",
+        uploadSuccess: "Uploaded successfully",
+        loginSuccess: "Login successful",
+    },
     home: {
         login: "Log in",
         features: "Features",

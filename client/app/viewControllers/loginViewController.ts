@@ -3,6 +3,7 @@ import { login } from "@/app/lib/service";
 import Cookies from "js-cookie";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import appText from "../assets/strings";
 
 const useLoginViewController = () => {
     const { push } = useRouter();
@@ -18,7 +19,7 @@ const useLoginViewController = () => {
           const res = await login(formData);
           if (res.status === 200) {
             Cookies.set("token", res.headers["x-auth-token"]);
-            toast.success("Login successful");
+            toast.success(appText.toast.loginSuccess);
             push("/accounts/home");
           }
         } catch (error: any) {

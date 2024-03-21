@@ -2,6 +2,7 @@ import { DATABASE, LOGIN, QUERY, SIGNUP } from "@/app/utils/routes";
 import axios from "axios";
 import Cookies from "js-cookie";
 import { toast } from "react-toastify";
+import appText from "../assets/strings";
 
 axios.defaults.baseURL = process.env.NEXT_PUBLIC_API_URL;
 
@@ -15,7 +16,7 @@ axios.interceptors.response.use(
       errCode === 401 &&
       error.response.data.detail !== "Incorrect Password"
     ) {
-      toast.error("Session Expired. Please Login Again");
+      toast.error(appText.toast.errSessionExpired);
       setTimeout(() => {
         Cookies.set("token", "");
         window.location.href = "/login";
