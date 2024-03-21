@@ -11,7 +11,6 @@ import {
     QuestionMarkCircleIcon,
 } from "@heroicons/react/24/solid";
 
-import { BiLogoLinkedin, BiLogoTwitter } from "react-icons/bi";
 import { cookies } from "next/headers";
 
 const useHomeViewController = () => {
@@ -64,30 +63,9 @@ const useHomeViewController = () => {
         },
     ];
 
-    const footerNavigation = {
-        main: [
-          { name: "About", href: "#" },
-          { name: "Blog", href: "#" },
-        ],
-        social: [
-          {
-            name: "LinkedIn",
-            href: "#",
-            icon: BiLogoLinkedin,
-          },
-          {
-            name: "Twitter",
-            href: "#",
-            icon: BiLogoTwitter,
-          },
-        ],
-      };
-      
-
     return {
         features,
         setupSteps,
-        footerNavigation,
         token,
     };
 }

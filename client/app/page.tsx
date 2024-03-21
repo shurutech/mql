@@ -1,15 +1,12 @@
 import Image from "next/image";
-import Link from "next/link";
 import Header from "@/app/components/header";
 import useHomeViewController from "./viewControllers/homeViewController";
-import { cookies } from "next/headers";
 
 const Home = () => {
 
   const {
     features,
     setupSteps,
-    footerNavigation,
     token,
   } = useHomeViewController();
 
@@ -114,7 +111,7 @@ const Home = () => {
           </div>
         </div>
 
-        <div id="steps" className="mx-auto max-w-7xl px-6 lg:px-8 pt-28">
+        <div id="steps" className="mx-auto max-w-7xl px-6 lg:px-8 pt-28 mb-20">
           <div className="mx-auto max-w-2xl lg:text-center">
             <p className="mt-2 text-3xl font-bold tracking-tight text-mqlBlue-100 sm:text-4xl">
               3 Simple Steps
@@ -141,43 +138,6 @@ const Home = () => {
           </div>
         </div>
       </main>
-
-      <footer>
-        <div className="bg-mqlBlue-100 mt-32">
-          <div className="text-white mx-auto max-w-7xl overflow-hidden px-6 py-20 sm:py-16 lg:px-8">
-            <nav
-              className="flex flex-row gap-16 justify-center"
-              aria-label="Footer"
-            >
-              {footerNavigation.main.map((item) => (
-                <div key={item.name} className="pb-6">
-                  <Link
-                    href={item.href}
-                    className="text-sm leading-6  hover:text-gray-900"
-                  >
-                    {item.name}
-                  </Link>
-                </div>
-              ))}
-            </nav>
-            <div className=" flex justify-center space-x-10">
-              {footerNavigation.social.map((item) => (
-                <Link
-                  key={item.name}
-                  href={item.href}
-                  className=" hover:text-gray-900"
-                >
-                  <span className="sr-only">{item.name}</span>
-                  <item.icon className="h-6 w-6" aria-hidden="true" />
-                </Link>
-              ))}
-            </div>
-            <p className="mt-10 text-center text-xs leading-5 ">
-              &copy; 2023 Shuru Technologies. All rights reserved.
-            </p>
-          </div>
-        </div>
-      </footer>
     </div>
   );
 };
