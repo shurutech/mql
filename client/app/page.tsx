@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Header from "@/app/components/header";
 import useHomeViewController from "./viewControllers/homeViewController";
+import appText from "./assets/strings";
 
 const Home = () => {
 
@@ -10,10 +11,11 @@ const Home = () => {
     token,
   } = useHomeViewController();
 
+  const text = appText.home;
+
   return (
     <div className="">
       <Header token={token} />
-
       <main className="isolate">
         <div className="relative">
           <div
@@ -32,12 +34,10 @@ const Home = () => {
             <div className="mx-auto max-w-7xl px-6 lg:px-8 mt-20 lg:mt-0">
               <div className="mx-auto max-w-2xl text-center sm:mt-40 mb-20">
                 <h1 className="text-4xl font-bold tracking-tight text-gray-900 sm:text-6xl text-transparent bg-clip-text bg-gradient-to-t from-[#1D85FF] to-[#1106A8]">
-                  Unleash the true potential of your data today!
+                  {text.title}
                 </h1>
                 <p className="mt-6 text-lg leading-8 text-gray-600">
-                  Experience effortless data exploration on our Platform, where
-                  you can ask questions in plain English and instantly receive
-                  AI-driven insights along with the corresponding SQL queries.
+                  {text.description}
                 </p>
               </div>
             </div>
@@ -59,7 +59,7 @@ const Home = () => {
         <div id="features" className="mx-auto max-w-7xl pt-20 px-6 lg:px-8">
           <div className="mx-auto max-w-2xl lg:text-center">
             <p className="mt-2 text-3xl font-bold tracking-tight text-mqlBlue-100 sm:text-4xl">
-              Features
+              {text.features}
             </p>
           </div>
           <div className="mx-auto mt-16 max-w-2xl sm:mt-20 lg:mt-24 lg:max-w-4xl">
@@ -89,11 +89,10 @@ const Home = () => {
             <div className="flex flex-col sm:flex-row gap-4">
               <div className="flex flex-col sm:w-1/2 gap-4">
                 <p className="mt-2 text-3xl font-semibold tracking-tight text-white sm:text-4xl">
-                  Integrations
+                  {text.integrations}
                 </p>
                 <p className="text-white text-lg">
-                  Discover a Range of Supported Platforms and Explore our
-                  growing ecosystem for seamless possibilities
+                  {text.integrationsDescription}
                 </p>
               </div>
               <div className="flex sm:w-1/2 items-center align-middle mt-4">
@@ -114,11 +113,10 @@ const Home = () => {
         <div id="steps" className="mx-auto max-w-7xl px-6 lg:px-8 pt-28 mb-20">
           <div className="mx-auto max-w-2xl lg:text-center">
             <p className="mt-2 text-3xl font-bold tracking-tight text-mqlBlue-100 sm:text-4xl">
-              3 Simple Steps
+              {text.stepsTitle}
             </p>
             <p className="mt-6 text-lg leading-8 text-gray-600">
-              Streamline data insights effortlessly with MQL. Just follow 3
-              simple steps for powerful results.
+              {text.stepsDescription}
             </p>
           </div>
           <div className="flex sm:flex-row flex-col flex-wrap items-stretch mt-8">

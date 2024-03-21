@@ -12,53 +12,54 @@ import {
 } from "@heroicons/react/24/solid";
 
 import { cookies } from "next/headers";
+import { text } from "stream/consumers";
+import appText from "../assets/strings";
 
 const useHomeViewController = () => {
 
     const token = cookies().get("token")?.value
+    const text = appText.home;
 
     const features = [
         {
-            name: "Insights Empowered",
-            description:
-                "Discover the power of AI-driven insights, as we revolutionise the way you interact with your data.",
+            name: text.insightsEmpowered,
+            description: text.insightsEmpoweredDescription,
             icon: LightBulbIcon,
         },
         {
-            name: "Simplified Queries",
+            name: text.simplifiedQueries,
             description:
-                "Simplify intricate queries through our user-friendly natural language interface, enabling non-technical users to make informed choices.",
+                text.simplifiedQueriesDescription,
             icon: TableCellsIcon,
         },
         {
-            name: "Powerful Decisions",
+            name: text.powerfulDecisions,
             description:
-                "Unleash the true potential of your business with effortless data-driven decision-making.",
+                text.powerfulDecisionsDescription,
             icon: BoltIcon,
         },
         {
-            name: "Data Empowerment",
+            name: text.dataEmpowerment,
             description:
-                "Unlock the power of AI to harness insights easily, from individual shoppers to global corporations.",
+                text.dataEmpowermentDescription,
             icon: ArrowTrendingUpIcon,
         },
     ];
 
     const setupSteps = [
         {
-            name: "Set the Stage",
-            description: "Begin by Uploading Your Database Schema!",
+            name: text.setTheStage,
+            description: text.setTheStageDescription,
             icon: CircleStackIcon,
         },
         {
-            name: "Ask Away",
-            description:
-                "Pop Your Questions, something like 'How many bookings done in last week?'",
+            name: text.askAway,
+            description: text.askAwayDescription,
             icon: QuestionMarkCircleIcon,
         },
         {
-            name: "Voila, Query Delivered",
-            description: "AI generated working SQL query in your hands!",
+            name: text.queryDelivered,
+            description: text.queryDeliveredDescription,
             icon: ChatBubbleOvalLeftEllipsisIcon,
         },
     ];
