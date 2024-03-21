@@ -2,6 +2,7 @@
 
 import Header from "@/app/components/header";
 import useLoginViewController from "@/app/viewControllers/loginViewController";
+import appText from "../assets/strings";
 
 const Login = () => {
 
@@ -13,26 +14,28 @@ const Login = () => {
     password,
   } = useLoginViewController();
 
+  const text = appText.login;
+
   return (
     <>
       <Header token={""} />
       <div className="min-h-screen flex items-center justify-center bg-gray-100">
         <div className="max-w-md w-full bg-white p-8 shadow-md rounded-lg">
-          <h2 className="text-2xl font-bold mb-6">Login</h2>
+          <h2 className="text-2xl font-bold mb-6">{text.login}</h2>
           <form>
             <div className="mb-4">
               <label
                 className="block text-gray-700 text-sm font-bold mb-2"
                 htmlFor="email"
               >
-                Email
+                {text.email}
               </label>
               <input
                 className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300"
                 type="email"
                 name="email"
                 id="email"
-                placeholder="Enter your email"
+                placeholder={text.enterEmail}
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
               />
@@ -42,14 +45,14 @@ const Login = () => {
                 className="block text-gray-700 text-sm font-bold mb-2"
                 htmlFor="password"
               >
-                Password
+                {text.password}
               </label>
               <input
                 className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300"
                 type="password"
                 name="password"
                 id="password"
-                placeholder="Enter your password"
+                placeholder={text.enterPassword}
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
               />
@@ -60,7 +63,7 @@ const Login = () => {
               onClick={handleLogin}
               disabled={!email || !password}
             >
-              Login
+              {text.login}
             </button>
           </form>
         </div>

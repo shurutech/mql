@@ -30,6 +30,14 @@ const appText = {
         steps: "Steps",
         dashboard: "Dashboard",
         login: "Log in",
+    },
+
+    login: {
+        login: "Login",
+        email: "Email",
+        password: "Password",
+        enterEmail: "Enter your email",
+        enterPassword: "Enter your password",
     }
 }
 
