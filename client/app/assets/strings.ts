@@ -32,6 +32,12 @@ const appText = {
         login: "Log in",
     },
 
+    headerNavbar: {
+        home: "Home",
+        addDatabase: "Add Database",
+        logout: "Logout",
+    },
+
     login: {
         login: "Login",
         email: "Email",

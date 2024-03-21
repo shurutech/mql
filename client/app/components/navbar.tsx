@@ -3,11 +3,15 @@
 import Link from "next/link";
 import useGenericViewController from "../viewControllers/genericViewController";
 import { log } from "console";
+import appText from "../assets/strings";
 
 const Navbar = () => {
   const {
     logout
   } = useGenericViewController();
+
+  const text = appText.headerNavbar;
+
   return (
     <div className="bg-gray-100">
       <header className="bg-white shadow-md">
@@ -18,7 +22,7 @@ const Navbar = () => {
               <nav className="ml-6">
                 <Link href="/accounts/home">
                   <span className="text-gray-600 font-bold hover:text-gray-900 hover:underline px-3 py-2">
-                    Home
+                    {text.home}
                   </span>
                 </Link>
               </nav>
@@ -29,13 +33,13 @@ const Navbar = () => {
                   href="/accounts/add-database"
                   className="text-white bg-blue-500 rounded-full hover:text-black hover:bg-white border px-4 py-2"
                 >
-                  Add Database
+                  {text.addDatabase}
                 </Link>
                 <button
                   className="text-gray-600 hover:text-gray-900 px-3 py-2"
                   onClick={logout}
                 >
-                  Logout
+                  {text.logout}
                 </button>
               </div>
             </div>
