@@ -1,4 +1,5 @@
 import { ChevronDownIcon, ChevronUpIcon } from "@heroicons/react/20/solid";
+import appText from "../assets/strings";
 
 type Props = {
   tables: {
@@ -15,6 +16,9 @@ type Props = {
 };
 
 const Accordion = ({ tables, activeIndex, handleAccordionToggle }: Props) => {
+  
+  const text = appText.accordion;
+
   return (
     <div>
       <ul
@@ -38,7 +42,7 @@ const Accordion = ({ tables, activeIndex, handleAccordionToggle }: Props) => {
                   <div className="flex shrink-0 items-center gap-x-4">
                     <div className="hidden sm:flex sm:flex-col sm:items-end">
                       <p className="text-sm leading-6 text-gray-900">
-                        {table.table_columns.length} columns
+                        {table.table_columns.length} {text.columns}
                       </p>
                     </div>
                     <ChevronDownIcon
@@ -67,13 +71,13 @@ const Accordion = ({ tables, activeIndex, handleAccordionToggle }: Props) => {
                             scope="col"
                             className="py-3.5 pl-4 pr-3 text-left text-sm font-bold text-gray-900 sm:pl-0"
                           >
-                            Column name
+                            {text.columnName}
                           </th>
                           <th
                             scope="col"
                             className="px-3 py-3.5 text-left text-sm font-bold text-gray-900"
                           >
-                            Data Type
+                            {text.dataType}
                           </th>
                         </tr>
                       </thead>

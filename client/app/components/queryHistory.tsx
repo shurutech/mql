@@ -93,7 +93,7 @@ const QueryHistory = ({
                       ))
                     ) : (
                       <p className="text-center my-4">
-                        No query history found.
+                        {appText.chatInterface.noQueryHistory}
                       </p>
                     )}
                   </ul>

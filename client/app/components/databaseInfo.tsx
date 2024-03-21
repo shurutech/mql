@@ -91,7 +91,7 @@ const DatabaseInfo = ({ database }: Database) => {
       <div>
         <label className="text-gray-500 text-sm">{text.description}</label>
         <h1 className="text-[16px]">
-          {text.tablesCount.replace("{tablesCount}", database.database_tables.length.toString())}
+          {text.tablesCount.replace("{tablesCount}", database.database_tables?.length.toString())}
         </h1>
       </div>
       <div className="my-8">

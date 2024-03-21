@@ -1,4 +1,9 @@
 const appText = {
+    metadata: {
+        title: "Analytics",
+        description: "Tool to convert your natural language queries to SQL queries",
+    },
+
     toast: {
         errSessionExpired: "Session expired. Please login again",
         errGeneric: "Something went wrong",
@@ -36,6 +41,8 @@ const appText = {
         steps: "Steps",
         dashboard: "Dashboard",
         login: "Log in",
+        openMainMenu: "Open main menu",
+        closeMenu: "Close menu",
     },
 
     headerNavbar: {
@@ -92,7 +99,14 @@ const appText = {
         queryColon: "Query:",
         queryHistory: "Query History",
         queryHistoryDescription: "Your query history is listed below.",
-    }
+        noQueryHistory: "No query history found.",
+    },
+
+    accordion: {
+        columns: "columns",
+        columnName: "Column Name",
+        dataType: "Data Type",
+    },
 }
 
 export default appText;
