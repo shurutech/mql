@@ -44,6 +44,14 @@ const appText = {
         password: "Password",
         enterEmail: "Enter your email",
         enterPassword: "Enter your password",
+    },
+
+    homeDatabases: {
+        databases: "Databases",
+        added: "Added:",
+        viewDb: "View DB",
+        askQuery: "Ask Query",
+        noDatabase: "No database found. Add database to ask the query.",
     }
 }
 
