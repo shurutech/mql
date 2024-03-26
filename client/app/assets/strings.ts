@@ -7,6 +7,7 @@ const appText = {
     toast: {
         errSessionExpired: "Session expired. Please login again",
         errGeneric: "Something went wrong",
+        connectedSuccess: "Connected successfully",
         uploadSuccess: "Uploaded successfully",
         loginSuccess: "Login successful",
     },

@@ -25,7 +25,7 @@ const useConnectDatabaseViewController = () => {
       formData.append("database_host", databaseHost);
       formData.append("database_port", databasePort);
       const res = await connectDatabase(formData);
-      toast.success(appText.toast.uploadSuccess);
+      toast.success(appText.toast.connectedSuccess);
       push("/accounts/home");
       setShowLoader(false);
     } catch (error) {
