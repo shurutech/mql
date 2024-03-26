@@ -19,7 +19,7 @@ const FileUploader = ({
   showLoader,
 }: Props) => {
 
-  const text = appText.addDatabase;
+  const text = appText.uploadDatabaseSchema;
 
   return (
     <div className="bg-white border border-gray-300 rounded-md p-4 shadow-md">

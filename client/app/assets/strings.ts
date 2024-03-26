@@ -31,7 +31,7 @@ const appText = {
         setTheStage: "Set the Stage",
         askAway: "Ask Away",
         queryDelivered: "Voila, Query Delivered",
-        setTheStageDescription: "Begin by Uploading Your Database Schema!",
+        setTheStageDescription: "Begin by Connecting Your Database or Uploading Your Database Schema!",
         askAwayDescription: "Pop Your Questions, something like 'How many bookings done in last week?'",
         queryDeliveredDescription: "AI generated working SQL query in your hands!",
     },
@@ -69,15 +69,42 @@ const appText = {
 
     addDatabase: {
         title: "Unleash the true potential of your data today!",
-        description: "Easily upload your database schema and experience the power of our AI. Empower your database interactions with power of AI.",
-        steps: "Steps",
+        description: "Easily connect/upload your database schema and experience the power of our AI. Empower your database interactions with power of AI."
+    },
+
+    connectDatabase: {
+        title: "Connect your Database",
+        description: "Please enter your database connection details:",
+        connectionString: "Connection String: postgresql://user:password@host:port/database_name",
+        databaseName: "Database Name",
+        namePlaceholder: "Enter database name",
+        databaseUser: "Database User",
+        userPlaceholder: "Enter database user",
+        databasePassword: "Database Password",
+        passwordPlaceholder: "Enter database password",
+        databaseHost: "Database Host",
+        hostPlaceholder: "Enter database host",
+        databasePort: "Database Port",
+        portPlaceholder: "Enter database port",
+        connect: "Connect",
+        or: "OR",
+        upload: "Upload",
+        yourDatabaseSchema: "your database schema",
+    },
+
+    uploadDatabaseSchema: {
+        steps: "Steps: Upload database schema",
         firstStep: "1. Copy the curl below and run it on your system. It will fetch a bash script which will generate a schema file for you.",
         secondStep: "2. Now copy the command below to run the bash script and provide the asked parameters. Run the command in the same directory in which you ran the curl command.",
         thirdStep: "3. Now upload the generated schema file to the form below.",
         chooseFileTitle: "Choose the schema file:",
         databaseName: "Database Name",
         upload: "Upload",
+        or: "OR",
+        connect: "Connect",
+        yourDatabase: "your database."
     },
+
 
     database: {
         back: "Back",
