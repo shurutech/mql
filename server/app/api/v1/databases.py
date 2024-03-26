@@ -98,7 +98,7 @@ async def connect_to_database(
     )
 
 
-@router.post("/databases")
+@router.post("/databases/upload-schema")
 async def upload_file(
     background_tasks: BackgroundTasks,
     database_name: Annotated[str, Form()],

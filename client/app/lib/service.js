@@ -76,7 +76,7 @@ export const connectDatabase = async (data) => {
 
 export const uploadSchema = async (formData) => {
   try {
-    const res = await axios.post(DATABASE, formData);
+    const res = await axios.post(`${DATABASE}/upload-schema`, formData);
     return res;
   } catch (err) {
     if (err.response) throw err.response.data;
