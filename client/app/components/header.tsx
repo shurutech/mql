@@ -56,7 +56,7 @@ const Header = ({ token }: Props) => {
         <div className="hidden lg:flex lg:flex-1 lg:justify-end z-50">
           {token ? (
             <Link
-              href="/accounts/home"
+              href="/home"
               className="text-sm font-semibold leading-6 text-gray-900"
             >
               {text.dashboard} <span aria-hidden="true">&rarr;</span>

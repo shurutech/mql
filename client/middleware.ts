@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
-const protectedPaths = ["/accounts/home", "/accounts/add-database", "/accounts/database", "/accounts/query"];
+const protectedPaths = ["/home", "/add-database", "/database", "/query"];
 
 function isProtectedPath(path: string) {
   for (const protectedPath of protectedPaths) {

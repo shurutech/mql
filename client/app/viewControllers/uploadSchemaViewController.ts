@@ -25,7 +25,7 @@ const useUploadSchemaViewController = () => {
 
       const res = await uploadSchema(formData);
       toast.success(appText.toast.uploadSuccess);
-      push("/accounts/home");
+      push("/home");
       setShowLoader(false);
     } catch (error) {
       setShowLoader(false);

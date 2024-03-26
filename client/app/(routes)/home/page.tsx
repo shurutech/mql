@@ -40,13 +40,13 @@ const Home = () => {
                 </p>
                 <div className="flex flex-row text-center w-full gap-4">
                   <Link
-                    href={`/accounts/database/${db.id}`}
+                    href={`/database/${db.id}`}
                     className="flex-grow rounded-full border hover:bg-blue-300 px-4 py-1"
                   >
                     {text.viewDb}
                   </Link>
                   <Link
-                    href={`/accounts/query/${db.id}`}
+                    href={`/query/${db.id}`}
                     className="flex-grow rounded-full bg-blue-300 px-4 py-1"
                     onClick={() => localStorage.setItem("selectedDb", db.name)}
                   >

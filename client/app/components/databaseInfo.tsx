@@ -36,7 +36,7 @@ const DatabaseInfo = ({ database }: Database) => {
         <div>
           <nav className="sm:hidden" aria-label="Back">
             <Link
-              href="/accounts/home"
+              href="/home"
               className="flex items-center text-sm font-medium text-gray-500 hover:text-gray-700"
             >
               <ChevronLeftIcon
@@ -51,7 +51,7 @@ const DatabaseInfo = ({ database }: Database) => {
               <li>
                 <div className="flex">
                   <Link
-                    href="/accounts/home"
+                    href="/home"
                     className="text-sm font-medium text-gray-500 hover:text-gray-700"
                   >
                     {text.home}

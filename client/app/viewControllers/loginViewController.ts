@@ -20,7 +20,7 @@ const useLoginViewController = () => {
           if (res.status === 200) {
             Cookies.set("token", res.headers["x-auth-token"]);
             toast.success(appText.toast.loginSuccess);
-            push("/accounts/home");
+            push("/home");
           }
         } catch (error: any) {
           toast.error(error.detail);
