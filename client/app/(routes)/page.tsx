@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Header from "@/app/components/header";
-import useHomeViewController from "./viewControllers/homeViewController";
-import appText from "./assets/strings";
+import useHomeViewController from "../viewControllers/homeViewController";
+import appText from "../assets/strings";
 
 const Home = () => {
 

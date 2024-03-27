@@ -2,7 +2,7 @@
 
 import Header from "@/app/components/header";
 import useLoginViewController from "@/app/viewControllers/loginViewController";
-import appText from "../assets/strings";
+import appText from "../../../assets/strings";
 
 const Login = () => {
 
