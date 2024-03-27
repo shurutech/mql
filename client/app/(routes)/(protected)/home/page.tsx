@@ -46,7 +46,7 @@ const Home = () => {
                     {text.viewDb}
                   </Link>
                   <Link
-                    href={`/query/${db.id}`}
+                    href={`/query?db_id=${db.id}`}
                     className="flex-grow rounded-full bg-blue-300 px-4 py-1"
                     onClick={() => localStorage.setItem("selectedDb", db.name)}
                   >
