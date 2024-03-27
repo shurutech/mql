@@ -40,7 +40,7 @@ const Home = () => {
                 </p>
                 <div className="flex flex-row text-center w-full gap-4">
                   <Link
-                    href={`/database/${db.id}`}
+                    href={`/databases/${db.id}`}
                     className="flex-grow rounded-full border hover:bg-blue-300 px-4 py-1"
                   >
                     {text.viewDb}
