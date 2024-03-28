@@ -1,4 +1,4 @@
-import { DATABASE, LOGIN, QUERY } from "@/app/utils/routes";
+import { CONNECT_DATABASE, DATABASE, LOGIN, QUERY, UPLOAD_DATABASE } from "@/app/utils/routes";
 import axios from "axios";
 import Cookies from "js-cookie";
 import { toast } from "react-toastify";
@@ -66,7 +66,7 @@ export const getDatabase = async (id) => {
 
 export const connectDatabase = async (data) => {
   try {
-    const res = await axios.post(`${DATABASE}/connect`, data);
+    const res = await axios.post(`${CONNECT_DATABASE}`, data);
     return res;
   } catch (err) {
     if (err.response) throw err.response.data;
@@ -76,7 +76,7 @@ export const connectDatabase = async (data) => {
 
 export const uploadSchema = async (formData) => {
   try {
-    const res = await axios.post(`${DATABASE}/upload-schema`, formData);
+    const res = await axios.post(`${UPLOAD_DATABASE}`, formData);
     return res;
   } catch (err) {
     if (err.response) throw err.response.data;

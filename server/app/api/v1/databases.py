@@ -31,7 +31,7 @@ logger = logging.getLogger("analytics")
 TODO:Put a file structure validation here
 """
 
-@router.post("/databases/connect")
+@router.post("/connect-databases")
 async def connect_to_database(
     database_name: Annotated[str, Form()],
     database_user: Annotated[str, Form()],
@@ -98,7 +98,7 @@ async def connect_to_database(
     )
 
 
-@router.post("/databases/upload-schema")
+@router.post("/upload-databases")
 async def upload_file(
     background_tasks: BackgroundTasks,
     database_name: Annotated[str, Form()],
