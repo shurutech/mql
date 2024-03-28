@@ -49,7 +49,7 @@ const useChatViewController = ({ dbId }: Props) => {
             setIsFirst(false);
             setSql(null);
             setShowNlQuery(null);
-            const res = await getQueryHistoryById({ dbId, id });
+            const res = await getQueryHistoryById({ id });
             setSql(res.data.data.query_history.sql_query);
             setShowNlQuery(res.data.data.query_history.nl_query);
             setNlQuery("");

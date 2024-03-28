@@ -1,4 +1,4 @@
-import { CONNECT_DATABASE, DATABASE, LOGIN, QUERY, UPLOAD_DATABASE } from "@/app/utils/routes";
+import { CONNECT_DATABASE, DATABASE, LOGIN, QUERY, QUERY_HISTORY, UPLOAD_DATABASE } from "@/app/utils/routes";
 import axios from "axios";
 import Cookies from "js-cookie";
 import { toast } from "react-toastify";
@@ -96,7 +96,7 @@ export const askQuery = async (payload) => {
 
 export const queryHistory = async (id) => {
   try {
-    const res = await axios.get(`${QUERY}/${id}/history`);
+    const res = await axios.get(`${QUERY_HISTORY}?db_id=${id}`);
     return res;
   } catch (err) {
     if (err.response) throw err.response.data;
@@ -104,9 +104,9 @@ export const queryHistory = async (id) => {
   }
 };
 
-export const getQueryHistoryById = async ({ dbId, id }) => {
+export const getQueryHistoryById = async ({ id }) => {
   try {
-    const res = await axios.get(`${QUERY}/${dbId}/history/${id}`);
+    const res = await axios.get(`${QUERY_HISTORY}/${id}`);
     return res;
   } catch (err) {
     if (err.response) throw err.response.data;

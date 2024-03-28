@@ -84,20 +84,20 @@ async def query(
     )
 
 
-@router.get("/query/{database_id}/history")
+@router.get("/query-history")
 async def get_query_history(
-    database_id: str,
+    db_id: str,
     db: Session = Depends(get_db),
     current_user: dict = Depends(get_current_user),
 ) -> JSONResponse:
     try:
         query_history = crud_query_history.get_by_datatbase_id_where_sql_query_not_null(
-            db, database_id
+            db, db_id
         )
     except Exception as e:
         logger.error(
             "Error while fetching query history for user {} and database {}. Error is {}".format(
-                current_user.id, database_id, e
+                current_user.id, db_id, e
             )
         )
         raise HTTPException(
@@ -118,19 +118,18 @@ async def get_query_history(
     )
 
 
-@router.get("/query/{database_id}/history/{query_history_id}")
+@router.get("/query-history/{id}")
 async def get_query_history_by_id(
-    database_id: str,
-    query_history_id: str,
+    id: str,
     db: Session = Depends(get_db),
     current_user: dict = Depends(get_current_user),
 ) -> JSONResponse:
     try:
-        query_history = crud_query_history.get_by_id(db, query_history_id)
+        query_history = crud_query_history.get_by_id(db, id)
     except Exception as e:
         logger.error(
-            "Error while fetching query history {} for user {} and database {}. Error is {}".format(
-                query_history_id, current_user.id, database_id, e
+            "Error while fetching query history {} for user {}. Error is {}".format(
+                id, current_user.id, e
             )
         )
         raise HTTPException(
