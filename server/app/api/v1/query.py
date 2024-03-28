@@ -21,7 +21,7 @@ logger = logging.getLogger("analytics")
 
 @router.post("/query")
 async def query(
-    db_id: str,
+    db_id: Annotated[str, Form()],
     nl_query: Annotated[str, Form()],
     execute: Annotated[bool, Form()] = False,
     db: Session = Depends(get_db),

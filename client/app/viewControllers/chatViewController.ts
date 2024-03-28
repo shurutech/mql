@@ -7,7 +7,7 @@ import { toast } from "react-toastify";
 import appText from "../assets/strings";
 
 type Props = {
-    dbId: string | string[];
+    dbId: string;
 };
 
 const useChatViewController = ({ dbId }: Props) => {
@@ -35,7 +35,8 @@ const useChatViewController = ({ dbId }: Props) => {
             setShowNlQuery(nlQuery);
             const formData = new FormData();
             formData.append("nl_query", nlQuery);
-            const res = await askQuery(dbId, formData);
+            formData.append("db_id", dbId);
+            const res = await askQuery(formData);
             setSql(res.data.data.sql_query);
             setNlQuery("");
         } catch (error) {

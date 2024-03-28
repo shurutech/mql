@@ -6,7 +6,6 @@ import React, { use, useEffect } from "react";
 import { useSearchParams } from 'next/navigation'
 
 const Query = () => {
-  const { id } = useParams();
   const params = useSearchParams();
   const dbId = params.get('db_id')?.toString()!;
   return (

@@ -84,9 +84,9 @@ export const uploadSchema = async (formData) => {
   }
 };
 
-export const askQuery = async (id, payload) => {
+export const askQuery = async (payload) => {
   try {
-    const res = await axios.post(`${QUERY}?db_id=${id}`, payload);
+    const res = await axios.post(`${QUERY}`, payload);
     return res;
   } catch (err) {
     if (err.response) throw err.response.data;

@@ -13,7 +13,7 @@ import useChatViewController from "../viewControllers/chatViewController";
 import appText from "../assets/strings";
 
 type Props = {
-  dbId: string | string[];
+  dbId: string;
 };
 
 const ChatInterface = ({ dbId }: Props) => {
