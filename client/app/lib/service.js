@@ -1,4 +1,4 @@
-import { CONNECT_DATABASE, DATABASE, LOGIN, QUERY, QUERY_HISTORY, UPLOAD_DATABASE } from "@/app/utils/routes";
+import { CONNECT_DATABASE, DATABASES, LOGIN, QUERIES , UPLOAD_DATABASE } from "@/app/utils/routes";
 import axios from "axios";
 import Cookies from "js-cookie";
 import { toast } from "react-toastify";
@@ -46,7 +46,7 @@ export const login = async (data) => {
 
 export const getAllDatabase = async () => {
   try {
-    const res = await axios.get(DATABASE);
+    const res = await axios.get(DATABASES);
     return res;
   } catch (err) {
     if (err.response) throw err.response.data;
@@ -56,7 +56,7 @@ export const getAllDatabase = async () => {
 
 export const getDatabase = async (id) => {
   try {
-    const res = await axios.get(`${DATABASE}/${id}`);
+    const res = await axios.get(`${DATABASES}/${id}`);
     return res;
   } catch (err) {
     if (err.response) throw err.response.data;
@@ -86,7 +86,7 @@ export const uploadSchema = async (formData) => {
 
 export const askQuery = async (payload) => {
   try {
-    const res = await axios.post(`${QUERY}`, payload);
+    const res = await axios.post(`${QUERIES}`, payload);
     return res;
   } catch (err) {
     if (err.response) throw err.response.data;
@@ -94,19 +94,19 @@ export const askQuery = async (payload) => {
   }
 };
 
-export const queryHistory = async (id) => {
+export const getQueries = async (dbId) => {
   try {
-    const res = await axios.get(`${QUERY_HISTORY}?db_id=${id}`);
+    const res = await axios.get(`${QUERIES}?db_id=${dbId}`);
     return res;
   } catch (err) {
-    if (err.response) throw err.response.data;
+        if (err.response) throw err.response.data;
     else throw err.message;
   }
 };
 
-export const getQueryHistoryById = async ({ id }) => {
+export const getQuery = async ({ id }) => {
   try {
-    const res = await axios.get(`${QUERY_HISTORY}/${id}`);
+    const res = await axios.get(`${QUERIES}/${id}`);
     return res;
   } catch (err) {
     if (err.response) throw err.response.data;

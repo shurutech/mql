@@ -4,8 +4,8 @@ from sqlalchemy.orm import mapped_column
 from app.models.timestamp_base import TimestampBase
 
 
-class QueryHistory(TimestampBase):
-    __tablename__ = "query_histories"
+class Query(TimestampBase):
+    __tablename__ = "queries"
 
     id = mapped_column(
         UUID, primary_key=True, unique=True, index=True, default=uuid.uuid4

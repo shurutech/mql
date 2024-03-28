@@ -161,7 +161,7 @@ def test_connect_to_database(
         [
             "users",
             "embeddings",
-            "query_histories",
+            "queries",
             "user_databases",
             "database_tables",
             "table_columns",

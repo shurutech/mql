@@ -4,13 +4,11 @@ from sqlalchemy.orm import Session
 from unittest.mock import patch
 from app.models.user import User as UserModel
 from app.crud.crud_user_database import crud_user_database
-from app.crud.crud_query_history import crud_query_history
+from app.crud.crud_query import crud_query
 from app.schemas.user_database import UserDatabase as UserDatabaseSchema
-from app.schemas.query_history import QueryHistory as QueryHistorySchema
 from app.clients.openai_client import OpenAIClient 
 from app.crud.crud_user_database import CRUDUserDatabase
-
-
+from app.schemas.query import Query as QuerySchema
 
 mock_openai_embedding_response = {
     "data": [
@@ -82,7 +80,57 @@ def mock_chat_response_with_connection_db(*args, **kwargs) -> dict:
 def mock_database_connection(*args, **kwargs) -> dict:
     return mock_database_connection_response   
 
-def test_query_history(
+def test_query(
+    client: TestClient, db: Session, valid_jwt: str, valid_user_model: UserModel
+) -> None:
+    headers = {"Authorization": f"Bearer {valid_jwt}"}
+
+    with patch(
+        "app.services.embeddings_service.embeddings_service.create_embeddings",
+        side_effect=None,
+    ):
+        with open("output_schema.txt", "rb") as file:
+            response = client.post(
+                "/v1/databases",
+                files={"file": file},
+                data={"database_name": "Test"},
+                headers=headers,
+            )
+
+    assert response.status_code == 202
+    database_id = crud_user_database.get_by_user_id(db=db, user_id=valid_user_model.id)[
+        0
+    ].id
+    with (
+        patch(
+            "app.clients.openai_client.chat.completions.create",
+            side_effect=mock_chat_response,
+        ),
+        patch(
+            "app.clients.openai_client.openai.embeddings.create",
+            side_effect=mock_embedding_create,
+        ),
+    ):
+        response = client.post(
+            f"/v1/query/{database_id}",
+            headers={
+                "Content-Type": "application/x-www-form-urlencoded",
+                "Authorization": f"Bearer {valid_jwt}",
+            },
+            data={"nl_query": "show me the table schema of the table employee"},
+        )
+
+    assert response.status_code == 200
+    assert response.json() == {
+        "message": "Query processed successfully",
+        "data": {
+            "sql_query": "SELECT * FROM employee",
+            "nl_query": "show me the table schema of the table employee",
+        },
+    }
+
+
+def test_query(
     client: TestClient, db: Session, valid_jwt: str, valid_user_model: UserModel
 ) -> None:
     database_obj = crud_user_database.create(
@@ -92,9 +140,9 @@ def test_query_history(
             user_id=valid_user_model.id,
         ),
     )
-    query_history_obj = crud_query_history.create(
+    query_obj = crud_query.create(
         db=db,
-        query_history_obj=QueryHistorySchema(
+        query_obj=QuerySchema(
             nl_query="show me the table schema of the table employee",
             user_database_id=database_obj.id,
             sql_query="SELECT * FROM employee",
@@ -102,21 +150,21 @@ def test_query_history(
     )
 
     response = client.get(
-        f"/api/v1/query-history?db_id={database_obj.id}",
+        f"/v1/queries?db_id={database_obj.id}",
         headers={"Authorization": f"Bearer {valid_jwt}"},
     )
     assert response.status_code == 200
     assert response.json() == {
-        "message": "Query histories fetched successfully",
+        "message": "Queries fetched successfully",
         "data": {
-            "query_histories": [
+            "queries": [
                 {
-                    "id": str(query_history_obj.id),
+                    "id": str(query_obj.id),
                     "nl_query": "show me the table schema of the table employee",
                     "sql_query": "SELECT * FROM employee",
                     "user_database_id": str(database_obj.id),
-                    "created_at": query_history_obj.created_at.isoformat(),
-                    "updated_at": query_history_obj.updated_at.isoformat(),
+                    "created_at": query_obj.created_at.isoformat(),
+                    "updated_at": query_obj.updated_at.isoformat(),
                 }
             ],
         },
@@ -125,7 +173,7 @@ def test_query_history(
         
    
 
-def test_query_history_by_id(
+def test_query_by_id(
     client: TestClient, db: Session, valid_jwt: str, valid_user_model: UserModel
 ) -> None:
     database_obj = crud_user_database.create(
@@ -135,29 +183,29 @@ def test_query_history_by_id(
             user_id=valid_user_model.id,
         ),
     )
-    query_history_obj = crud_query_history.create(
+    query_obj = crud_query.create(
         db=db,
-        query_history_obj=QueryHistorySchema(
+        query_obj=QuerySchema(
             nl_query="show me the table schema of the table employee",
             user_database_id=database_obj.id,
             sql_query="SELECT * FROM employee",
         ),
     )
     response = client.get(
-        f"/api/v1/query-history/{query_history_obj.id}", 
+        f"/v1/queries/{query_obj.id}",
         headers={"Authorization": f"Bearer {valid_jwt}"},
     )
     assert response.status_code == 200
     assert response.json() == {
-        "message": "Query history fetched successfully",
+        "message": "Query fetched successfully",
         "data":{
-            "query_history": {
-                "id": str(query_history_obj.id),
+            "query": {
+                "id": str(query_obj.id),
                 "nl_query": "show me the table schema of the table employee",
                 "sql_query": "SELECT * FROM employee",
                 "user_database_id": str(database_obj.id),
-                "created_at": query_history_obj.created_at.isoformat(),
-                "updated_at": query_history_obj.updated_at.isoformat(),
+                "created_at": query_obj.created_at.isoformat(),
+                "updated_at": query_obj.updated_at.isoformat(),
         }
             
         }

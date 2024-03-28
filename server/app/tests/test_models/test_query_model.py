@@ -1,18 +1,18 @@
 import uuid
 from sqlalchemy.orm import Session
-from app.models.query_history import QueryHistory
+from app.models.query import Query
 
 
 def test_as_dict_method(db: Session) -> None:
     user_database_id = uuid.uuid4()
-    query_history_instance = QueryHistory(
+    query_instance = Query(
         nl_query="test_nl_query",
         sql_query="test_sql_query",
         user_database_id=user_database_id,
     )
-    db.add(query_history_instance)
+    db.add(query_instance)
     db.commit()
-    result = query_history_instance.as_dict()
+    result = query_instance.as_dict()
 
     assert "id" in result
     assert isinstance(result["id"], str)
@@ -29,31 +29,31 @@ def test_as_dict_method(db: Session) -> None:
 
 def test_timestamp_on_create(db: Session) -> None:
     user_database_id = uuid.uuid4()
-    query_history_instance = QueryHistory(
+    query_instance = Query(
         nl_query="test_nl_query",
         sql_query="test_sql_query",
         user_database_id=user_database_id,
     )
 
-    db.add(query_history_instance)
+    db.add(query_instance)
     db.commit()
 
-    assert query_history_instance.created_at is not None
-    assert query_history_instance.updated_at is not None
-    assert query_history_instance.created_at == query_history_instance.updated_at
+    assert query_instance.created_at is not None
+    assert query_instance.updated_at is not None
+    assert query_instance.created_at == query_instance.updated_at
 
 
 def test_timestamp_on_update(db: Session) -> None:
     user_database_id = uuid.uuid4()
-    query_history_instance = QueryHistory(
+    query_instance = Query(
         nl_query="test_nl_query",
         sql_query="test_sql_query",
         user_database_id=user_database_id,
     )
-    db.add(query_history_instance)
+    db.add(query_instance)
     db.commit()
-    query_history_instance.nl_query = "test_nl_query_updated"
+    query_instance.nl_query = "test_nl_query_updated"
     db.commit()
-    assert query_history_instance.created_at is not None
-    assert query_history_instance.updated_at is not None
-    assert query_history_instance.created_at != query_history_instance.updated_at
+    assert query_instance.created_at is not None
+    assert query_instance.updated_at is not None
+    assert query_instance.created_at != query_instance.updated_at

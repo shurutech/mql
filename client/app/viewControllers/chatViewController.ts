@@ -1,8 +1,5 @@
-import CodeBlock from "@/app/components/codeBlock";
-import Skeleton from "react-loading-skeleton";
-import QueryHistory from "@/app/components/queryHistory";
 import { useState } from "react";
-import { askQuery, getQueryHistoryById, queryHistory } from "@/app/lib/service";
+import { askQuery, getQuery, getQueries } from "@/app/lib/service";
 import { toast } from "react-toastify";
 import appText from "../assets/strings";
 
@@ -14,14 +11,14 @@ const useChatViewController = ({ dbId }: Props) => {
     const [nlQuery, setNlQuery] = useState<string>("");
     const [showNlQuery, setShowNlQuery] = useState<string | null>(null);
     const [sql, setSql] = useState<string | null>(null);
-    const [queryHistoryList, setQueryHistoryList] = useState([]);
+    const [queries, setQueries] = useState([]);
     const [isFirst, setIsFirst] = useState<boolean>(true);
     const [open, setOpen] = useState<boolean>(false);
 
-    const getAllQueryHistory = async () => {
+    const getQueryHistory = async () => {
         try {
-            const res = await queryHistory(dbId);
-            setQueryHistoryList(res.data.data.query_histories);
+            const res = await getQueries(dbId);
+            setQueries(res.data.data.queries);
         } catch (error) {
             toast.error(appText.toast.errGeneric);
         }
@@ -44,14 +41,14 @@ const useChatViewController = ({ dbId }: Props) => {
         }
     };
 
-    const getQueryHistory = async (id: string) => {
+    const getQueryById = async (id: string) => {
         try {
             setIsFirst(false);
             setSql(null);
             setShowNlQuery(null);
-            const res = await getQueryHistoryById({ id });
-            setSql(res.data.data.query_history.sql_query);
-            setShowNlQuery(res.data.data.query_history.nl_query);
+            const res = await getQuery({ id });
+            setSql(res.data.data.query.sql_query);
+            setShowNlQuery(res.data.data.query.nl_query);
             setNlQuery("");
         } catch (error) {
             toast.error(appText.toast.errGeneric);
@@ -65,15 +62,14 @@ const useChatViewController = ({ dbId }: Props) => {
         setShowNlQuery,
         sql,
         setSql,
-        queryHistoryList,
-        setQueryHistoryList,
         isFirst,
         setIsFirst,
         open,
         setOpen,
-        getAllQueryHistory,
-        handleQuery,
         getQueryHistory,
+        handleQuery,
+        getQueryById,
+        queries,
     };
 };
 

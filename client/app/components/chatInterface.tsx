@@ -23,13 +23,13 @@ const ChatInterface = ({ dbId }: Props) => {
     setNlQuery,
     showNlQuery,
     sql,
-    queryHistoryList,
+    getQueryHistory,
+    queries,
     isFirst,
     open,
     setOpen,
-    getAllQueryHistory,
     handleQuery,
-    getQueryHistory,
+    getQueryById,
   } = useChatViewController({ dbId });
 
   const text = appText.chatInterface;
@@ -86,7 +86,7 @@ const ChatInterface = ({ dbId }: Props) => {
               <button
                 className="border boreder-2 rounded-full px-4 py-1 leading-7 text-gray-900 sm:truncate  sm:tracking-tight cursor-pointer hover:bg-blue-300 "
                 onClick={() => {
-                  getAllQueryHistory();
+                  getQueryHistory();
                   setOpen(true);
                 }}
               >
@@ -143,8 +143,8 @@ const ChatInterface = ({ dbId }: Props) => {
       <QueryHistory
         open={open}
         setOpen={setOpen}
-        queryHistoryList={queryHistoryList}
-        getQueryHistory={getQueryHistory}
+        queries={queries}
+        getQuery={getQueryById}
       />
     </>
   );

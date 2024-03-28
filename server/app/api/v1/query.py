@@ -5,8 +5,8 @@ from app.api.v1.dependencies import get_current_user, get_db
 from app.clients.openai_client import openai_client
 from app.services.openai_service import openai_service
 from app.services.embeddings_service import embeddings_service
-from app.crud.crud_query_history import crud_query_history
-from app.schemas.query_history import QueryHistory as QueryHistorySchema
+from app.crud.crud_query import crud_query
+from app.schemas.query import Query as QuerySchema
 from app.crud.crud_user_database import crud_user_database
 from sqlalchemy import create_engine
 from fastapi.encoders import jsonable_encoder
@@ -19,7 +19,7 @@ router = APIRouter()
 logger = logging.getLogger("analytics")
 
 
-@router.post("/query")
+@router.post("/queries")
 async def query(
     db_id: Annotated[str, Form()],
     nl_query: Annotated[str, Form()],
@@ -28,17 +28,17 @@ async def query(
     current_user: dict = Depends(get_current_user),
 ) -> JSONResponse:
     try:
-        query_history_schema = QueryHistorySchema(
+        query_schema = QuerySchema(
             nl_query=nl_query, user_database_id=db_id
         )
-        query_history_record = crud_query_history.create(db, query_history_schema)
+        query_record = crud_query.create(db, query_schema)
         query_embedding = openai_client.get_embeddings([nl_query])[0]
         relevant_table_text_nodes = embeddings_service.get_relevant_tables_for_query(
             query_embedding, db_id, db
         )
         sql_query = openai_service.text_2_sql_query(nl_query, relevant_table_text_nodes)
-        crud_query_history.insert_sql_query_by_id(
-            db, query_history_record.id, sql_query
+        crud_query.insert_sql_query_by_id(
+            db, query_record.id, sql_query
         )
         if execute:
             database_connection_string = crud_user_database.get_by_id(db, db_id).connection_string
@@ -84,19 +84,19 @@ async def query(
     )
 
 
-@router.get("/query-history")
-async def get_query_history(
+@router.get("/queries")
+async def get_queries(
     db_id: str,
     db: Session = Depends(get_db),
     current_user: dict = Depends(get_current_user),
 ) -> JSONResponse:
     try:
-        query_history = crud_query_history.get_by_datatbase_id_where_sql_query_not_null(
+        query = crud_query.get_by_datatbase_id_where_sql_query_not_null(
             db, db_id
         )
     except Exception as e:
         logger.error(
-            "Error while fetching query history for user {} and database {}. Error is {}".format(
+            "Error while fetching query for user {} and database {}. Error is {}".format(
                 current_user.id, db_id, e
             )
         )
@@ -107,10 +107,10 @@ async def get_query_history(
 
     return JSONResponse(
         content={
-            "message": "Query histories fetched successfully",
+            "message": "Queries fetched successfully",
             "data": {
-                "query_histories": [
-                    query_history.as_dict() for query_history in query_history
+                "queries": [
+                    query.as_dict() for query in query
                 ],
             },
         },
@@ -118,17 +118,17 @@ async def get_query_history(
     )
 
 
-@router.get("/query-history/{id}")
-async def get_query_history_by_id(
+@router.get("/queries/{id}")
+async def get_query(
     id: str,
     db: Session = Depends(get_db),
     current_user: dict = Depends(get_current_user),
 ) -> JSONResponse:
     try:
-        query_history = crud_query_history.get_by_id(db, id)
+        query = crud_query.get_by_id(db, id)
     except Exception as e:
         logger.error(
-            "Error while fetching query history {} for user {}. Error is {}".format(
+            "Error while fetching query {} for user {}. Error is {}".format(
                 id, current_user.id, e
             )
         )
@@ -138,8 +138,8 @@ async def get_query_history_by_id(
         )
     return JSONResponse(
         content={
-            "message": "Query history fetched successfully",
-            "data": {"query_history": query_history.as_dict()},
+            "message": "Query fetched successfully",
+            "data": {"query": query.as_dict()},
         },
         status_code=status.HTTP_200_OK,
     )

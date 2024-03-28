@@ -7,15 +7,15 @@ import appText from "../assets/strings";
 type Props = {
   open: boolean;
   setOpen: (open: boolean) => void;
-  queryHistoryList: any[];
-  getQueryHistory: (id: string) => void;
+  queries: any[];
+  getQuery: (id: string) => void;
 };
 
 const QueryHistory = ({
   open,
   setOpen,
-  queryHistoryList,
-  getQueryHistory,
+  queries,
+  getQuery,
 }: Props) => {
   return (
     <Transition.Root show={open} as={Fragment}>
@@ -67,13 +67,13 @@ const QueryHistory = ({
                 </div>
                 <div className="overflow-y-scroll max-h-[26rem] mt-4 custom-scrollbar">
                   <ul className="divide-y divide-gray-200">
-                    {queryHistoryList.length ? (
-                      queryHistoryList?.map((query, idx) => (
+                    {queries.length ? (
+                      queries?.map((query, idx) => (
                         <li
                           key={idx}
                           className="py-4 px-2 hover:bg-gray-200 cursor-pointer"
                           onClick={() => {
-                            getQueryHistory(query.id);
+                            getQuery(query.id);
                             setOpen(false);
                           }}
                         >

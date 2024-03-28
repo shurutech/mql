@@ -3,7 +3,7 @@ from uuid import UUID
 from typing import Optional
 
 
-class QueryHistory(BaseModel):
+class Query(BaseModel):
     id: Optional[UUID] = None
     nl_query: str
     sql_query: Optional[str] = None
