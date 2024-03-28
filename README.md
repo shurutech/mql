@@ -2,9 +2,12 @@
 
 MQL is a tool which can be used to ask queries in Natural Language and get a SQL query in response which user can run on database to get the result.
 
-## Supported Databases
 
-As of the current version, MQL is designed to work exclusively with PostgreSQL. 
+https://github.com/shurutech/mql/assets/127201055/df07e99c-608a-4c3a-8181-5a5e33a5e7e8
+
+
+https://github.com/shurutech/mql/assets/127201055/43d7dd86-c892-4b4e-a585-46512deb46b9
+
 
 
 ## 🚀 Getting Started
@@ -57,6 +60,10 @@ Take care of below steps if you are looking to make it Live
     - exec in backend docker container: docker-compose exec backend /bin/bash 
     - run create_user script: python3 scripts/create_user.py
     - enter email, password and name to create your own user
+
+## Supported Databases
+
+As of the current version, MQL is designed to work exclusively with PostgreSQL. 
 
 ----
 
@@ -144,11 +151,12 @@ Our testing process involved running 50 natural language queries through the MQL
 ## Next Steps/Features
 We plan to continue building after the initial release and look forward to the feedback from the community. As of now we have following features planned out for next releases.
 
- - Directly connected dbs and  SQL query results on the frontend.
+ - Implementation of query execution
+ - Improve directly connected dbs and SQL query results
  - Get a working query if the present query fails to run.
  - Show natural language response and data visualisation.
  - User can integrate slack or similar apps to get NL query result there.
- - Test retool to generate the queries.
+ - Test [retool](https://retool.com/products/ai) to generate the queries.
 
 
 ## Contribution Guidelines
