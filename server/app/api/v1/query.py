@@ -19,9 +19,9 @@ router = APIRouter()
 logger = logging.getLogger("analytics")
 
 
-@router.post("/query/{database_id}")
+@router.post("/query")
 async def query(
-    database_id: str,
+    db_id: str,
     nl_query: Annotated[str, Form()],
     execute: Annotated[bool, Form()] = False,
     db: Session = Depends(get_db),
@@ -29,19 +29,19 @@ async def query(
 ) -> JSONResponse:
     try:
         query_history_schema = QueryHistorySchema(
-            nl_query=nl_query, user_database_id=database_id
+            nl_query=nl_query, user_database_id=db_id
         )
         query_history_record = crud_query_history.create(db, query_history_schema)
         query_embedding = openai_client.get_embeddings([nl_query])[0]
         relevant_table_text_nodes = embeddings_service.get_relevant_tables_for_query(
-            query_embedding, database_id, db
+            query_embedding, db_id, db
         )
         sql_query = openai_service.text_2_sql_query(nl_query, relevant_table_text_nodes)
         crud_query_history.insert_sql_query_by_id(
             db, query_history_record.id, sql_query
         )
         if execute:
-            database_connection_string = crud_user_database.get_by_id(db, database_id).connection_string
+            database_connection_string = crud_user_database.get_by_id(db, db_id).connection_string
             if database_connection_string:
                 engine = create_engine(database_connection_string)
                 with engine.connect() as connection:
@@ -50,7 +50,7 @@ async def query(
                     result_in_json_format = jsonable_encoder(result)
                     logger.info(
                         "Query {} executed successfully for user {} and database {}".format(
-                            sql_query, current_user.id, database_id
+                            sql_query, current_user.id, db_id
                         )
                     )
                     return JSONResponse(
@@ -67,7 +67,7 @@ async def query(
     except Exception as e:
         logger.error(
             "Error while processing query {} for user {} and database {}. Error is {}".format(
-                nl_query, current_user.id, database_id, e
+                nl_query, current_user.id, db_id, e
             )
         )
         raise HTTPException(
