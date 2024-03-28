@@ -6,7 +6,7 @@ services:
     ports:
       - "3000:3000"
     networks:
-      - mynetwork
+      - mql-net
 
   postgres:
     build:
@@ -25,7 +25,7 @@ services:
     volumes:
       - postgres-data:/var/lib/postgresql/data
     networks:
-      - mynetwork
+      - mql-net
 
   backend:
     build:
@@ -33,14 +33,14 @@ services:
     ports:
       - "8000:8000"
     networks:
-      - mynetwork
+      - mql-net
     depends_on:
         postgres:
           condition: service_healthy
 
 networks:
-  mynetwork:
-    name: my-shared-db-network
+  mql-net:
+    name: mql-database-network
 
 volumes:
   postgres-data:
