@@ -1,6 +1,6 @@
 # MQL
 
-MQL is a tool which can be used to ask queries in Natural Language and get a SQL query in response which user can run on database to get the result.
+MQL (My Query Language) is a powerful tool to transform natural language queries into executable SQL queries. What's cool is that anyone can use it, even without knowing how to code. Just add your database by connecting or uploading schema to MQL, ask a query in your language and get the SQL.
 
 
 
@@ -8,10 +8,13 @@ https://github.com/shurutech/mql/assets/127201055/43d7dd86-c892-4b4e-a585-46512d
 
 
 
+
 ## 🚀 Getting Started
 
 
+
 https://github.com/shurutech/mql/assets/127201055/dac40920-6b22-4758-8f4d-efea9ca121fc
+
 
 
 ### Run the tool locally using Docker.
@@ -147,9 +150,9 @@ Once the installation is complete, you can access the MQL dashboard at: http://l
 
 
 ## Accuracy Test Score 
-Our testing process involved running 50 natural language queries through the MQL platform, with resources like a elearning_schema file, and a CSV of query mappings located in our TestData folder. The MQL achieved around **85% success rate**, accurately translating 43 out of 50 queries. However, when considering the precision of the translations, about 74% (37 out of 50) of the queries were executed perfectly, with 6 queries correctly interpreted but missing a semi-colon at the end. This left us with 7 queries that resulted in errors. We're actively working on enhancements to improve both the accuracy and the completeness of the SQL syntax generation, and we welcome contributions to help refine our platform.
+Our testing process involved running 50 natural language queries through the MQL platform, with resources like a elearning_schema file, and a CSV of query mappings located in our test_data folder. The MQL achieved around **85% success rate**, accurately translating 43 out of 50 queries. However, when considering the precision of the translations, about 74% (37 out of 50) of the queries were executed perfectly, with 6 queries correctly interpreted but missing a semi-colon at the end. This left us with 7 queries that resulted in errors. We're actively working on enhancements to improve both the accuracy and the completeness of the SQL syntax generation, and we welcome contributions to help refine our platform.
  - We have taken database set from [here](https://github.com/lingyingyang/elearning/blob/master/resources/eldb_bk.sql) for testing purpose.
- - You can remove TestData folder after checking it.
+ - You can remove test_data folder after checking it.
 
 ## Next Steps/Features
 We plan to continue building after the initial release and look forward to the feedback from the community. As of now we have following features planned out for next releases.
