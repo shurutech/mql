@@ -10,7 +10,9 @@ https://github.com/shurutech/mql/assets/127201055/43d7dd86-c892-4b4e-a585-46512d
 
 ## 🚀 Getting Started
 
-https://github.com/shurutech/mql/assets/127201055/df07e99c-608a-4c3a-8181-5a5e33a5e7e8
+
+https://github.com/shurutech/mql/assets/127201055/dac40920-6b22-4758-8f4d-efea9ca121fc
+
 
 ### Run the tool locally using Docker.
 
