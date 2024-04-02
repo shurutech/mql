@@ -1,7 +1,0 @@
-apiVersion: networking.gke.io/v1
-kind: ManagedCertificate
-metadata:
-  name: analytics-frontend-certificate
-spec:
-  domains:
-    - mql.shuru.app
