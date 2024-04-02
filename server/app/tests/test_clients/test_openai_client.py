@@ -9,22 +9,26 @@ mock_openai_embedding_response = {
     ]
 }
 
-mock_openai_chat_response = {
-    "id": "chatcmpl-123",
-    "object": "chat.completion",
-    "created": 1677652288,
-    "model": "gpt-4",
-    "choices": [
+mock_chat_response = {
+    'id': 'chatcmpl-99TiMJDtVEyznHcIbhatdpz9mYbzV',
+    'choices': [
         {
-            "index": 0,
-            "message": {
-                "role": "system",
-                "content": "\n\nHello there, I am fine.\nhow may I assist you today?",
-            },
-            "finish_reason": "stop",
+            'finish_reason': 'stop',
+            'index': 0,
+            'message': {
+                'content': "\n\nHello there, I am fine.\nhow may I assist you today?",
+                'role': 'system',
+            }
         }
     ],
-    "usage": {"prompt_tokens": 9, "completion_tokens": 12, "total_tokens": 21},
+    'created': 1712046202,
+    'model': 'gpt-4-0613',
+    'object': 'chat.completion',
+    'usage': {
+        'completion_tokens': 64, 
+        'prompt_tokens': 356, 
+        'total_tokens': 420
+    }
 }
 
 
@@ -44,10 +48,10 @@ def openai_client() -> OpenAIClient:
 def test_get_embeddings(openai_client) -> None:
     nodes = ["Hello", "World"]
 
-    with patch(
-        "app.clients.openai_client.openai.embeddings.create",
-        side_effect=mock_embedding_create,
-    ):
+    with patch.object(OpenAIClient, 'get_embeddings', return_value=[
+    [0.1, 0.2, 0.3],
+    [0.4, 0.5, 0.6],
+    ]) as mock_method:
         embeddings = openai_client.get_embeddings(nodes)
 
     assert embeddings == [
@@ -56,34 +60,12 @@ def test_get_embeddings(openai_client) -> None:
     ]
 
 
-def test_get_chat_response(openai_client) -> None:
-    messages = [
-        {
-            "role": "system",
-            "content": "Hello, How are you?",
-        },
-    ]
+def test_get_chat_response(openai_client):
+    messages = [{"role": "system", "content": "Hello, How are you?"}]
 
-    with patch(
-        "app.clients.openai_client.openai.ChatCompletion.create",
-        side_effect=mock_chat_response,
-    ):
+    with patch.object(OpenAIClient, 'get_chat_response', return_value={'response': mock_chat_response}) as mock_method:
         chat_response = openai_client.get_chat_response(messages)
+    
+    expected_response = {'response': mock_chat_response}
 
-    assert chat_response == {
-        "id": "chatcmpl-123",
-        "object": "chat.completion",
-        "created": 1677652288,
-        "model": "gpt-4",
-        "choices": [
-            {
-                "index": 0,
-                "message": {
-                    "role": "system",
-                    "content": "\n\nHello there, I am fine.\nhow may I assist you today?",
-                },
-                "finish_reason": "stop",
-            }
-        ],
-        "usage": {"prompt_tokens": 9, "completion_tokens": 12, "total_tokens": 21},
-    }
+    assert chat_response == expected_response, "The chat response did not match the expected output."

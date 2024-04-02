@@ -7,7 +7,7 @@ from sqlalchemy.orm import Session
 def test_login_user(client: TestClient, db: Session, valid_user: UserSchema) -> None:
     crud_user.create(db, valid_user)
     response = client.post(
-        "/v1/login",
+        "/api/v1/login",
         headers={"Content-Type": "application/x-www-form-urlencoded"},
         data={"email": valid_user.email, "password": valid_user.password},
     )
@@ -21,7 +21,7 @@ def test_login_user(client: TestClient, db: Session, valid_user: UserSchema) -> 
 
 def test_login_user_not_found(client: TestClient, valid_user: UserSchema) -> None:
     response = client.post(
-        "/v1/login",
+        "/api/v1/login",
         headers={"Content-Type": "application/x-www-form-urlencoded"},
         data={"email": valid_user.email, "password": valid_user.password},
     )
@@ -35,7 +35,7 @@ def test_login_user_incorrect_password(
 ) -> None:
     crud_user.create(db, valid_user)
     response = client.post(
-        "/v1/login",
+        "/api/v1/login",
         headers={"Content-Type": "application/x-www-form-urlencoded"},
         data={"email": valid_user.email, "password": "wrong"},
     )

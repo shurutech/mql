@@ -35,14 +35,14 @@ class EmbeddingsService:
             table_embeddings = openai_client.get_embeddings(
                 list(text_nodes_of_tables.values())
             )
-            print(table_embeddings[0])
 
             for idx, table_id in enumerate(text_nodes_of_tables.keys()):
-                print(table_id)
+                embedding_vector = table_embeddings[idx]['embedding']
+                
                 crud_embedding.create(
                     db,
                     EmbeddingSchema(
-                        embeddings_vector=table_embeddings[idx],
+                        embeddings_vector=embedding_vector,
                         database_table_id=table_id,
                         user_database_id=database_id,
                     ),

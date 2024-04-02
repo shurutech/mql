@@ -104,7 +104,8 @@ class OpenAIClient:
                 status_code=500,
                 detail="Internal Server Error",
             )
-        return {'response': chat_response} if chat_response else {}
+        result = {'response': chat_response} if chat_response else {}
+        return result
 
 
 

@@ -33,7 +33,7 @@ def test_fetch_database_details(
     ):
         with open("output_schema.txt", "rb") as file:
             response = client.post(
-                "/v1/databases",
+                "/api/v1/upload-database-schema",
                 files={"file": file},
                 data={"database_name": "Test"},
                 headers=headers,

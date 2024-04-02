@@ -17,7 +17,6 @@ def test_upload_file_happy_path(
     client: TestClient, db: Session, valid_user_model: UserModel, valid_jwt: str
 ) -> None:
     mock_user = valid_user_model
-
     headers = {"Authorization": f"Bearer {valid_jwt}"}
     with patch(
         "app.services.embeddings_service.embeddings_service.create_embeddings",
@@ -25,7 +24,7 @@ def test_upload_file_happy_path(
     ):
         with open("output_schema.txt", "rb") as file:
             response = client.post(
-                "/v1/databases",
+                "/api/v1/upload-database-schema",
                 files={"file": file},
                 data={"database_name": "Test"},
                 headers=headers,
@@ -77,7 +76,7 @@ def test_get_databases_for_user_with_zero_databases(
 ) -> None:
     headers = {"Authorization": f"Bearer {valid_jwt}"}
 
-    response = client.get("/v1/databases", headers=headers)
+    response = client.get("/api/v1/databases", headers=headers)
 
     assert response.status_code == 200
     response_content = response.json()
@@ -98,14 +97,14 @@ def test_get_databases_for_user_with_one_database(
     ):
         with open("output_schema.txt", "rb") as file:
             response = client.post(
-                "/v1/databases",
+                "/api/v1/upload-database-schema",
                 files={"file": file},
                 data={"database_name": "Test"},
                 headers=headers,
             )
     assert response.status_code == 202
 
-    response = client.get("/v1/databases", headers=headers)
+    response = client.get("/api/v1/databases", headers=headers)
 
     assert response.status_code == 200
     response_content = response.json()
@@ -126,7 +125,7 @@ def test_connect_to_database(
 
     headers = {"Authorization": f"Bearer {valid_jwt}"}
     test_data = {
-        "database_name": "analytics_test",
+        "database_name": "mql_test",
         "database_user": "shuru",
         "database_password": "password",
         "database_host": "localhost",
@@ -137,7 +136,7 @@ def test_connect_to_database(
         side_effect=mock_background_task,
     ):
          response = client.post(
-                "/v1/databases/connect",
+                "/api/v1/connect-database",
                 data=test_data,
                 headers=headers,
             )
@@ -147,7 +146,7 @@ def test_connect_to_database(
     assert response.status_code == 202
 
     user_database = crud_user_database.get_by_user_id(db=db, user_id=mock_user.id)[0]
-    assert user_database.name == "analytics_test"
+    assert user_database.name == "mql_test"
     assert user_database is not None
     assert user_database.user_id == mock_user.id
     assert user_database.name is not None

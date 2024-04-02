@@ -7,6 +7,8 @@ from sqlalchemy.orm import Session
 from app.models.user import User as UserModel
 from app.crud.crud_user_database import CRUDUserDatabase
 from app.services.embeddings_service import EmbeddingsService
+from app.clients.openai_client import OpenAIClient 
+
 
 mock_openai_embedding_response = {
     "data": [
@@ -50,7 +52,7 @@ def test_create_embeddings(
     ):
         with open("output_schema.txt", "rb") as file:
             response = client.post(
-                "/v1/databases",
+                "/api/v1/upload-database-schema",
                 files={"file": file},
                 data={"database_name": "Test"},
                 headers=headers,
@@ -65,10 +67,8 @@ def test_create_embeddings(
     assert user_database.user_id == valid_user_model.id
     assert user_database.name == "Test"
 
-    with patch(
-        "app.clients.openai_client.openai.Embedding.create",
-        side_effect=mock_embedding_create,
-    ):
+    with patch.object(OpenAIClient, 'get_embeddings', return_value=mock_openai_embedding_response['data']) as mock_method:
+        
         embeddings_service.create_embeddings(db=db, database_id=str(user_database.id))
 
     result = crud_embedding.get_by_user_database_id(

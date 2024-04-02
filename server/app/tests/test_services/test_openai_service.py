@@ -1,6 +1,14 @@
 import pytest
 from unittest.mock import patch
 from app.services.openai_service import openai_service as OpenAIService
+from app.clients.openai_client import OpenAIClient 
+from unittest.mock import MagicMock
+
+mock_choice = MagicMock()
+mock_choice.message.content = "some_generated_sql_query;"
+mock_chat_completion_object = MagicMock()
+mock_chat_completion_object.choices = [mock_choice]
+
 
 
 mock_openai_chat_response = {
@@ -36,10 +44,8 @@ def test_text_2_sql_query(openai_service) -> None:
     relevant_table_schema = "relevant_table_schema_from_db"
     dialect = "postgresql"
 
-    with patch(
-        "app.services.openai_service.openai_client.get_chat_response",
-        side_effect=mock_chat_response,
-    ):
+    with patch.object(OpenAIClient, 'get_chat_response', return_value={'response': mock_chat_completion_object}):
+
         sql_query = openai_service.text_2_sql_query(
             query_str, relevant_table_schema, dialect
         )
