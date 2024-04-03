@@ -20,3 +20,4 @@ client/yarn-debug.log*
 client/yarn-error.log*
 *.tsbuildinfo
 client/next-env.d.ts
+.DS_Store
