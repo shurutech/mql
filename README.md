@@ -159,7 +159,8 @@ We plan to continue building after the initial release and look forward to the f
 
  - Implementation of query execution
  - Improve directly connected dbs and SQL query results
- - Get a working query if the present query fails to run.
+ - Support for MySQL database
+ - Improvements in Query Accuracy
  - Show natural language response and data visualisation.
  - User can integrate slack or similar apps to get NL query result there.
  - Test [retool](https://retool.com/products/ai) to generate the queries.
