@@ -42,7 +42,7 @@ https://github.com/shurutech/mql/assets/127201055/dac40920-6b22-4758-8f4d-efea9c
 
 ---
 
-If needed, you can also restart the local setup using:
+If needed, you can also restart to reflect local changes, if any, using:
 ```
 make restart
 ```
@@ -50,6 +50,11 @@ make restart
 Also, you can terminate the local setup using:
 ```
 make down
+```
+
+Also, you can start up all the containers using:
+```
+make up
 ```
 
 ## Use Default Email/Password for Login to Test MQL
