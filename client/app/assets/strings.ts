@@ -76,6 +76,7 @@ const appText = {
     connectDatabase: {
         title: "Connect your Database",
         description: "Please enter your database connection details:",
+        information: "*Using this method to connect your database, you can execute queries and retrieve the results directly from your database.",
         connectionString: "Connection String: postgresql://user:password@host:port/database_name",
         databaseName: "Database Name",
         namePlaceholder: "Enter database name",
@@ -95,6 +96,7 @@ const appText = {
 
     uploadDatabaseSchema: {
         steps: "Steps: Upload database schema",
+        information: "*Using this method to connect your database, you will only get executable SQL queries as results.",
         firstStep: "1. Copy the curl below and run it on your system. It will fetch a bash script which will generate a schema file for you.",
         secondStep: "2. Now copy the command below to run the bash script and provide the asked parameters. Run the command in the same directory in which you ran the curl command.",
         thirdStep: "3. Now upload the generated schema file to the form below.",

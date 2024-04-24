@@ -39,6 +39,7 @@ const DatabaseConnector = ({ onToggle }: { onToggle: any }) => {
           </div>
         </div>
         <div className="text-sm my-4">  {text.connectionString} </div>
+        <div className="text-red-500">  {text.information} </div>
         <div className="overflow-hidden bg-orange-50 px-4 pt-8 pb-4 shadow sm:rounded-md sm:px-6">
           <div>
             <p className="text-lg">{text.description}</p>
