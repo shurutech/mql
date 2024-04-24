@@ -12,7 +12,7 @@ services:
     build:
       context: ./storage
     ports:
-      - 5432:5432
+      - 5433:5432
     environment:
       PGUSER: postgres
       POSTGRES_PASSWORD: password

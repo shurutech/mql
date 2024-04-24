@@ -84,6 +84,7 @@ const DatabaseConnector = ({ onToggle }: { onToggle: any }) => {
                       className="mt-1 py-2 pl-2 block w-full rounded-md border-gray-300 shadow-sm"
                       placeholder={text.hostPlaceholder}
                     />
+                    <span className="text-gray-600 text-sm"> Note: If you are using docker, you can use host.docker.internal to connect to the host machine.</span>
                   </label>
                   <label className="block">
                     <span className="text-gray-700">{text.databasePort}</span>

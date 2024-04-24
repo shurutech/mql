@@ -32,6 +32,10 @@ https://github.com/shurutech/mql/assets/127201055/dac40920-6b22-4758-8f4d-efea9c
   ENV OPENAI_API_KEY YOUR_TOKEN_HERE
   ```
 
+- Update the DATABASE_URL in the server/.env file according to the following rules:
+  - If you are using docker, you can use host.docker.internal to connect to the host machine, and use the port number of the docker container to connect to the host machine. If you're on a Linux machine, and this doesn't work, try using your localhost IP.
+  - If you are not using docker, you can use localhost to connect to the host machine, and use the port number of the host machine to connect to the host machine.
+
 - Navigate to the repository folder and run the following command:
   ```
   make install
