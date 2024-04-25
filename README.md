@@ -33,8 +33,8 @@ https://github.com/shurutech/mql/assets/127201055/dac40920-6b22-4758-8f4d-efea9c
   ```
 
 - Update the DATABASE_URL in the server/.env file according to the following rules:
-  - If you are using docker, you can use host.docker.internal to connect to the host machine, and use the port number of the docker container to connect to the host machine. If you're on a Linux machine, and this doesn't work, try using your localhost IP.
-  - If you are not using docker, you can use localhost to connect to the host machine, and use the port number of the host machine to connect to the host machine.
+  - If you are using docker to run mql, you can use host.docker.internal to connect to the local machine, and use the port number of the docker container to connect to the local machine. If you're on a Linux machine, and this doesn't work, try using your localhost IP.
+  - If you are not using docker to run mql, you can use localhost to connect to the local machine, and use the port number of the local machine to connect to the local machine.
 
 - Navigate to the repository folder and run the following command:
   ```
@@ -112,11 +112,11 @@ As of the current version, MQL is designed to work exclusively with PostgreSQL.
 
 2. **Creating the Databases**
 
-   Create two databases, `analytics` and `analytics_test`, with the `shuru` role:
+   Create two databases, `mql` and `mql_test`, with the `shuru` role:
 
    ```sql
-   CREATE DATABASE analytics WITH OWNER <role_name>;
-   CREATE DATABASE analytics_test WITH OWNER <role_name>;
+   CREATE DATABASE mql WITH OWNER <role_name>;
+   CREATE DATABASE mql_test WITH OWNER <role_name>;
    ```
 
 3. **Creating the Extension**
@@ -139,9 +139,9 @@ As of the current version, MQL is designed to work exclusively with PostgreSQL.
   Update these values at server/.env
 
   ```env
-  DATABASE_URL="postgresql://<role_name>:<password>@<host>:5432/analytics"
+  DATABASE_URL="postgresql://<role_name>:<password>@<host>:5432/mql"
 
-  TEST_DATABASE_URL="postgresql://<role_name>:<password>@<host>:5432/analytics_test"
+  TEST_DATABASE_URL="postgresql://<role_name>:<password>@<host>:5432/mql_test"
 
   OPENAI_API_KEY="<key>"
   ```

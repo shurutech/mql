@@ -1,6 +1,6 @@
 const appText = {
     metadata: {
-        title: "Analytics",
+        title: "MQL",
         description: "Tool to convert your natural language queries to SQL queries",
     },
 
@@ -85,6 +85,7 @@ const appText = {
         databasePassword: "Database Password",
         passwordPlaceholder: "Enter database password",
         databaseHost: "Database Host",
+        databaseHostInfo: "Note: If you are using docker to run MQL, and trying to connect to a database running on the local machine, use 'host.docker.internal' as the host.",
         hostPlaceholder: "Enter database host",
         databasePort: "Database Port",
         portPlaceholder: "Enter database port",

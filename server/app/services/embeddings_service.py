@@ -37,7 +37,7 @@ class EmbeddingsService:
             )
 
             for idx, table_id in enumerate(text_nodes_of_tables.keys()):
-                embedding_vector = table_embeddings[idx]['embedding']
+                embedding_vector = table_embeddings[idx]
                 
                 crud_embedding.create(
                     db,

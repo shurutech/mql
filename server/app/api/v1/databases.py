@@ -25,7 +25,7 @@ import logging
 
 router = APIRouter()
 
-logger = logging.getLogger("analytics")
+logger = logging.getLogger("mql")
 
 """
 TODO:Put a file structure validation here
