@@ -33,8 +33,8 @@ https://github.com/shurutech/mql/assets/127201055/dac40920-6b22-4758-8f4d-efea9c
   ```
 
 - Update the DATABASE_URL in the server/.env file according to the following rules:
-  - If you are using docker to run mql, you can use host.docker.internal to connect to the local machine, and use the port number of the docker container to connect to the local machine. If you're on a Linux machine, and this doesn't work, try using your localhost IP.
-  - If you are not using docker to run mql, you can use localhost to connect to the local machine, and use the port number of the local machine to connect to the local machine.
+  - If you are using docker to run mql, you can use 'postgres' as host name.
+  - If you are not using docker to run mql, you can use 'localhost' as host name.
 
 - Navigate to the repository folder and run the following command:
   ```
