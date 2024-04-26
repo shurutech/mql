@@ -22,7 +22,6 @@ endif
 	@echo "$(COLOR_BOLD)=== Putting the services down (if already running) ===$(COLOR_RESET)"
 	$(DOCKER_COMPOSE) down
 	@echo "$(COLOR_BOLD)=== Building services ===$(COLOR_RESET)"
-	@$(MAKE) check-free-port-for-postgres
 	$(DOCKER_COMPOSE) build --no-cache
 	$(DOCKER_COMPOSE) up -d
 	@echo "$(COLOR_BOLD)=== Waiting for services to start (~20 seconds) ===$(COLOR_RESET)"
@@ -32,10 +31,6 @@ endif
 	@echo "$(COLOR_BOLD)=== Installation completed ===$(COLOR_RESET)"
 	@echo "$(COLOR_BOLD)=== 🔥🔥 You can now access the dashboard at -> http://localhost:3000 ===$(COLOR_RESET)"
 	@echo "$(COLOR_BOLD)=== Enjoy! ===$(COLOR_RESET)"
-
-check-free-port-for-postgres:
-	@echo "$(COLOR_BOLD)Checking if port 5433 is free...$(COLOR_RESET)"
-	@if lsof -i :5433 > /dev/null 2>&1; then echo "$(COLOR_BOLD)Port 5433 is not free. Please free the port and try again.$(COLOR_RESET)" && exit 1; else echo "$(COLOR_BOLD)Port 5433 is free$(COLOR_RESET)"; fi
 
 create-default-user:
 	@echo "$(COLOR_BOLD)Creating default user...$(COLOR_RESET)"
