@@ -16,6 +16,6 @@ log_config = {
         },
     },
     "loggers": {
-        "analytics": {"handlers": ["default"], "level": "INFO"},
+        "mql": {"handlers": ["default"], "level": "INFO"},
     },
 }

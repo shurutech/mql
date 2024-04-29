@@ -60,7 +60,7 @@ name = input("Enter your name: ")
 user = SessionLocal().query(User).filter(User.email == email).first()
 
 if  user:
-    logging.getLogger("analytics").info("User already exists with email {}".format(email))
+    logging.getLogger("mql").info("User already exists with email {}".format(email))
     exit()
 
 with SessionLocal() as session:

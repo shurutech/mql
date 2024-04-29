@@ -22,7 +22,7 @@ def test_upload_file_happy_path(
         "app.services.embeddings_service.embeddings_service.create_embeddings",
         side_effect=mock_background_task,
     ):
-        with open("output_schema.txt", "rb") as file:
+        with open("server/output_schema.txt", "rb") as file:
             response = client.post(
                 "/api/v1/upload-database-schema",
                 files={"file": file},
@@ -95,7 +95,7 @@ def test_get_databases_for_user_with_one_database(
         "app.services.embeddings_service.embeddings_service.create_embeddings",
         side_effect=mock_background_task,
     ):
-        with open("output_schema.txt", "rb") as file:
+        with open("server/output_schema.txt", "rb") as file:
             response = client.post(
                 "/api/v1/upload-database-schema",
                 files={"file": file},

@@ -31,7 +31,7 @@ def test_fetch_database_details(
         "app.services.embeddings_service.embeddings_service.create_embeddings",
         side_effect=mock_background_task,
     ):
-        with open("output_schema.txt", "rb") as file:
+        with open("server/output_schema.txt", "rb") as file:
             response = client.post(
                 "/api/v1/upload-database-schema",
                 files={"file": file},

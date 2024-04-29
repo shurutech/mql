@@ -32,6 +32,10 @@ https://github.com/shurutech/mql/assets/127201055/dac40920-6b22-4758-8f4d-efea9c
   ENV OPENAI_API_KEY YOUR_TOKEN_HERE
   ```
 
+- Update the DATABASE_URL in the server/.env file according to the following rules:
+  - If you are using docker to run mql, you can use 'postgres' as host name.
+  - If you are not using docker to run mql, you can use 'localhost' as host name.
+
 - Navigate to the repository folder and run the following command:
   ```
   make install
@@ -108,11 +112,11 @@ As of the current version, MQL is designed to work exclusively with PostgreSQL.
 
 2. **Creating the Databases**
 
-   Create two databases, `analytics` and `analytics_test`, with the `shuru` role:
+   Create two databases, `mql` and `mql_test`, with the `shuru` role:
 
    ```sql
-   CREATE DATABASE analytics WITH OWNER <role_name>;
-   CREATE DATABASE analytics_test WITH OWNER <role_name>;
+   CREATE DATABASE mql WITH OWNER <role_name>;
+   CREATE DATABASE mql_test WITH OWNER <role_name>;
    ```
 
 3. **Creating the Extension**
@@ -135,9 +139,9 @@ As of the current version, MQL is designed to work exclusively with PostgreSQL.
   Update these values at server/.env
 
   ```env
-  DATABASE_URL="postgresql://<role_name>:<password>@<host>:5432/analytics"
+  DATABASE_URL="postgresql://<role_name>:<password>@<host>:5432/mql"
 
-  TEST_DATABASE_URL="postgresql://<role_name>:<password>@<host>:5432/analytics_test"
+  TEST_DATABASE_URL="postgresql://<role_name>:<password>@<host>:5432/mql_test"
 
   OPENAI_API_KEY="<key>"
   ```
