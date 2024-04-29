@@ -9,7 +9,7 @@ dictConfig(log_config)
 
 app = FastAPI()
 
-logger = logging.getLogger("analytics")
+logger = logging.getLogger("mql")
 
 
 @app.get("/ping")

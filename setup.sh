@@ -27,7 +27,7 @@ if ! command -v psql &> /dev/null; then
 fi
 
 # Check for pgvector extension
-if ! psql -d analytics -c "SELECT 'pgvector is installed';" &> /dev/null; then
+if ! psql -d mql -c "SELECT 'pgvector is installed';" &> /dev/null; then
     echo -e "${RED}pgvector extension is not installed. Please install it by following the instructions at [https://github.com/ankane/pgvector](https://github.com/ankane/pgvector).${RESET}"
     exit 1
 fi

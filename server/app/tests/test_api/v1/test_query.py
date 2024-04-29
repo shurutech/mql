@@ -112,7 +112,7 @@ def test_query(
         ),
     ):
         response = client.post(
-            f"/v1/query/{database_id}",
+            f"api/v1/query/{database_id}",
             headers={
                 "Content-Type": "application/x-www-form-urlencoded",
                 "Authorization": f"Bearer {valid_jwt}",
@@ -150,7 +150,7 @@ def test_query(
     )
 
     response = client.get(
-        f"/v1/queries?db_id={database_obj.id}",
+        f"api/v1/queries?db_id={database_obj.id}",
         headers={"Authorization": f"Bearer {valid_jwt}"},
     )
     assert response.status_code == 200
@@ -192,7 +192,7 @@ def test_query_by_id(
         ),
     )
     response = client.get(
-        f"/v1/queries/{query_obj.id}",
+        f"api/v1/queries/{query_obj.id}",
         headers={"Authorization": f"Bearer {valid_jwt}"},
     )
     assert response.status_code == 200
