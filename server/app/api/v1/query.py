@@ -15,6 +15,8 @@ import json
 from typing import Annotated
 import logging
 
+from app.utilities.fernet_manager import FernetManager
+
 router = APIRouter()
 logger = logging.getLogger("analytics")
 
@@ -42,6 +44,9 @@ async def query(
         )
         if execute:
             database_connection_string = crud_user_database.get_by_id(db, db_id).connection_string
+            password = current_user.hashed_password
+            fernet_manager = FernetManager(password)
+            database_connection_string = fernet_manager.decrypt(database_connection_string)
             if database_connection_string:
                 engine = create_engine(database_connection_string)
                 with engine.connect() as connection:

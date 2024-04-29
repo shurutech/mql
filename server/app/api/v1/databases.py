@@ -21,6 +21,7 @@ from app.schemas.table_column import TableColumn
 from app.schemas.user_database import UserDatabase
 from app.services.embeddings_service import embeddings_service
 from app.services.database_details import database_details
+from app.utilities.fernet_manager import FernetManager
 import logging
 
 router = APIRouter()
@@ -45,13 +46,24 @@ async def connect_to_database(
     try:
         connection_string = f"postgresql://{database_user}:{database_password}@{database_host}:{database_port}/{database_name}"
 
-        user_database_obj = UserDatabase(name=f"{database_name}", user_id=current_user.id, connection_string=connection_string)
+        engine = create_engine(connection_string)
+        try:
+            engine.connect()
+        except Exception as e:
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail="Unable to connect to the database: " + str(e),
+            )
+        
+        fernet_manager = FernetManager(current_user.hashed_password)
+        logger.error("after fernet: %s" , connection_string)
+        encrypted_connection_string = fernet_manager.encrypt(connection_string)
+
+        user_database_obj = UserDatabase(name=f"{database_name}", user_id=current_user.id, connection_string=encrypted_connection_string)
 
         user_database = crud_user_database.create(
             db=db, user_database_obj=user_database_obj
         )
-
-        engine = create_engine(connection_string)
         metadata = MetaData()
         metadata.reflect(engine)
         tables = metadata.tables
