@@ -11,6 +11,8 @@ from app.crud.crud_user_database import crud_user_database
 from sqlalchemy import create_engine
 from fastapi.encoders import jsonable_encoder
 from sqlalchemy.sql import text
+from sqlalchemy.exc import SQLAlchemyError,DBAPIError,StatementError,ProgrammingError
+from app.services.query_service import query_service 
 import json
 from typing import Annotated
 import logging
@@ -23,7 +25,6 @@ logger = logging.getLogger("mql")
 async def query(
     db_id: Annotated[str, Form()],
     nl_query: Annotated[str, Form()],
-    execute: Annotated[bool, Form()] = False,
     db: Session = Depends(get_db),
     current_user: dict = Depends(get_current_user),
 ) -> JSONResponse:
@@ -40,28 +41,7 @@ async def query(
         crud_query.insert_sql_query_by_id(
             db, query_record.id, sql_query
         )
-        if execute:
-            database_connection_string = crud_user_database.get_by_id(db, db_id).connection_string
-            if database_connection_string:
-                engine = create_engine(database_connection_string)
-                with engine.connect() as connection:
-                    result = connection.execute(text(sql_query))
-                    result = result.mappings().all()
-                    result_in_json_format = jsonable_encoder(result)
-                    logger.info(
-                        "Query {} executed successfully for user {} and database {}".format(
-                            sql_query, current_user.id, db_id
-                        )
-                    )
-                    return JSONResponse(
-                        content={
-                            "message": "Query processed successfully",
-                            "data": {"sql_query": sql_query, "nl_query": nl_query, "query_result": result_in_json_format},
-                        },
-                        status_code=status.HTTP_200_OK,
-                    )
-            
-            
+               
     except HTTPException as e:
         raise HTTPException(status_code=e.status_code, detail=e.detail)
     except Exception as e:
@@ -83,6 +63,47 @@ async def query(
         status_code=status.HTTP_200_OK,
     )
 
+@router.post("/query-executor")
+async def query_executor(
+    db_id: Annotated[str, Form()],
+    sql_query: Annotated[str, Form()],
+    db: Session = Depends(get_db),
+    current_user: dict = Depends(get_current_user),
+) -> JSONResponse:
+    try:
+        database_connection_string = crud_user_database.get_by_id(db, db_id).connection_string
+        if database_connection_string:
+            engine = create_engine(database_connection_string)
+            with engine.connect() as connection:
+                result = connection.execute(text(sql_query))
+                result = result.mappings().all()
+                result_in_json_format = jsonable_encoder(result)
+                result_in_2d_array = query_service.convert_to_2d_array(result_in_json_format)
+                logger.info(
+                    "Query {} executed successfully for user {} and database {}".format(
+                        sql_query, current_user.id, db_id
+                    )
+                )
+                
+
+    except Exception as e:
+        logger.error(
+            "Error while executing query {} for user {} and database {}. Error is {}".format(
+                sql_query, current_user.id, db_id, e
+            )
+        )
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail="Internal server error",
+        )
+
+    return JSONResponse(
+                    content={
+                        "message": "Query executed successfully",
+                        "data": {"sql_query": sql_query, "query_result": result_in_2d_array},
+                    },
+                    status_code=status.HTTP_200_OK,
+    )
 
 @router.get("/queries")
 async def get_queries(
