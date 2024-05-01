@@ -23,5 +23,8 @@ class CRUDUserDatabase:
     def get_by_id(self, db: Session, id: UUID) -> UserDatabaseModel:
         return db.query(UserDatabaseModel).filter(UserDatabaseModel.id == id).first()
 
+    def delete_by_id(self, db: Session, id: UUID) -> None:
+        db.query(UserDatabaseModel).filter(UserDatabaseModel.id == id).delete()
+        db.commit()
 
 crud_user_database = CRUDUserDatabase()

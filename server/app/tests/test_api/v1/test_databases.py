@@ -7,7 +7,8 @@ from app.models.user import User as UserModel
 from unittest.mock import patch
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
-
+from app.utilities.fernet_manager import FernetManager
+from sqlalchemy import text
 
 
 def mock_background_task(*args, **kwargs) -> None:
@@ -184,4 +185,81 @@ def test_connect_to_database(
     assert set(
         [table_column.database_table_id for table_column in table_columns.all()]
     ) == set([database_tables.filter_by(name="users").first().id])
+
+def test_sync_schema(
+    client: TestClient, db: Session, valid_user_model: UserModel, valid_jwt: str,
+) -> None:
+    headers = {"Authorization": f"Bearer {valid_jwt}"}
+    with patch(
+        "app.services.embeddings_service.embeddings_service.create_embeddings",
+        side_effect=mock_background_task,
+    ):
+        test_database = {
+        "database_name": "mql_test",
+        "database_user": "shuru",
+        "database_password": "password",
+        "database_host": "localhost",
+        "database_port": "5432",
+        }
+        response = client.post(
+            "/api/v1/connect-database",
+            data=test_database,
+            headers=headers,
+        )
+        assert response.status_code == 202
+        user_database = crud_user_database.get_by_user_id(db=db, user_id=valid_user_model.id)[0]
+        assert user_database is not None
+        assert user_database.user_id == valid_user_model.id
+        assert user_database.name == "mql_test"
+        fernet_manager = FernetManager(valid_user_model.hashed_password)
+        decrypted_connection_string = fernet_manager.decrypt(user_database.connection_string)
+        engine = create_engine(decrypted_connection_string)
+        Session = sessionmaker(bind=engine)
+        session = Session()
+        session.execute(text("CREATE TABLE new_table (id UUID PRIMARY KEY, name VARCHAR, email VARCHAR, created_at TIMESTAMP)"))
+        session.commit()
+        database_id = user_database.id
+        response = client.post(
+            "api/v1/schema-sync",
+            headers=headers,
+            data={"database_id":str(database_id)},  
+        )
+        assert response.status_code == 200
+        database_tables = crud_database_table.get_by_user_database_id(
+            db=db, user_database_id=user_database.id
+        )
+        assert database_tables.count() == 7
+        assert set(
+            [database_table.name for database_table in database_tables.all()]
+        ) == set(
+            [
+                "users",
+                "embeddings",
+                "queries",
+                "user_databases",
+                "database_tables",
+                "table_columns",
+                "new_table"
+            ]
+        )
+        assert set(
+            [database_table.user_database_id for database_table in database_tables.all()]
+        ) == set([user_database.id])
+        table_columns = crud_table_column.get_by_database_table_id(
+            db, database_tables.filter_by(name="new_table").first().id
+        )
+        assert table_columns.count() == 4
+        assert set([table_column.name for table_column in table_columns.all()]) == set(
+            ["id", "name", "email", "created_at"]
+        )
+        assert set([table_column.data_type for table_column in table_columns.all()]) == set(
+            ["UUID", "VARCHAR", "VARCHAR", "TIMESTAMP"]
+        )
+        assert set(
+            [table_column.database_table_id for table_column in table_columns.all()]
+        ) == set([database_tables.filter_by(name="new_table").first().id])
+        session.execute(text("DROP TABLE new_table"))
+        session.commit()
+        session.close()
+        engine.dispose()
 
