@@ -1,5 +1,5 @@
 "use client";
-
+import React, { useState } from "react";
 import {
   ArrowRightCircleIcon,
   ChevronLeftIcon,
@@ -11,6 +11,8 @@ import Skeleton from "react-loading-skeleton";
 import QueryHistory from "./queryHistory";
 import useChatViewController from "../viewControllers/chatViewController";
 import appText from "../assets/strings";
+import QueryResultTable from "./queryResultTable";
+import ErrorBox from "@/app/components/errorBox";
 
 type Props = {
   dbId: string;
@@ -23,6 +25,7 @@ const ChatInterface = ({ dbId }: Props) => {
     setNlQuery,
     showNlQuery,
     sql,
+    setSql,
     getQueryHistory,
     queries,
     isFirst,
@@ -30,10 +33,13 @@ const ChatInterface = ({ dbId }: Props) => {
     setOpen,
     handleQuery,
     getQueryById,
+    queryResult,
+    hasQueryExecuted,
+    handleQueryResponse,
+    queryError
   } = useChatViewController({ dbId });
 
   const text = appText.chatInterface;
-
   return (
     <>
       <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 mt-8">
@@ -78,13 +84,13 @@ const ChatInterface = ({ dbId }: Props) => {
               </li>
             </ol>
           </nav>
-          <div className="mt-6">
+          <div className="mt-1">
             <div className="flex flex-row justify-between">
               <h2 className="text-2xl font-bold leading-7 text-gray-900 sm:truncate  sm:tracking-tight">
-                {localStorage.getItem("selectedDb") || <Skeleton />}
+                {window.localStorage.getItem("selectedDb") || <Skeleton />}
               </h2>
               <button
-                className="border boreder-2 rounded-full px-4 py-1 leading-7 text-gray-900 sm:truncate  sm:tracking-tight cursor-pointer hover:bg-blue-300 "
+                className="border rounded-full px-4 py-1 leading-7 text-gray-900 sm:truncate  sm:tracking-tight cursor-pointer hover:bg-blue-300 "
                 onClick={() => {
                   getQueryHistory();
                   setOpen(true);
@@ -92,29 +98,11 @@ const ChatInterface = ({ dbId }: Props) => {
               >
                 {text.history}
               </button>
+              
             </div>
-            <div
-              className={`${isFirst ? "max-h-0" : "max-h-[26rem] sm:max-h-[62vh]"
-                } overflow-y-scroll mt-8 rounded transition-all duration-1000 shadow-custom_shadow`}
-            >
-              <div className="bg-gray-200 rounded-t p-6">
-                <p className="text-lg font-bold">{text.queryColon}</p>
-                <p>{showNlQuery || <Skeleton />}</p>
-              </div>
-              <div className="p-6">
-                <p className="text-lg font-bold ">{text.response}</p>
-                <p>{!sql ? <Skeleton count={5} /> : null}</p>
-                {sql && (
-                  <div className="mt-4">
-                    <CodeBlock codeString={sql} language="SQL" />
-                  </div>
-                )}
-              </div>
-            </div>
-          </div>
           <div
-            className={`${isFirst ? "bottom-3/4" : "bottom-4"
-              } absolute w-full rounded transition-all duration-1000`}
+            className={`${isFirst ? " bottom-4" : "bottom-4"
+              } w-full my-4 rounded transition-all duration-1000`}
           >
             <form>
               <div className="flex flex-row border border-dashed border-black rounded-full bg-white">
@@ -137,6 +125,27 @@ const ChatInterface = ({ dbId }: Props) => {
                 </button>
               </div>
             </form>
+          </div>
+            <div
+              className={`${isFirst ? "max-h-0" : "max-h-[26rem] sm:max-h-[62vh]"
+                } overflow-y-scroll mt-2 rounded transition-all duration-1000 shadow-custom_shadow`}
+            >
+              <div className="bg-gray-200 rounded-t py-2 px-6">
+                <p className="text-lg font-bold">{text.queryColon}</p>
+                <p>{showNlQuery || <Skeleton />}</p>
+              </div>
+            
+              <div className="py-2 px-6">
+                <p className="text-lg font-bold ">{text.response}</p>
+                <p>{!sql ? <Skeleton count={5} /> : null}</p>
+                {sql && (
+                  <div className="mt-2">
+                    <CodeBlock setSql = {setSql} codeString={sql}  handleQueryResponse={handleQueryResponse} dbId = {dbId}/>
+                  </div>
+                )}
+              </div>
+            </div>
+            {hasQueryExecuted && (queryError=="" ? <QueryResultTable result={queryResult}/>: <ErrorBox errorMessage={queryError}/>)}
           </div>
         </div>
       </div>

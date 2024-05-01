@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { askQuery, getQuery, getQueries } from "@/app/lib/service";
+import { askQuery, getQuery, getQueries, executeQuery } from "@/app/lib/service";
 import { toast } from "react-toastify";
 import appText from "../assets/strings";
 
@@ -14,6 +14,10 @@ const useChatViewController = ({ dbId }: Props) => {
     const [queries, setQueries] = useState([]);
     const [isFirst, setIsFirst] = useState<boolean>(true);
     const [open, setOpen] = useState<boolean>(false);
+    const [queryResult, setQueryResult] = useState<any>({});
+    const [hasQueryExecuted, setHasQueryExecuted] = useState(false);
+    const [queryError, setQueryError] = useState<string>("");
+
 
     const getQueryHistory = async () => {
         try {
@@ -30,6 +34,7 @@ const useChatViewController = ({ dbId }: Props) => {
             setIsFirst(false);
             setSql(null);
             setShowNlQuery(nlQuery);
+            setHasQueryExecuted(false);
             const formData = new FormData();
             formData.append("nl_query", nlQuery);
             formData.append("db_id", dbId);
@@ -46,6 +51,7 @@ const useChatViewController = ({ dbId }: Props) => {
             setIsFirst(false);
             setSql(null);
             setShowNlQuery(null);
+            setHasQueryExecuted(false);
             const res = await getQuery({ id });
             setSql(res.data.data.query.sql_query);
             setShowNlQuery(res.data.data.query.nl_query);
@@ -54,6 +60,23 @@ const useChatViewController = ({ dbId }: Props) => {
             toast.error(appText.toast.errGeneric);
         }
     };
+
+    const handleQueryResponse = async () => {
+        setHasQueryExecuted(false);
+        setQueryError("");
+        setQueryResult({});
+        try {
+            const formdata = new FormData();
+            formdata.append("sql_query", sql as string);
+            formdata.append("db_id", dbId);
+            const response = await executeQuery(formdata);
+            setQueryResult(response.data.data["query_result"]);
+        } catch (error: any) {
+            setQueryError(error.error);
+            toast.error(appText.toast.errGeneric);
+        }
+        setHasQueryExecuted(true);
+    }
 
     return {
         nlQuery,
@@ -70,6 +93,12 @@ const useChatViewController = ({ dbId }: Props) => {
         handleQuery,
         getQueryById,
         queries,
+        queryResult,
+        setQueryResult,
+        hasQueryExecuted,
+        setHasQueryExecuted,
+        handleQueryResponse,
+        queryError,
     };
 };
 
