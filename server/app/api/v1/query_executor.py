@@ -7,16 +7,15 @@ from sqlalchemy import create_engine
 from fastapi.encoders import jsonable_encoder
 from sqlalchemy.sql import text
 from app.services.query_service import query_service 
-from typing import Annotated
 import logging
 
 router = APIRouter()
 logger = logging.getLogger("mql")
 
-@router.post("/query-executor")
+@router.get("/data-query-service")
 async def query_executor(
-    db_id: Annotated[str, Form()],
-    sql_query: Annotated[str, Form()],
+    db_id: str,
+    sql_query: str,
     db: Session = Depends(get_db),
     current_user: dict = Depends(get_current_user),
 ) -> JSONResponse:

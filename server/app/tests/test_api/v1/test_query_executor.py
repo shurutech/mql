@@ -22,13 +22,9 @@ def test_query_executor(
     )
     db.commit()
 
-    response = client.post(
-        "api/v1/query-executor",
+    response = client.get(
+        f"api/v1/data-query-service?db_id={database.id}&sql_query=SELECT name, email FROM users limit 1;",
         headers=headers,
-        data={
-            'db_id': database.id,
-            'sql_query': 'SELECT name, email FROM users limit 1;'
-        }
     )
 
     assert response.status_code == 200
