@@ -166,3 +166,41 @@ def test_query(
             ],
         },
     }
+
+def test_query_by_id(
+    client: TestClient, db: Session, valid_jwt: str, valid_user_model: UserModel
+) -> None:
+    database_obj = crud_user_database.create(
+        db=db,
+        user_database_obj=UserDatabaseSchema(
+            name="Test",
+            user_id=valid_user_model.id,
+        ),
+    )
+    query_obj = crud_query.create(
+        db=db,
+        query_obj=QuerySchema(
+            nl_query="show me the table schema of the table employee",
+            user_database_id=database_obj.id,
+            sql_query="SELECT * FROM employee",
+        ),
+    )
+    response = client.get(
+        f"api/v1/queries/{query_obj.id}",
+        headers={"Authorization": f"Bearer {valid_jwt}"},
+    )
+    assert response.status_code == 200
+    assert response.json() == {
+        "message": "Query fetched successfully",
+        "data":{
+            "query": {
+                "id": str(query_obj.id),
+                "nl_query": "show me the table schema of the table employee",
+                "sql_query": "SELECT * FROM employee",
+                "user_database_id": str(database_obj.id),
+                "created_at": query_obj.created_at.isoformat(),
+                "updated_at": query_obj.updated_at.isoformat(),
+        }
+
+        }
+    }
