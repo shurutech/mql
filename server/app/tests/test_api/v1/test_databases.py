@@ -134,7 +134,7 @@ def test_connect_to_database(
         "database_user": "shuru",
         "database_password": "password",
         "database_host": "localhost",
-        "database_port": "5435",
+        "database_port": "5432",
     }
     with patch(
         "app.services.embeddings_service.embeddings_service.create_embeddings",
