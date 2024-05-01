@@ -44,7 +44,7 @@ async def query(
         )
         if execute:
             database_connection_string = crud_user_database.get_by_id(db, db_id).connection_string
-            password = current_user.hashed_password
+            password = current_user.hashed_key
             fernet_manager = FernetManager(password)
             database_connection_string = fernet_manager.decrypt(database_connection_string)
             if database_connection_string:

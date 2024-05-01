@@ -5,11 +5,19 @@ from bcrypt import hashpw, gensalt, checkpw
 
 from app.models.user import User as UserModel
 from app.schemas.user import User
+import os
 
 
 def hash_password(password: str) -> str:
     hashed_password = hashpw(password.encode("utf-8"), gensalt())
     return hashed_password.decode("utf-8")
+
+def hash_key(key: str) -> str:
+    salt = os.getenv("ENCRYPTION_SALT")
+    if salt is not None:
+        salt = salt.encode("utf-8") 
+    hashed_key = hashpw(key.encode("utf-8"), salt)
+    return hashed_key.decode("utf-8")
 
 
 class CRUDUser:
@@ -18,6 +26,7 @@ class CRUDUser:
             email=user_obj.email,
             hashed_password=hash_password(user_obj.password),
             name=user_obj.name,
+            hashed_key=hash_key(user_obj.password),
         )
         db.add(user)
         db.commit()

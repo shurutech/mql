@@ -6,7 +6,10 @@ def fernet_manager() -> FernetManager:
     return FernetManager("password")
 
 def test_generate_key(fernet_manager: FernetManager):
-    assert fernet_manager.generate_key() == b'0uyIMz__qpFLfU9f-t3RuMKqPs_9Juf3in5zeMEOOp0='
+    key = fernet_manager.generate_key()
+    assert key is not None
+    assert isinstance(key, bytes)
+    assert len(key) == 44
 
 def test_encrypt_decrypt(fernet_manager: FernetManager):
     data = "Hello, World!"

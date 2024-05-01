@@ -55,7 +55,9 @@ async def connect_to_database(
                 detail="Unable to connect to the database: " + str(e),
             )
         
-        fernet_manager = FernetManager(current_user.hashed_password)
+
+        
+        fernet_manager = FernetManager(current_user.hashed_key)
         logger.error("after fernet: %s" , connection_string)
         encrypted_connection_string = fernet_manager.encrypt(connection_string)
 
@@ -270,7 +272,7 @@ async def sync_database_schema(
             crud_table_column.delete_by_database_table_id(db, table.id)
         crud_database_table.delete_by_user_database_id(db, database_id)
         metadata = MetaData()
-        fernet_manager = FernetManager(current_user.hashed_password)
+        fernet_manager = FernetManager(current_user.hashed_key)
         user_database = crud_user_database.get_by_id(db, database_id)
         decrypted_connection_string = fernet_manager.decrypt(user_database.connection_string)
         logger.error("decrypted_connection_string: %s", decrypted_connection_string)
