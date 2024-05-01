@@ -134,7 +134,7 @@ def test_connect_to_database(
         "database_user": "shuru",
         "database_password": "password",
         "database_host": "localhost",
-        "database_port": "5432",
+        "database_port": "5435",
     }
     with patch(
         "app.services.embeddings_service.embeddings_service.create_embeddings",
@@ -278,7 +278,9 @@ def test_sync_schema(
             [table_column.database_table_id for table_column in table_columns.all()]
         ) == set([database_tables.filter_by(name="new_table").first().id])
         session.execute(text("DROP TABLE new_table"))
-        
+        session.query(UserDatabase).filter(UserDatabase.id == user_database.id).delete()
+        session.query(DatabaseTable).filter(DatabaseTable.user_database_id == user_database.id).delete()
+        session.query(TableColumn).filter(TableColumn.database_table_id == database_tables.filter_by(name="new_table").first().id).delete()
         session.commit()
         session.close()
         engine.dispose()
