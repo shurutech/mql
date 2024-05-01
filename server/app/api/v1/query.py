@@ -38,6 +38,8 @@ async def query(
             query_embedding, db_id, db
         )
         sql_query = openai_service.text_2_sql_query(nl_query, relevant_table_text_nodes)
+        if sql_query[-1] != ";":
+            sql_query += ";"
         crud_query.insert_sql_query_by_id(
             db, query_record.id, sql_query
         )
