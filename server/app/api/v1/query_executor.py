@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, status, Form
+from fastapi import APIRouter, Depends, status
 from fastapi.responses import JSONResponse
 from sqlalchemy.orm import Session
 from app.api.v1.dependencies import get_current_user, get_db
@@ -12,7 +12,7 @@ import logging
 router = APIRouter()
 logger = logging.getLogger("mql")
 
-@router.get("/data-query-service")
+@router.get("/sql-data")
 async def query_executor(
     db_id: str,
     sql_query: str,

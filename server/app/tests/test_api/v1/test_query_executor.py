@@ -23,7 +23,7 @@ def test_query_executor(
     db.commit()
 
     response = client.get(
-        f"api/v1/data-query-service?db_id={database.id}&sql_query=SELECT name, email FROM users limit 1;",
+        f"api/v1/sql-data?db_id={database.id}&sql_query=SELECT name, email FROM users limit 1;",
         headers=headers,
     )
 
