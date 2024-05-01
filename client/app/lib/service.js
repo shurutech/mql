@@ -1,4 +1,4 @@
-import { CONNECT_DATABASE, DATABASES, LOGIN, QUERIES , UPLOAD_DATABASE } from "@/app/utils/routes";
+import { CONNECT_DATABASE, DATABASES, LOGIN, QUERIES , QUERY_EXECUTION, UPLOAD_DATABASE } from "@/app/utils/routes";
 import axios from "axios";
 import Cookies from "js-cookie";
 import { toast } from "react-toastify";
@@ -113,3 +113,13 @@ export const getQuery = async ({ id }) => {
     else throw err.message;
   }
 };
+
+export const executeQuery = async (payload) => {
+  try {
+    const res = await axios.post(`${QUERY_EXECUTION}`, payload);
+    return res;
+  } catch (err) {
+    if (err.response) throw err.response.data;
+    else throw err.message;
+  }
+}
