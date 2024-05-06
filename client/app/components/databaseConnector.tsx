@@ -39,6 +39,7 @@ const DatabaseConnector = ({ onToggle }: { onToggle: any }) => {
           </div>
         </div>
         <div className="text-sm my-4">  {text.connectionString} </div>
+        <div className="text-red-500">  {text.information} </div>
         <div className="overflow-hidden bg-orange-50 px-4 pt-8 pb-4 shadow sm:rounded-md sm:px-6">
           <div>
             <p className="text-lg">{text.description}</p>
@@ -84,6 +85,7 @@ const DatabaseConnector = ({ onToggle }: { onToggle: any }) => {
                       className="mt-1 py-2 pl-2 block w-full rounded-md border-gray-300 shadow-sm"
                       placeholder={text.hostPlaceholder}
                     />
+                    <span className="text-gray-600 text-sm">{text.databaseHostInfo}</span>
                   </label>
                   <label className="block">
                     <span className="text-gray-700">{text.databasePort}</span>

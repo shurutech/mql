@@ -6,7 +6,7 @@ import logging
 
 openai.api_key = os.getenv("OPENAI_API_KEY")
 
-logger = logging.getLogger("analytics")
+logger = logging.getLogger("mql")
 
 
 class OpenAIClient:

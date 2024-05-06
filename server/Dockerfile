@@ -6,13 +6,13 @@ RUN apt-get install -y python3-pip
 
 ENV OPENAI_API_KEY <key>
 
-WORKDIR /analytics
+WORKDIR /mql
 
-COPY requirements.txt /analytics/requirements.txt
+COPY requirements.txt /mql/requirements.txt
 
-RUN pip install --upgrade -r /analytics/requirements.txt
+RUN pip install --upgrade -r /mql/requirements.txt
 
-COPY .env /analytics/.env
+COPY .env /mql/.env
 
 COPY ./app ./app
 
@@ -20,6 +20,6 @@ COPY ./scripts ./scripts
 
 COPY ./alembic ./alembic
 
-COPY ./alembic.ini /analytics/alembic.ini
+COPY ./alembic.ini /mql/alembic.ini
 
 CMD ["/bin/bash", "-c", "alembic upgrade head; uvicorn app.main:app --host 0.0.0.0 --port 8000"]
