@@ -1,4 +1,3 @@
-import uuid
 from fastapi.testclient import TestClient
 from sqlalchemy.orm import Session
 from unittest.mock import patch
@@ -6,8 +5,6 @@ from app.models.user import User as UserModel
 from app.crud.crud_user_database import crud_user_database
 from app.crud.crud_query import crud_query
 from app.schemas.user_database import UserDatabase as UserDatabaseSchema
-from app.clients.openai_client import OpenAIClient 
-from app.crud.crud_user_database import CRUDUserDatabase
 from app.schemas.query import Query as QuerySchema
 
 mock_openai_embedding_response = {
@@ -169,9 +166,6 @@ def test_query(
             ],
         },
     }
-        
-        
-   
 
 def test_query_by_id(
     client: TestClient, db: Session, valid_jwt: str, valid_user_model: UserModel
@@ -207,7 +201,6 @@ def test_query_by_id(
                 "created_at": query_obj.created_at.isoformat(),
                 "updated_at": query_obj.updated_at.isoformat(),
         }
-            
+
         }
     }
-
