@@ -4,7 +4,7 @@ import { toast } from "react-toastify";
 import appText from "../assets/strings";
 
 type Database = {
-    id: number;
+    id: string;
     name: string;
     created_at: string;
 };

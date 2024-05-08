@@ -8,11 +8,11 @@ import 'ace-builds/src-noconflict/theme-monokai';
 type Props = {
   handleQueryResponse: () => void;
   codeString: string;
-  dbId: string;
   setSql : (sql: string) => void;
+  executeFlag?: boolean;
 };
 
-const CodeBlock = ({ handleQueryResponse , codeString, dbId, setSql }: Props) => {
+const CodeBlock = ({ handleQueryResponse , codeString, setSql , executeFlag=true}: Props) => {
   
   const {
     handleCopyClick,
@@ -21,7 +21,7 @@ const CodeBlock = ({ handleQueryResponse , codeString, dbId, setSql }: Props) =>
     query,
     handleQueryChange,
     handleExecuteClick
-  } = useCodeBlockViewController({ codeString, dbId, setSql, handleQueryResponse});
+  } = useCodeBlockViewController({ codeString, setSql, handleQueryResponse});
   
   return (
     <div className="relative rounded-md overflow-hidden">
@@ -46,12 +46,12 @@ const CodeBlock = ({ handleQueryResponse , codeString, dbId, setSql }: Props) =>
 
       <div className="absolute bottom-2 right-0 mt-2">
         
-      <button
+      {executeFlag && <button
         className=" mr-2 px-3 py-1 text-sm bg-gray-100 text-gray-600 rounded-sm"
         onClick={handleExecuteClick}
       >
         {executeSuccess ? "Executed" : "Execute"}
-      </button>
+      </button>}
       <button
         className=" mr-2 px-3 py-1 text-sm bg-gray-100 text-gray-600 rounded-sm"
         onClick={handleCopyClick}

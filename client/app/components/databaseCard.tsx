@@ -5,7 +5,7 @@ import appText from "@/app/assets/strings";
 import useDatabaseCardViewController from "../viewControllers/databaseCardViewController";
 
 type Database = {
-    id: number;
+    id: string;
     name: string;
     created_at: string;
 };

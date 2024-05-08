@@ -2,12 +2,11 @@ import { useState } from "react";
 
 type Props = {
     codeString: string;
-    dbId: string;
     setSql: (sql: string) => void;
     handleQueryResponse: () => void;
   };
 
-const useCodeBlockViewController = ({ handleQueryResponse, codeString, dbId, setSql}: Props) => {
+const useCodeBlockViewController = ({ handleQueryResponse, codeString, setSql}: Props) => {
     const [copySuccess, setCopySuccess] = useState(false);
     const [executeSuccess, setExecuteSuccess] = useState(false);
     const [query, setQuery] = useState<string>(codeString);

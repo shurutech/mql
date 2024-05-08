@@ -140,7 +140,7 @@ const ChatInterface = ({ dbId }: Props) => {
                 <p>{!sql ? <Skeleton count={5} /> : null}</p>
                 {sql && (
                   <div className="mt-2">
-                    <CodeBlock setSql = {setSql} codeString={sql}  handleQueryResponse={handleQueryResponse} dbId = {dbId}/>
+                    <CodeBlock setSql = {setSql} codeString={sql}  handleQueryResponse={handleQueryResponse}/>
                   </div>
                 )}
               </div>
