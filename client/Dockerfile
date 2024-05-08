@@ -1,6 +1,6 @@
 FROM node:18-alpine
 
-WORKDIR /analytics-web
+WORKDIR /mql-web
 
 COPY package*.json ./
 

@@ -10,7 +10,7 @@ import logging
 
 
 router = APIRouter()
-logger = logging.getLogger("analytics")
+logger = logging.getLogger("mql")
 
 
 @router.post("/login")

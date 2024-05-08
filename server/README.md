@@ -1,6 +1,6 @@
 # Project Setup Guide
 
-This is backend application for a analytics platform where users can ask natural language queries over their database & get corresponding SQL queries.
+This is backend application for a MQL platform where users can ask natural language queries over their database & get corresponding SQL queries.
 
 ## Requirements
 
@@ -102,10 +102,10 @@ This is backend application for a analytics platform where users can ask natural
 
 2. **Creating the Databases**
 
-    Create two databases, `analytics` and `analytics_test`, with the `shuru` role:
+    Create two databases, `mql` and `mql_test`, with the `shuru` role:
     ```bash
-    createdb -U shuru -h localhost -p 5432 -W analytics
-    createdb -U shuru -h localhost -p 5432 -W analytics_test
+    createdb -U shuru -h localhost -p 5432 -W mql
+    createdb -U shuru -h localhost -p 5432 -W mql_test
     ```
 
 3. **Creating the Table and Extension**

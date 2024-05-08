@@ -35,6 +35,7 @@ const UploadDatabaseSchema = ({ onToggle }: { onToggle: any }) => {
             {' '}{text.yourDatabase}
           </div>
         </div>
+        <div className="text-red-500">  {text.information} </div>
         <ul role="list" className="space-y-3">
           <li className="overflow-hidden bg-orange-50 px-4 pt-8 pb-4 shadow sm:rounded-md sm:px-6">
             <div>

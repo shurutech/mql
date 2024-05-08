@@ -12,12 +12,7 @@ from app.clients.openai_client import OpenAIClient
 
 mock_openai_embedding_response = {
     "data": [
-        {"embedding": [0.1, 0.2, 0.3]},
-        {"embedding": [0.4, 0.5, 0.6]},
-        {"embedding": [0.7, 0.8, 0.9]},
-        {"embedding": [0.10, 0.11, 0.12]},
-        {"embedding": [0.13, 0.14, 0.15]},
-        {"embedding": [0.16, 0.17, 0.18]},
+        [0.1], [0.2], [0.3], [0.4], [0.5], [0.6], [0.7], [0.8], [0.9], [0.1], [0.11], [0.12], [0.13], [0.14], [0.15], [0.16], [0.17], [0.18],
     ]
 }
 
@@ -50,7 +45,7 @@ def test_create_embeddings(
         "app.services.embeddings_service.embeddings_service.create_embeddings",
         side_effect=mock_background_task,
     ):
-        with open("output_schema.txt", "rb") as file:
+        with open("server/output_schema.txt", "rb") as file:
             response = client.post(
                 "/api/v1/upload-database-schema",
                 files={"file": file},
