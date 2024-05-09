@@ -7,6 +7,7 @@ import useDatabaseCardViewController from "../viewControllers/databaseCardViewCo
 type Database = {
     id: string;
     name: string;
+    connection_string: boolean;
     created_at: string;
 };
 type Props = {
@@ -22,11 +23,11 @@ const DatabaseCard = ({ db }: Props) =>{
       >
         <div className="flex justify-between">
           <p className="text-lg font-semibold">{db.name}</p>
-          <div className="flex justify-center items-center h-full ">
+          {db.connection_string && <div className="flex justify-center items-center h-full ">
             <div className={syncDbLoader ? "animate-spin" : ""} onClick={syncDb}>
               <ArrowPathIcon className="h-6 aspect-square m-auto text-black " />
             </div>
-          </div>
+          </div>}
         </div>
         <div className="flex flex-col gap-3">
           <p className="text-gray-500 text-sm text-right">

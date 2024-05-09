@@ -6,6 +6,7 @@ import appText from "../assets/strings";
 type Database = {
     id: string;
     name: string;
+    connection_string: boolean;
     created_at: string;
 };
 
