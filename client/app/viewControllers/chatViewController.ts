@@ -66,10 +66,11 @@ const useChatViewController = ({ dbId }: Props) => {
         setQueryError("");
         setQueryResult({});
         try {
-            const formdata = new FormData();
-            formdata.append("sql_query", sql as string);
-            formdata.append("db_id", dbId);
-            const response = await executeQuery(formdata);
+            const payload = { 
+                db_id: dbId,
+                sql_query: sql,
+            };
+            const response = await executeQuery(payload);
             setQueryResult(response.data.data["query_result"]);
         } catch (error: any) {
             setQueryError(error.error);
