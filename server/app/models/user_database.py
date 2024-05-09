@@ -18,7 +18,7 @@ class UserDatabase(TimestampBase):
         return {
             "name": self.name,
             "user_id": str(self.user_id),
-            "connection_string": self.connection_string,
+            "connection_string": True if self.connection_string else False,
             "id": str(self.id),
             "created_at": self.created_at.isoformat(),
             "updated_at": self.updated_at.isoformat(),
