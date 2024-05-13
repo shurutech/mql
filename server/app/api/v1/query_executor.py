@@ -19,6 +19,14 @@ async def query_executor(
     db: Session = Depends(get_db),
     current_user: dict = Depends(get_current_user),
 ) -> JSONResponse:
+    if not sql_query.lower().startswith("select"):
+        return JSONResponse(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            content={
+                "message": "Only DQL queries are allowed",
+                "error": "Only DQL queries are allowed",
+            },
+        )
     try:
         database_connection_string = crud_user_database.get_by_id(db, db_id).connection_string
 
