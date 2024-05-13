@@ -116,7 +116,12 @@ export const getQuery = async ({ id }) => {
 
 export const executeQuery = async (payload) => {
   try {
-    const res = await axios.get(`${QUERY_EXECUTION}?db_id=${payload.db_id}&sql_query=${payload.sql_query}`);
+    const params = new URLSearchParams({
+      db_id: payload.db_id,
+      sql_query: payload.sql_query
+    });
+
+    const res = await axios.get(`${QUERY_EXECUTION}?${params.toString()}`);
     return res;
   } catch (err) {
     if (err.response) throw err.response.data;
