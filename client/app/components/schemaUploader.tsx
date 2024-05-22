@@ -43,7 +43,7 @@ const UploadDatabaseSchema = ({ onToggle }: { onToggle: any }) => {
                 {text.firstStep}
               </p>
               <div className="container mx-auto py-8 px-4">
-                <CodeBlock codeString={COMMAND_DOWNLOAD_SCRIPT} language="bash" />
+                <CodeBlock codeString={COMMAND_DOWNLOAD_SCRIPT} setSql={()=>null} handleQueryResponse={()=>null} executeFlag={false}/>
               </div>
             </div>
             <div>
@@ -51,7 +51,7 @@ const UploadDatabaseSchema = ({ onToggle }: { onToggle: any }) => {
                 {text.secondStep}
               </p>
               <div className="container mx-auto py-8 px-4">
-                <CodeBlock codeString={COMMAND_RUN_SCRIPT} language="bash" />
+                <CodeBlock codeString={COMMAND_RUN_SCRIPT}  setSql={()=>null} handleQueryResponse={()=>null} executeFlag={false}/>
               </div>
             </div>
             <div>
