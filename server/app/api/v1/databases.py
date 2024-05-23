@@ -232,3 +232,50 @@ async def get_single_database_details(
         content={"message": "Database details", "data": database_detail},
         status_code=status.HTTP_200_OK,
     )
+
+@router.delete("/delete-database/{database_id}")
+async def delete_database(
+    database_id: str,
+    db: Session = Depends(get_db),
+    current_user: dict = Depends(get_current_user),
+) -> JSONResponse:
+    try:
+        databases = crud_user_database.get_by_user_id(db, current_user.id)
+        databases_ids = [str(database.id) for database in databases]
+        if database_id not in databases_ids:
+            logger.info(
+                "Database with database_id {} not found for user_id {}".format(
+                    database_id, current_user.id
+                )
+            )
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND, detail="Database not found"
+            )
+        database_table_ids = [
+            str(database_table.id)
+            for database_table in crud_database_table.get_by_user_database_id(
+                db, database_id
+            )
+        ]
+
+        for database_table_id in database_table_ids:
+            crud_table_column.delete_by_database_table_id(db, database_table_id)
+        crud_database_table.delete_by_user_database_id(db, database_id)
+        crud_user_database.delete_by_id(db, database_id)
+        db.commit()
+
+    except Exception as e:
+        db.rollback()
+        logger.error(
+            "Error occurred while deleting database for database_id {}. Error is {}".format(
+                database_id, e
+            )
+        )
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail="Internal server error",
+        )
+    return JSONResponse(
+        content={"message": "Database deleted successfully", "data": None},
+        status_code=status.HTTP_200_OK,
+    )

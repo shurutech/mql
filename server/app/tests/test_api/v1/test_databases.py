@@ -128,7 +128,7 @@ def test_connect_to_database(
         "database_name": "mql_test",
         "database_user": "shuru",
         "database_password": "password",
-        "database_host": "localhost",
+        "database_host": "postgres",
         "database_port": "5432",
     }
     with patch(
@@ -185,28 +185,34 @@ def test_connect_to_database(
         [table_column.database_table_id for table_column in table_columns.all()]
     ) == set([database_tables.filter_by(name="users").first().id])
 
-def test_connect_to_database_with_request_already_in_progress(
+def test_delete_database(
     client: TestClient, db: Session, valid_user_model: UserModel, valid_jwt: str
 ) -> None:
-    with patch("app.api.v1.databases.idempotent_storage", new_callable=list) as mock_idempotent_storage:
-        
-        mock_idempotent_storage.append(str(valid_user_model.id) + "mql_test")
-        headers = {"Authorization": f"Bearer {valid_jwt}"}
-        test_data = {
-            "database_name": "mql_test",
-            "database_user": "shuru",
-            "database_password": "password",
-            "database_host": "postgres",
-            "database_port": "5432",
-        }   
-        with patch(
-            "app.services.embeddings_service.embeddings_service.create_embeddings",
-            side_effect=mock_background_task,
-        ):
-            response1 = client.post(
+    mock_user = valid_user_model
+
+    headers = {"Authorization": f"Bearer {valid_jwt}"}
+    test_data = {
+        "database_name": "mql_test",
+        "database_user": "shuru",
+        "database_password": "password",
+        "database_host": "postgres",
+        "database_port": "5432",
+    }
+    with patch(
+        "app.services.embeddings_service.embeddings_service.create_embeddings",
+        side_effect=mock_background_task,
+    ):
+         response = client.post(
                 "/api/v1/connect-database",
                 data=test_data,
                 headers=headers,
             )
-        
-        assert response1.status_code == 409
+         
+    assert response.status_code == 202
+
+    user_database = crud_user_database.get_by_user_id(db=db, user_id=mock_user.id)[0]   
+    response = client.delete(
+        f"/api/v1/delete-database/{user_database.id}",
+        headers=headers,
+    )
+    assert response.status_code == 200
