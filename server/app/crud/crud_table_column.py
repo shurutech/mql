@@ -24,5 +24,7 @@ class CRUDTableColumn:
             TableColumnModel.database_table_id == database_table_id
         )
 
+    def delete_by_database_table_id(self, db: Session, database_table_id: UUID) -> None:
+        db.query(TableColumnModel).filter(TableColumnModel.database_table_id == database_table_id).delete()
 
 crud_table_column = CRUDTableColumn()
