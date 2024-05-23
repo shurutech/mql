@@ -30,7 +30,6 @@ logger = logging.getLogger("mql")
 """
 TODO:Put a file structure validation here
 """
-idempotent_storage: str = []
 
 @router.post("/connect-database")
 async def connect_to_database(
@@ -43,14 +42,6 @@ async def connect_to_database(
     db: Session = Depends(get_db),
     current_user: dict = Depends(get_current_user),
 ) -> JSONResponse:
-    if str(current_user.id)+database_name in idempotent_storage:
-        return JSONResponse(
-            content={"message": None, "data": None},
-            status_code=status.HTTP_409_CONFLICT,
-        )
-    else:
-        idempotent_storage.append(str(current_user.id)+database_name)
-
     try:
         connection_string = f"postgresql://{database_user}:{database_password}@{database_host}:{database_port}/{database_name}"
 
@@ -97,7 +88,6 @@ async def connect_to_database(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             detail="Internal server error",
         )
-    idempotent_storage.remove(str(current_user.id)+database_name)
     return JSONResponse(
         content={
             "message": "Database connected successfully",
@@ -115,13 +105,6 @@ async def upload_file(
     db: Session = Depends(get_db),
     current_user: dict = Depends(get_current_user),
 ) -> JSONResponse:
-    if str(current_user.id)+database_name in idempotent_storage:
-        return JSONResponse(
-            content={"message": None, "data": None},
-            status_code=status.HTTP_409_CONFLICT,
-        )
-    else:
-        idempotent_storage.append(str(current_user.id)+database_name)
     try:
         contents = await file.read()
         lines = contents.decode().split("\n")
@@ -162,7 +145,6 @@ async def upload_file(
         )
     except Exception as e:
         db.rollback()
-        idempotent_storage.remove(str(current_user.id)+database_name)
         logger.error(
             "Error occurred while uploading file for user_id {}. Error is {}".format(
                 current_user.id, e
@@ -172,7 +154,6 @@ async def upload_file(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             detail="Internal server error",
         )
-    idempotent_storage.remove(str(current_user.id)+database_name)
     return JSONResponse(
         content={"message": "File uploaded successfully", "data": None},
         status_code=status.HTTP_202_ACCEPTED,
