@@ -12,6 +12,7 @@ type Database = {
 
 const useHomeAccountsViewController = () => {
     const [databases, setDatabases] = useState<Database[]>([]);
+    const [refresh, setRefresh] = useState<boolean>(false);
 
     useEffect(() => {
         const fetchAllDB = async () => {
@@ -23,9 +24,13 @@ const useHomeAccountsViewController = () => {
             }
         };
         fetchAllDB();
-    }, []);
+    }, [refresh]);
 
-    return { databases };
+    const refreshDatabases = () => {
+        setRefresh(!refresh);
+    }
+
+    return { databases, refreshDatabases };
 }
 
 export default useHomeAccountsViewController;

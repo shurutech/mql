@@ -1,4 +1,4 @@
-import { CONNECT_DATABASE, DATABASES, LOGIN, QUERIES , QUERY_EXECUTION, UPLOAD_DATABASE, SCHEMA_SYNC } from "@/app/utils/routes";
+import { CONNECT_DATABASE, DATABASES, DELETE_DATABASE, LOGIN, QUERIES , QUERY_EXECUTION, UPLOAD_DATABASE, SCHEMA_SYNC } from "@/app/utils/routes";
 import axios from "axios";
 import Cookies from "js-cookie";
 import { toast } from "react-toastify";
@@ -132,6 +132,16 @@ export const executeQuery = async (payload) => {
 export const syncSchema = async (payload) => {
   try {
     const res = await axios.post(`${SCHEMA_SYNC}`, payload);
+    return res;
+  } catch (err) {
+    if (err.response) throw err.response.data;
+    else throw err.message;
+  }
+}
+
+export const deleteDatabase = async (id) => {
+  try {
+    const res = await axios.delete(`${DELETE_DATABASE}/${id}`);
     return res;
   } catch (err) {
     if (err.response) throw err.response.data;
