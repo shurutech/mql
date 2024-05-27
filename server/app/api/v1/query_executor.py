@@ -31,6 +31,14 @@ async def query_executor(
         )
     try:
         database_connection_string = crud_user_database.get_by_id(db, db_id).connection_string
+        if database_connection_string is None:
+            return JSONResponse(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                content={
+                    "message": "Query Executor not supoorted for this type of database",
+                    "error": "Query Executor only supported in connection string type databases",
+                },
+            )
         password = current_user.hashed_key
         fernet_manager = FernetManager(password)
         database_connection_string = fernet_manager.decrypt(database_connection_string)
