@@ -44,5 +44,11 @@ class CRUDDatabaseTable:
         database_table.text_node = text_node
         db.commit()
 
+    def delete_by_user_database_id(self, db: Session, user_database_id: UUID) -> None:
+        db.query(DatabaseTableModel).filter(
+            DatabaseTableModel.user_database_id == user_database_id
+        ).delete()
+        db.commit()
+
 
 crud_database_table = CRUDDatabaseTable()

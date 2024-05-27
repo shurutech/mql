@@ -17,6 +17,8 @@ import json
 from typing import Annotated
 import logging
 
+from app.utilities.fernet_manager import FernetManager
+
 router = APIRouter()
 logger = logging.getLogger("mql")
 

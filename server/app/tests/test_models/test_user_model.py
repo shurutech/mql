@@ -13,6 +13,7 @@ def test_as_dict_method(valid_user_model: UserModel) -> None:
         "id": result["id"],
         "created_at": result["created_at"],
         "updated_at": result["updated_at"],
+        "hashed_key": valid_user_model.hashed_key,
     }
 
 

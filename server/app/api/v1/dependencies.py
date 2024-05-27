@@ -53,9 +53,11 @@ def get_current_user(
     credentials: str = Depends(HTTPBearer()), db: Session = Depends(get_db)
 ) -> UserModel:
     payload = validate_access_token(credentials.credentials)
+
     if not payload:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid Token"
         )
     user = crud_user.get_by_email(db, payload["email"])
+    user.hashed_key = payload["hashed_key"]
     return user

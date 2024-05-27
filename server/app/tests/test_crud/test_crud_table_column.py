@@ -49,3 +49,15 @@ def test_get_by_database_table_id_not_found(db: Session) -> None:
         db=db, database_table_id=uuid.uuid4()
     )
     assert result.count() == 0
+
+def test_delete_by_database_table_id(db:Session)->None:
+    crud_table_column = CRUDTableColumn()
+    table_column_obj = TableColumnSchema(
+        name="test_column", data_type="int", database_table_id=uuid.uuid4()
+    )
+    crud_table_column.create(db=db, table_column_obj=table_column_obj)
+    crud_table_column.delete_by_database_table_id(db=db, database_table_id=table_column_obj.database_table_id)
+    result = crud_table_column.get_by_database_table_id(
+        db=db, database_table_id=table_column_obj.database_table_id
+    )
+    assert result.count() == 0

@@ -175,3 +175,21 @@ def test_upsert_text_node_by_id_when_updating_text_node(db: Session) -> None:
         db.query(DatabaseTable).filter(DatabaseTable.id == result.id).first()
         is not None
     )
+
+def test_delete_table_by_user_database_id(db: Session) -> None:
+    crud_database_table = CRUDDatabaseTable()
+    user_database_id = uuid.uuid4()
+    for index in range(5):
+        database_table_obj = DatabaseTableSchema(
+            name=f"test_table_{index}",
+            text_node=f"text_node_{index}",
+            user_database_id=user_database_id,
+        )
+        crud_database_table.create(db=db, database_table_obj=database_table_obj)
+
+    crud_database_table.delete_by_user_database_id(db=db, user_database_id=user_database_id)
+
+    result = crud_database_table.get_by_user_database_id(db=db, user_database_id=user_database_id)
+
+    assert result.count() == 0
+    assert db.query(DatabaseTable).filter(DatabaseTable.user_database_id == user_database_id).count() == 0

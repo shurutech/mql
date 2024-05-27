@@ -13,6 +13,16 @@ class User(TimestampBase):
     name = mapped_column(String, nullable=False)
     email = mapped_column(String, unique=True, nullable=False)
     hashed_password = mapped_column(String, nullable=False)
+    _hashed_key = None
+
+    @property
+    def hashed_key(self):
+        return self._hashed_key
+
+    @hashed_key.setter
+    def hashed_key(self, value):
+        self._hashed_key = value
+
 
     def as_dict(self) -> dict:
         return {
@@ -21,4 +31,5 @@ class User(TimestampBase):
             "id": str(self.id),
             "created_at": self.created_at.isoformat(),
             "updated_at": self.updated_at.isoformat(),
+            "hashed_key": self.hashed_key,
         }
