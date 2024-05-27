@@ -8,9 +8,10 @@ import { useSearchParams } from 'next/navigation'
 const Query = () => {
   const params = useSearchParams();
   const dbId = params.get('db_id')?.toString()!;
+  const executable = params.get('executable') === 'true'; 
   return (
     <div>
-      <ChatInterface dbId={dbId} />
+      <ChatInterface dbId={dbId} executable={executable}/>
     </div>
   );
 };
