@@ -5,7 +5,7 @@ import appText from "@/app/assets/strings";
 import DatabaseCard from "@/app/components/databaseCard";
 
 const Home = () => {
-  const { databases } = useHomeAccountsViewController();
+  const { databases , refreshDatabases} = useHomeAccountsViewController();
   const text = appText.homeDatabases;
 
   return (
@@ -24,7 +24,7 @@ const Home = () => {
       <div className="flex flex-row flex-wrap gap-x-6 gap-y-8  mt-8">
         {databases.length ? (
           databases?.map((db, idx) => (
-            <DatabaseCard db={db} key={idx} />
+            <DatabaseCard db={db} key={idx} refreshDatabases={refreshDatabases}/>
           ))
         ) : (
           <p>{text.noDatabase}</p>

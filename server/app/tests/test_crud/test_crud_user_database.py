@@ -62,3 +62,14 @@ def test_get_by_id(db: Session) -> None:
         db.query(UserDatabaseModel).filter(UserDatabaseModel.id == result.id).first()
         is not None
     )
+
+def test_delete_by_id(db: Session) -> None:
+    crud_user_database = CRUDUserDatabase()
+    user_database_obj = UserDatabaseSchema(name="test_database", user_id=uuid.uuid4())
+    user_database = crud_user_database.create(
+        db=db, user_database_obj=user_database_obj
+    )
+
+    crud_user_database.delete_by_id(db=db, id=user_database.id)
+    result = crud_user_database.get_by_user_id(db=db, user_id=user_database_obj.user_id)
+    assert result.count() == 0

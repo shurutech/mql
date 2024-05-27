@@ -33,6 +33,9 @@ class CRUDEmbedding:
             .order_by(EmbeddingModel.embeddings_vector.l2_distance(query_embedding))
             .limit(5)
         )
+    
+    def delete_by_database_id(self, db: Session, database_id: UUID) -> None:
+        db.query(EmbeddingModel).filter(EmbeddingModel.user_database_id == database_id).delete()
 
 
 crud_embedding = CRUDEmbedding()

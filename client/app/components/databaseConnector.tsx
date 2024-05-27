@@ -2,7 +2,7 @@
 "use client";
 import useConnectDatabaseViewController from "@/app/viewControllers/connectDatabaseViewController";
 import appText from "@/app/assets/strings";
-
+import Loader from "./loader";
 
 const DatabaseConnector = ({ onToggle }: { onToggle: any }) => {
   const {
@@ -26,20 +26,20 @@ const DatabaseConnector = ({ onToggle }: { onToggle: any }) => {
     <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
       <div className="mt-8">
         <div className="flex items-center  mb-6">
-          <div className="text-4xl font-bold">  {text.title} </div>
+          <div className="text-4xl font-bold"> {text.title} </div>
           <div className="flex items-center justify-center text-xl mx-4 mt-2">
-            {text.or}{' '}
+            {text.or}{" "}
             <button
               onClick={onToggle}
               className="text-blue-600 hover:text-blue-800 transition duration-300 ease-in-out underline ml-4 mx-1"
             >
               {text.upload}
-            </button>
-            {' '}{text.yourDatabaseSchema}
+            </button>{" "}
+            {text.yourDatabaseSchema}
           </div>
         </div>
-        <div className="text-sm my-4">  {text.connectionString} </div>
-        <div className="text-red-500">  {text.information} </div>
+        <div className="text-sm my-4"> {text.connectionString} </div>
+        <div className="text-red-500"> {text.information} </div>
         <div className="overflow-hidden bg-orange-50 px-4 pt-8 pb-4 shadow sm:rounded-md sm:px-6">
           <div>
             <p className="text-lg">{text.description}</p>
@@ -67,7 +67,9 @@ const DatabaseConnector = ({ onToggle }: { onToggle: any }) => {
                     />
                   </label>
                   <label className="block">
-                    <span className="text-gray-700">{text.databasePassword}</span>
+                    <span className="text-gray-700">
+                      {text.databasePassword}
+                    </span>
                     <input
                       type="password"
                       value={databasePassword}
@@ -85,7 +87,9 @@ const DatabaseConnector = ({ onToggle }: { onToggle: any }) => {
                       className="mt-1 py-2 pl-2 block w-full rounded-md border-gray-300 shadow-sm"
                       placeholder={text.hostPlaceholder}
                     />
-                    <span className="text-gray-600 text-sm">{text.databaseHostInfo}</span>
+                    <span className="text-gray-600 text-sm">
+                      {text.databaseHostInfo}
+                    </span>
                   </label>
                   <label className="block">
                     <span className="text-gray-700">{text.databasePort}</span>
@@ -97,13 +101,17 @@ const DatabaseConnector = ({ onToggle }: { onToggle: any }) => {
                       placeholder={text.portPlaceholder}
                     />
                   </label>
-                  <div>
+                  <div className="w-fit">
+                   { showLoader ? <div>
+                      <Loader />
+                    </div>
+                    :
                     <button
                       type="submit"
                       className="mt-2 px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
                     >
                       {text.connect}
-                    </button>
+                    </button>}
                   </div>
                 </div>
               </form>

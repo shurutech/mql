@@ -23,8 +23,10 @@ const useCodeBlockViewController = ({ handleQueryResponse, codeString, setSql}: 
     };
 
     const handleExecuteClick = async () => {
-       setExecuteSuccess(true);
-       handleQueryResponse();
+      if(!executeSuccess){
+        setExecuteSuccess(true);
+        handleQueryResponse(); 
+      }
     }
 
     return {

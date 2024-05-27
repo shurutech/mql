@@ -16,7 +16,7 @@ def test_as_dict_method(db: Session) -> None:
     assert result == {
         "name": "test_database",
         "user_id": str(user_id),
-        "connection_string": "connection_string",
+        "connection_string": True,
         "id": result["id"],
         "created_at": result["created_at"],
         "updated_at": result["updated_at"],
