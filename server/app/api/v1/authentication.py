@@ -4,7 +4,7 @@ from typing import Annotated
 from pydantic import EmailStr
 from sqlalchemy.orm import Session
 from app.api.v1.dependencies import get_db, create_access_token
-from app.crud.crud_user import crud_user
+from app.crud.crud_user import crud_user, hash_key
 from datetime import timedelta
 import logging
 
@@ -31,8 +31,9 @@ async def login(
             raise HTTPException(
                 status_code=status.HTTP_401_UNAUTHORIZED, detail="Incorrect Password"
             )
+        password = hash_key(password)
         token = create_access_token(
-            data={"id": str(user.id), "email": user.email, "name": user.name},
+            data={"id": str(user.id), "email": user.email, "name": user.name, "hashed_key": password},
             expires_delta=timedelta(minutes=60),
         )
     except HTTPException as e:

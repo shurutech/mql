@@ -21,6 +21,7 @@ from app.schemas.table_column import TableColumn
 from app.schemas.user_database import UserDatabase
 from app.services.embeddings_service import embeddings_service
 from app.services.database_details import database_details
+from app.utilities.fernet_manager import FernetManager
 import logging
 
 router = APIRouter()
@@ -45,13 +46,26 @@ async def connect_to_database(
     try:
         connection_string = f"postgresql://{database_user}:{database_password}@{database_host}:{database_port}/{database_name}"
 
-        user_database_obj = UserDatabase(name=f"{database_name}", user_id=current_user.id, connection_string=connection_string)
+        engine = create_engine(connection_string)
+        try:
+            engine.connect()
+        except Exception as e:
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail="Unable to connect to the database: " + str(e),
+            )
+        
+
+        
+        fernet_manager = FernetManager(current_user.hashed_key)
+        logger.error("after fernet: %s" , connection_string)
+        encrypted_connection_string = fernet_manager.encrypt(connection_string)
+
+        user_database_obj = UserDatabase(name=f"{database_name}", user_id=current_user.id, connection_string=encrypted_connection_string)
 
         user_database = crud_user_database.create(
             db=db, user_database_obj=user_database_obj
         )
-
-        engine = create_engine(connection_string)
         metadata = MetaData()
         metadata.reflect(engine)
         tables = metadata.tables
@@ -95,7 +109,6 @@ async def connect_to_database(
         },
         status_code=status.HTTP_202_ACCEPTED,
     )
-
 
 @router.post("/upload-database-schema")
 async def upload_file(
@@ -230,6 +243,73 @@ async def get_single_database_details(
         )
     return JSONResponse(
         content={"message": "Database details", "data": database_detail},
+        status_code=status.HTTP_200_OK,
+    )
+
+@router.post("/schema-sync")
+async def sync_database_schema(
+    background_tasks: BackgroundTasks,
+    database_id: Annotated[str, Form(...)],
+    db: Session = Depends(get_db),
+    current_user: dict = Depends(get_current_user),
+) -> JSONResponse:
+    try:
+        database = crud_user_database.get_by_id(db, database_id)
+        logger.error("databases: %s", database)
+        if database is None:
+            logger.info(
+                "Database with database_id {} not found for user_id {}".format(
+                    database_id, current_user.id
+                )
+            )
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND, detail="Database not found"
+            )
+        database_tables = crud_database_table.get_by_user_database_id(db, database_id)
+        for table in database_tables:
+            crud_table_column.delete_by_database_table_id(db, table.id)
+        crud_database_table.delete_by_user_database_id(db, database_id)
+        metadata = MetaData()
+        fernet_manager = FernetManager(current_user.hashed_key)
+        user_database = crud_user_database.get_by_id(db, database_id)
+        decrypted_connection_string = fernet_manager.decrypt(user_database.connection_string)
+        logger.error("decrypted_connection_string: %s", decrypted_connection_string)
+        engine = create_engine(decrypted_connection_string)
+        metadata.reflect(engine)
+        tables = metadata.tables
+        for table_name in tables.keys():
+            database_table_obj = DatabaseTable(
+                name=table_name, user_database_id=database_id
+            )
+            database_table = crud_database_table.create(
+                db=db, database_table_obj=database_table_obj
+            )
+            for column in tables[table_name].columns:
+                column_type = str(column.type).split("(")[0]
+                table_column_obj = TableColumn(
+                    name=column.name,
+                    data_type=column_type,
+                    database_table_id=database_table.id,
+                )
+                crud_table_column.create(db=db, table_column_obj=table_column_obj)
+        db.commit()
+        background_tasks.add_task(embeddings_service.create_embeddings, database_id, db)
+    except HTTPException as e:
+        db.rollback()
+        raise HTTPException(status_code=e.status_code, detail=e.detail)
+    except Exception as e:
+        db.rollback()
+        logger.error(
+            "Error occurred while refreshing database schema for database_id {}. Error is {}".format(
+                database_id, e
+            )
+        )
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail="Internal server error",
+        )
+    return JSONResponse(
+        content={"message": "Database schema refreshed successfully", "data": None},
         status_code=status.HTTP_200_OK,
     )
 

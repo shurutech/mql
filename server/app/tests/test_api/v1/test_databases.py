@@ -7,7 +7,12 @@ from app.models.user import User as UserModel
 from unittest.mock import patch
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
-
+from app.utilities.fernet_manager import FernetManager
+from sqlalchemy import text,MetaData
+from app.models.user_database import UserDatabase
+from app.models.database_table import DatabaseTable
+from app.models.table_column import TableColumn
+import os
 
 
 def mock_background_task(*args, **kwargs) -> None:

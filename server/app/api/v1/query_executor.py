@@ -8,6 +8,7 @@ from fastapi.encoders import jsonable_encoder
 from sqlalchemy.sql import text
 from app.services.query_service import query_service 
 from app.constants import DQL
+from app.utilities.fernet_manager import FernetManager
 import logging
 
 router = APIRouter()
@@ -30,7 +31,9 @@ async def query_executor(
         )
     try:
         database_connection_string = crud_user_database.get_by_id(db, db_id).connection_string
-
+        password = current_user.hashed_key
+        fernet_manager = FernetManager(password)
+        database_connection_string = fernet_manager.decrypt(database_connection_string)
         if database_connection_string:
             engine = create_engine(database_connection_string)
             with engine.connect() as connection:
