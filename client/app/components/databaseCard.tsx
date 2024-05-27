@@ -48,9 +48,14 @@ const DatabaseCard = ({ db, refreshDatabases }: Props) =>{
               {text.viewDb}
             </Link>
             <Link
-              href={`/query?db_id=${db.id}&executable=${db.connection_string}`}
+              href={`/query?db_id=${db.id}`}
               className="flex-grow rounded-full bg-blue-300 px-4 py-1"
-              onClick={() => localStorage.setItem("selectedDb", db.name)}
+              onClick={() => 
+                {
+                  localStorage.setItem("selectedDb", db.name)
+                  localStorage.setItem("selectedDbExecutable", JSON.stringify(db.connection_string))
+                }
+              }  
             >
               {text.askQuery}
             </Link>

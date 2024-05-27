@@ -16,10 +16,9 @@ import ErrorBox from "@/app/components/errorBox";
 
 type Props = {
   dbId: string;
-  executable: boolean;
 };
 
-const ChatInterface = ({ dbId, executable }: Props) => {
+const ChatInterface = ({ dbId }: Props) => {
 
   const {
     nlQuery,
@@ -141,7 +140,7 @@ const ChatInterface = ({ dbId, executable }: Props) => {
                 <p>{!sql ? <Skeleton count={5} /> : null}</p>
                 {sql && (
                   <div className="mt-2">
-                    <CodeBlock setSql = {setSql} codeString={sql} executeFlag={executable} handleQueryResponse={handleQueryResponse}/>
+                    <CodeBlock setSql = {setSql} codeString={sql} executeFlag={window.localStorage.getItem("selectedDbExecutable")==='true'} handleQueryResponse={handleQueryResponse}/>
                   </div>
                 )}
               </div>
