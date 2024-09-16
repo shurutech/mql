@@ -2,8 +2,11 @@
 
 import DatabaseInfo from "@/app/components/databaseInfo";
 import useDatabaseViewController from "@/app/viewControllers/databaseViewController";
+import React from "react";
 
-const DatabaseView = () => {
+
+
+const DatabaseView:React.FC = () => {
   const {
     database
   } = useDatabaseViewController();

@@ -1,5 +1,6 @@
 import { ChevronDownIcon, ChevronUpIcon } from "@heroicons/react/20/solid";
 import appText from "../assets/strings";
+import React from "react";
 
 type Props = {
   tables: {
@@ -15,7 +16,7 @@ type Props = {
   handleAccordionToggle: (idx: number) => void;
 };
 
-const Accordion = ({ tables, activeIndex, handleAccordionToggle }: Props) => {
+const Accordion = ({ tables, activeIndex, handleAccordionToggle }: Props):React.JSX.Element => {
   
   const text = appText.accordion;
 

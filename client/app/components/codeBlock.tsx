@@ -4,6 +4,7 @@ import useCodeBlockViewController from "../viewControllers/codeBlockViewControll
 import AceEditor from 'react-ace';
 import 'ace-builds/src-noconflict/mode-sql';
 import 'ace-builds/src-noconflict/theme-monokai';
+import React from "react";
 
 type Props = {
   handleQueryResponse: () => void;
@@ -12,7 +13,7 @@ type Props = {
   executeFlag?: boolean;
 };
 
-const CodeBlock = ({ handleQueryResponse , codeString, setSql , executeFlag=true}: Props) => {
+const CodeBlock = ({ handleQueryResponse , codeString, setSql , executeFlag=true}: Props):React.JSX.Element => {
   
   const {
     handleCopyClick,

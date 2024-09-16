@@ -5,25 +5,39 @@ import useAddDatabaseViewController from "@/app/viewControllers/addDatabaseViewC
 import appText from "@/app/assets/strings";
 import DatabaseConnector from "@/app/components/databaseConnector";
 import UploadDatabaseSchema from "@/app/components/schemaUploader";
+import React, { MutableRefObject, useEffect, useRef } from "react";
 
 
+type AddDatabaseViewController = {
+  isConnectVisible: boolean;
+  toggleComponent: () => void;
+};
 
-const AddDatabase = () => {
+const AddDatabase:React.FC = () => {
   const {
     isConnectVisible,
     toggleComponent
-  } = useAddDatabaseViewController();
+  }:AddDatabaseViewController = useAddDatabaseViewController();
 
   const text = appText.addDatabase;
+
+  const titleRef = useRef<HTMLDivElement | null>(null)
+
+  useEffect(()=>{
+    const timer = setTimeout(()=>{
+      titleRef?.current?.scrollIntoView({behavior:'smooth'});
+    },1000)
+    return ()=>clearTimeout(timer)
+  },[])
 
   return (
     <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
       <div className="flex flex-col gap-8 md:flex-row mt-8">
         <div className="my-auto w-full md:w-1/2">
           <div className="w-4/5">
-            <p className="text-3xl font-bold text-[#2b4499]">{text.title}</p>
+            <p className="text-3xl font-bold text-[#2b4499]">{text?.title}</p>
             <p className="text-2xl mt-8 text-[#0a2355]">
-              {text.description} <br />
+              {text?.description} <br />
             </p>
           </div>
         </div>
@@ -37,13 +51,13 @@ const AddDatabase = () => {
           />
         </div>
       </div>
-      <div className="container mx-auto py-8 px-4">
+       <div className="container mx-auto py-8 px-4">
         {isConnectVisible ? (
-          <DatabaseConnector onToggle={toggleComponent} />
+          <DatabaseConnector onToggle={toggleComponent} titleRef={titleRef}/>
         ) : (
           <UploadDatabaseSchema onToggle={toggleComponent} />
         )}
-      </div>
+      </div> 
     </div>
   );
 };

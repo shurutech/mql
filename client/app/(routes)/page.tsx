@@ -2,8 +2,9 @@ import Image from "next/image";
 import Header from "@/app/components/header";
 import useHomeViewController from "../viewControllers/homeViewController";
 import appText from "../assets/strings";
+import React from "react";
 
-const Home = () => {
+const Home:React.FC = () => {
 
   const {
     features,

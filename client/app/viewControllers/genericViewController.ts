@@ -3,13 +3,17 @@ import { usePathname } from "next/navigation";
 import { useState } from "react";
 import appText from "../assets/strings";
 
+type NavigationItem = {
+    name: string;
+    href: string;
+  };
 
 const useGenericViewController = () => {
-    const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+    const [mobileMenuOpen, setMobileMenuOpen] = useState<boolean>(false);
     const pathname = usePathname();
     const text = appText.header;
 
-    const headerNavigation = [
+    const headerNavigation:NavigationItem[] = [
         { name: text.features, href: "#features" },
         { name: text.steps, href: "#steps" },
     ];

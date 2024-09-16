@@ -3,6 +3,7 @@ import { handleDate } from "@/app/utils/helper";
 import Link from "next/link";
 import appText from "@/app/assets/strings";
 import useDatabaseCardViewController from "../viewControllers/databaseCardViewController";
+import React from "react";
 
 type Database = {
     id: string;
@@ -15,7 +16,7 @@ type Props = {
     refreshDatabases: () => void;
 };
 
-const DatabaseCard = ({ db, refreshDatabases }: Props) =>{
+const DatabaseCard = ({ db,refreshDatabases }: Props):React.JSX.Element =>{
     const text = appText.homeDatabases;
     const { syncDbLoader, syncDb, deleteDb, deleteDbLoader} = useDatabaseCardViewController(db.id, refreshDatabases);
     return (

@@ -1,11 +1,10 @@
 "use client";
 
 import ChatInterface from "@/app/components/chatInterface";
-import { useParams } from "next/navigation";
-import React, { use, useEffect } from "react";
+import React from "react";
 import { useSearchParams } from 'next/navigation'
 
-const Query = () => {
+const Query:React.FC = () => {
   const params = useSearchParams();
   const dbId = params.get('db_id')?.toString()!;
   return (

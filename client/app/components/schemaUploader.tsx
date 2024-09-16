@@ -5,9 +5,10 @@ import FileUploader from "@/app/components/fileUploader";
 import { COMMAND_RUN_SCRIPT, COMMAND_DOWNLOAD_SCRIPT } from "@/app/utils/constant";
 import useUploadSchemaViewController from "@/app/viewControllers/uploadSchemaViewController";
 import appText from "@/app/assets/strings";
+import React from "react";
 
 
-const UploadDatabaseSchema = ({ onToggle }: { onToggle: any }) => {
+const UploadDatabaseSchema = ({ onToggle }: { onToggle: any }):React.JSX.Element => {
   const {
     file,
     databaseName,

@@ -1,17 +1,23 @@
 import { useState } from "react";
 
-const useAddDatabaseViewController = () => {
+interface UseAddDatabaseViewController {
+  isConnectVisible: boolean;
+  setIsConnectVisible: React.Dispatch<React.SetStateAction<boolean>>;
+  toggleComponent: () => void;
+}
 
-  const [isConnectVisible, setIsConnectVisible] = useState(true);
+const useAddDatabaseViewController = (): UseAddDatabaseViewController => {
+
+  const [isConnectVisible, setIsConnectVisible] = useState<boolean>(true);
 
   const toggleComponent = () => setIsConnectVisible(!isConnectVisible);
 
+ 
   return {
     isConnectVisible,
     setIsConnectVisible,
     toggleComponent
-  }
-
-}
+  };
+};
 
 export default useAddDatabaseViewController;

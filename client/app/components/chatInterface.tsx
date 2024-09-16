@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React from "react";
 import {
   ArrowRightCircleIcon,
   ChevronLeftIcon,
@@ -18,7 +18,7 @@ type Props = {
   dbId: string;
 };
 
-const ChatInterface = ({ dbId }: Props) => {
+const ChatInterface = ({ dbId }: Props):React.JSX.Element => {
 
   const {
     nlQuery,

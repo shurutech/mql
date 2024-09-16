@@ -2,10 +2,10 @@
 
 import Link from "next/link";
 import useGenericViewController from "../viewControllers/genericViewController";
-import { log } from "console";
 import appText from "../assets/strings";
+import React from "react";
 
-const Navbar = () => {
+const Navbar:React.FC = () => {
   const {
     logout
   } = useGenericViewController();

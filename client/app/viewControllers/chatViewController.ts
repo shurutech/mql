@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { askQuery, getQuery, getQueries, executeQuery } from "@/app/lib/service";
 import { toast } from "react-toastify";
 import appText from "../assets/strings";
@@ -7,6 +7,7 @@ type Props = {
     dbId: string;
 };
 
+
 const useChatViewController = ({ dbId }: Props) => {
     const [nlQuery, setNlQuery] = useState<string>("");
     const [showNlQuery, setShowNlQuery] = useState<string | null>(null);
@@ -14,8 +15,8 @@ const useChatViewController = ({ dbId }: Props) => {
     const [queries, setQueries] = useState([]);
     const [isFirst, setIsFirst] = useState<boolean>(true);
     const [open, setOpen] = useState<boolean>(false);
-    const [queryResult, setQueryResult] = useState<any>({});
-    const [hasQueryExecuted, setHasQueryExecuted] = useState(false);
+    const [queryResult, setQueryResult] = useState<QueryResult>({column_names: [''],rows:[]});
+    const [hasQueryExecuted, setHasQueryExecuted] = useState<boolean>(false);
     const [queryError, setQueryError] = useState<string>("");
 
 
@@ -64,7 +65,6 @@ const useChatViewController = ({ dbId }: Props) => {
     const handleQueryResponse = async () => {
         setHasQueryExecuted(false);
         setQueryError("");
-        setQueryResult({});
         try {
             const payload = { 
                 db_id: dbId,

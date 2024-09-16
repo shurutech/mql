@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState } from "react";
 
 type Props = {
     codeString: string;
@@ -7,8 +7,8 @@ type Props = {
   };
 
 const useCodeBlockViewController = ({ handleQueryResponse, codeString, setSql}: Props) => {
-    const [copySuccess, setCopySuccess] = useState(false);
-    const [executeSuccess, setExecuteSuccess] = useState(false);
+    const [copySuccess, setCopySuccess] = useState<boolean>(false);
+    const [executeSuccess, setExecuteSuccess] = useState<boolean>(false);
     const [query, setQuery] = useState<string>(codeString);
 
     const handleQueryChange = (query: string) => {

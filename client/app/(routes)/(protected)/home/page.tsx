@@ -3,9 +3,10 @@
 import useHomeAccountsViewController from "@/app/viewControllers/homeAccountsViewController";
 import appText from "@/app/assets/strings";
 import DatabaseCard from "@/app/components/databaseCard";
+import React from "react";
 
-const Home = () => {
-  const { databases , refreshDatabases} = useHomeAccountsViewController();
+const Home:React.FC = () => {
+  const { databases,refreshDatabases } = useHomeAccountsViewController();
   const text = appText.homeDatabases;
 
   return (

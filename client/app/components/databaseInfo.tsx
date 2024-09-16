@@ -5,6 +5,7 @@ import Link from "next/link";
 import Accordion from "./accordion";
 import useDatabaseInfoViewController from "../viewControllers/databaseInfoViewController";
 import appText from "../assets/strings";
+import React from "react";
 
 type Database = {
   database: {
@@ -22,7 +23,7 @@ type Database = {
   };
 };
 
-const DatabaseInfo = ({ database }: Database) => {
+const DatabaseInfo = ({ database }: Database):React.JSX.Element => {
   const {
     activeIndex,
     handleAccordionToggle,

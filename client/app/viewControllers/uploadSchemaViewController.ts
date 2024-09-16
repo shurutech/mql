@@ -5,8 +5,8 @@ import { uploadSchema } from "@/app/lib/service";
 import appText from "../assets/strings";
 
 const useUploadSchemaViewController = () => {
-  const [file, setFile] = useState<any>(null);
-  const [databaseName, setDatabaseName] = useState("");
+  const [file, setFile] = useState<any>("");
+  const [databaseName, setDatabaseName] = useState<string>("");
   const [showLoader, setShowLoader] = useState(false);
 
   const { push } = useRouter();

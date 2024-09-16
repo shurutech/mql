@@ -3,8 +3,9 @@
 import Header from "@/app/components/header";
 import useLoginViewController from "@/app/viewControllers/loginViewController";
 import appText from "../../../assets/strings";
+import React from "react";
 
-const Login = () => {
+const Login:React.FC = () => {
 
   const {
     handleLogin,

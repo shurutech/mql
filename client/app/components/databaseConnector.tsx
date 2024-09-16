@@ -3,8 +3,9 @@
 import useConnectDatabaseViewController from "@/app/viewControllers/connectDatabaseViewController";
 import appText from "@/app/assets/strings";
 import Loader from "./loader";
+import React from "react";
 
-const DatabaseConnector = ({ onToggle }: { onToggle: any }) => {
+const DatabaseConnector = ({ onToggle,titleRef }: { onToggle: any,titleRef:React.LegacyRef<HTMLDivElement> }):React.JSX.Element => {
   const {
     databaseName,
     setDatabaseName,
@@ -25,8 +26,8 @@ const DatabaseConnector = ({ onToggle }: { onToggle: any }) => {
   return (
     <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
       <div className="mt-8">
-        <div className="flex items-center  mb-6">
-          <div className="text-4xl font-bold"> {text.title} </div>
+        <div className="flex items-center  mb-6" ref={titleRef}>
+          <div className="text-4xl font-bold">  {text.title} </div>
           <div className="flex items-center justify-center text-xl mx-4 mt-2">
             {text.or}{" "}
             <button

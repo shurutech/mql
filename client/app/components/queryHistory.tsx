@@ -1,4 +1,4 @@
-import { Fragment, useState } from "react";
+import React, { Fragment, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import { handleDate } from "@/app/utils/helper";
@@ -16,7 +16,7 @@ const QueryHistory = ({
   setOpen,
   queries,
   getQuery,
-}: Props) => {
+}: Props):React.JSX.Element => {
   return (
     <Transition.Root show={open} as={Fragment}>
       <Dialog as="div" className="relative z-10" onClose={setOpen}>

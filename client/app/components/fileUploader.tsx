@@ -1,5 +1,6 @@
 import Image from "next/image";
 import appText from "../assets/strings";
+import React from "react";
 
 type Props = {
   file: File | null;
@@ -17,7 +18,7 @@ const FileUploader = ({
   handleUpload,
   setDatabaseName,
   showLoader,
-}: Props) => {
+}: Props):React.JSX.Element => {
 
   const text = appText.uploadDatabaseSchema;
 

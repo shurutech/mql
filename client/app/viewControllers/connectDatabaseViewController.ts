@@ -5,17 +5,17 @@ import { connectDatabase } from "@/app/lib/service";
 import appText from "../assets/strings";
 
 const useConnectDatabaseViewController = () => {
-  const [databaseName, setDatabaseName] = useState("");
-  const [databaseUser, setDatabaseUser] = useState("");
-  const [databasePassword, setDatabasePassword] = useState("");
-  const [databaseHost, setDatabaseHost] = useState("");
-  const [databasePort, setDatabasePort] = useState("");
-  const [showLoader, setShowLoader] = useState(false);
+  const [databaseName, setDatabaseName] = useState<string>("");
+  const [databaseUser, setDatabaseUser] = useState<string>("");
+  const [databasePassword, setDatabasePassword] = useState<string>("");
+  const [databaseHost, setDatabaseHost] = useState<string>("");
+  const [databasePort, setDatabasePort] = useState<string>("");
+  const [showLoader, setShowLoader] = useState<boolean>(false);
 
   const { push } = useRouter();
 
 
-  const handleConnectDatabase = async (e: React.ChangeEvent<any>) => {
+  const handleConnectDatabase = async (e: React.ChangeEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
       setShowLoader(true);

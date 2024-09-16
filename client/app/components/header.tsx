@@ -13,7 +13,7 @@ type Props = {
   token: string | undefined;
 };
 
-const Header = ({ token }: Props) => {
+const Header = ({ token }: Props):React.JSX.Element => {
   const {
     headerNavigation,
     setMobileMenuOpen,

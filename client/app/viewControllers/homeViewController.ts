@@ -12,8 +12,9 @@ import {
 } from "@heroicons/react/24/solid";
 
 import { cookies } from "next/headers";
-import { text } from "stream/consumers";
 import appText from "../assets/strings";
+
+
 
 const useHomeViewController = () => {
 

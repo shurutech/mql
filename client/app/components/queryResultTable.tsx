@@ -1,8 +1,9 @@
 import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/24/solid";
 import useQueryResult from "@/app/viewControllers/queryResultViewController";
 import QueryResultProvider from "@/app/providers/queryResultProvider";
+import React from "react";
 
-function QueryResultTableHeader() {
+function QueryResultTableHeader():React.JSX.Element {
   const result = useQueryResult();
 
   return (
@@ -16,7 +17,7 @@ function QueryResultTableHeader() {
   );
 }
 
-function QueryTableColumnHeading({ column }: { column: Column }) {
+function QueryTableColumnHeading({ column }: { column: Column }):React.JSX.Element {
   return (
     <th key={column} className="px-4 py-4">
       {column}
@@ -34,7 +35,7 @@ function QueryResultTableRow({
   values,
   columns,
   rowIndex,
-}: QueryResultTableRowProps) {
+}: QueryResultTableRowProps):React.JSX.Element {
   return (
     <tr className="bg-white border-b ">
       {values.map((value, idx) => {
@@ -51,7 +52,7 @@ function QueryResultTableRow({
   );
 }
 
-function QueryResultTableBody() {
+function QueryResultTableBody():React.JSX.Element {
   const result = useQueryResult();
 
   return (
@@ -68,7 +69,7 @@ function QueryResultTableBody() {
   );
 }
 
-function QueryResultTablePaginationControls() {
+function QueryResultTablePaginationControls():React.JSX.Element {
   const { currentPage, rowsPerPage, totalRows, setPage, setRowsPerPage } =
     useQueryResult();
 
@@ -138,7 +139,7 @@ type QueryResultTableProps = {
   result: QueryResult;
 };
 
-export default function QueryResultTable({ result }: QueryResultTableProps) {
+export default function QueryResultTable({ result }: QueryResultTableProps):React.JSX.Element {
   return (
     <QueryResultProvider result={result}>
       <div className="flex flex-col gap-2 py-3 mb-3 ">
