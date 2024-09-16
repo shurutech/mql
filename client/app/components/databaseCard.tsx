@@ -1,4 +1,4 @@
-import { ArrowPathIcon } from "@heroicons/react/24/solid";
+import { ArrowPathIcon, TrashIcon } from "@heroicons/react/24/solid";
 import { handleDate } from "@/app/utils/helper";
 import Link from "next/link";
 import appText from "@/app/assets/strings";
@@ -7,25 +7,33 @@ import useDatabaseCardViewController from "../viewControllers/databaseCardViewCo
 type Database = {
     id: string;
     name: string;
+    connection_string: boolean;
     created_at: string;
 };
 type Props = {
     db: Database;
+    refreshDatabases: () => void;
 };
 
-const DatabaseCard = ({ db }: Props) =>{
+const DatabaseCard = ({ db, refreshDatabases }: Props) =>{
     const text = appText.homeDatabases;
-    const { syncDbLoader, syncDb} = useDatabaseCardViewController(db.id);
+    const { syncDbLoader, syncDb, deleteDb, deleteDbLoader} = useDatabaseCardViewController(db.id, refreshDatabases);
     return (
         <div
         className="flex flex-col gap-6 border rounded-3xl shadow p-4"
       >
         <div className="flex justify-between">
           <p className="text-lg font-semibold">{db.name}</p>
-          <div className="flex justify-center items-center h-full ">
+          <div className="flex gap-2">
+
+          {db.connection_string && <div className="flex justify-center items-center h-full ">
             <div className={syncDbLoader ? "animate-spin" : ""} onClick={syncDb}>
               <ArrowPathIcon className="h-6 aspect-square m-auto text-black " />
             </div>
+          </div>}
+          <div className={deleteDbLoader ? "animate-pulse": ""} onClick={deleteDb}>
+            <TrashIcon className="h-6 cursor-pointer text-red-500" />
+          </div>
           </div>
         </div>
         <div className="flex flex-col gap-3">
@@ -42,7 +50,12 @@ const DatabaseCard = ({ db }: Props) =>{
             <Link
               href={`/query?db_id=${db.id}`}
               className="flex-grow rounded-full bg-blue-300 px-4 py-1"
-              onClick={() => localStorage.setItem("selectedDb", db.name)}
+              onClick={() => 
+                {
+                  localStorage.setItem("selectedDb", db.name)
+                  localStorage.setItem("selectedDbExecutable", JSON.stringify(db.connection_string))
+                }
+              }  
             >
               {text.askQuery}
             </Link>

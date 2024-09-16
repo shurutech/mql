@@ -10,7 +10,7 @@ const Query = () => {
   const dbId = params.get('db_id')?.toString()!;
   return (
     <div>
-      <ChatInterface dbId={dbId} />
+      <ChatInterface dbId={dbId}/>
     </div>
   );
 };

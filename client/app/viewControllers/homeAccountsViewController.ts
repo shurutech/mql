@@ -6,11 +6,13 @@ import appText from "../assets/strings";
 type Database = {
     id: string;
     name: string;
+    connection_string: boolean;
     created_at: string;
 };
 
 const useHomeAccountsViewController = () => {
     const [databases, setDatabases] = useState<Database[]>([]);
+    const [refresh, setRefresh] = useState<boolean>(false);
 
     useEffect(() => {
         const fetchAllDB = async () => {
@@ -22,9 +24,13 @@ const useHomeAccountsViewController = () => {
             }
         };
         fetchAllDB();
-    }, []);
+    }, [refresh]);
 
-    return { databases };
+    const refreshDatabases = () => {
+        setRefresh(!refresh);
+    }
+
+    return { databases, refreshDatabases };
 }
 
 export default useHomeAccountsViewController;

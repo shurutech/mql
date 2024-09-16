@@ -18,6 +18,7 @@ const useConnectDatabaseViewController = () => {
   const handleConnectDatabase = async (e: React.ChangeEvent<any>) => {
     e.preventDefault();
     try {
+      setShowLoader(true);
       const formData = new FormData();
       formData.append("database_name", databaseName);
       formData.append("database_user", databaseUser);
