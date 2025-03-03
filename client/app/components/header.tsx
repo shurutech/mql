@@ -62,12 +62,12 @@ const Header = ({ token }: Props):React.JSX.Element => {
               {text.dashboard} <span aria-hidden="true">&rarr;</span>
             </Link>
           ) : (
-            <Link
+            ((pathname !== "/login") ? <Link
               href="/login"
               className="text-sm font-semibold leading-6 text-gray-900"
             >
               {text.login} <span aria-hidden="true">&rarr;</span>
-            </Link>
+            </Link> : "")
           )}
         </div>
       </nav>

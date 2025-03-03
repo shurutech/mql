@@ -14,8 +14,8 @@ const useGenericViewController = () => {
     const text = appText.header;
 
     const headerNavigation:NavigationItem[] = [
-        { name: text.features, href: "#features" },
-        { name: text.steps, href: "#steps" },
+        { name: text.features, href: "/#features" },
+        { name: text.steps, href: "/#steps" },
     ];
 
     const logout = () => {

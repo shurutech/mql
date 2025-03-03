@@ -47,6 +47,6 @@ export const uploadSchema = (formData) => handleRequest('post', UPLOAD_DATABASE,
 export const askQuery = (payload) => handleRequest('post', QUERIES, payload);
 export const getQueries = (dbId) => handleRequest('get', `${QUERIES}?db_id=${dbId}`);
 export const getQuery = ({ id }) => handleRequest('get', `${QUERIES}/${id}`);
-export const executeQuery = (payload) => handleRequest('post', QUERY_EXECUTION, payload);
+export const executeQuery = (payload) => handleRequest('get', `${QUERY_EXECUTION}?db_id=${payload.db_id}&sql_query=${payload.sql_query}`);
 export const syncSchema = (payload) => handleRequest('post', SCHEMA_SYNC, payload);
 export const deleteDatabase = (id) => handleRequest('delete', `${DELETE_DATABASE}/${id}`);
