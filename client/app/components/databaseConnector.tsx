@@ -4,6 +4,8 @@ import useConnectDatabaseViewController from "@/app/viewControllers/connectDatab
 import appText from "@/app/assets/strings";
 import Loader from "./loader";
 import React from "react";
+import { useState } from "react";
+import Image from "next/image";
 
 const DatabaseConnector = ({ onToggle,titleRef }: { onToggle: any,titleRef:React.LegacyRef<HTMLDivElement> }):React.JSX.Element => {
   const {
@@ -22,6 +24,8 @@ const DatabaseConnector = ({ onToggle,titleRef }: { onToggle: any,titleRef:React
   } = useConnectDatabaseViewController();
 
   const text = appText.connectDatabase;
+
+  const [showPassword, setShowPassword] = useState<boolean>(false);
 
   return (
     <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
@@ -71,13 +75,24 @@ const DatabaseConnector = ({ onToggle,titleRef }: { onToggle: any,titleRef:React
                     <span className="text-gray-700">
                       {text.databasePassword}
                     </span>
-                    <input
-                      type="password"
-                      value={databasePassword}
-                      onChange={(e) => setDatabasePassword(e.target.value)}
-                      className="mt-1 py-2 pl-2 block w-full rounded-md border-gray-300 shadow-sm"
-                      placeholder={text.passwordPlaceholder}
-                    />
+                    <div className="relative mt-1">
+                      <input
+                        type={showPassword ? 'text' : 'password'}
+                        value={databasePassword}
+                        onChange={(e) => setDatabasePassword(e.target.value)}
+                        className="mt-1 py-2 pl-2 block w-full rounded-md border-gray-300 shadow-sm"
+                        placeholder={text.passwordPlaceholder}
+                      />
+                      <span className="absolute inset-y-0 right-0 pr-2 flex items-center cursor-pointer" onClick={() => setShowPassword(!showPassword)}>
+                        <Image
+                          src={`/eye_${showPassword ? 'close' : 'open'}.png`}
+                          alt="eye-open"
+                          className="items-center"
+                          width={20}
+                          height={20}
+                        />
+                      </span>
+                    </div>
                   </label>
                   <label className="block">
                     <span className="text-gray-700">{text.databaseHost}</span>
