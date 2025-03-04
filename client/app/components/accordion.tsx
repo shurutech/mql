@@ -43,7 +43,7 @@ const Accordion = ({ tables, activeIndex, handleAccordionToggle }: Props):React.
                   <div className="flex shrink-0 items-center gap-x-4">
                     <div className="hidden sm:flex sm:flex-col sm:items-end">
                       <p className="text-sm leading-6 text-gray-900">
-                        {table.table_columns.length} {text.columns}
+                        {table.table_columns.length} {table.table_columns.length === 1 ? text.column : text.columns}
                       </p>
                     </div>
                     <ChevronDownIcon

@@ -18,6 +18,7 @@ const useChatViewController = ({ dbId }: Props) => {
     const [queryResult, setQueryResult] = useState<QueryResult>({column_names: [''],rows:[]});
     const [hasQueryExecuted, setHasQueryExecuted] = useState<boolean>(false);
     const [queryError, setQueryError] = useState<string>("");
+    const [showError, setShowError] = useState<boolean>(false);
 
 
     const getQueryHistory = async () => {
@@ -31,6 +32,7 @@ const useChatViewController = ({ dbId }: Props) => {
 
     const handleQuery = async (e: React.ChangeEvent<any>) => {
         e.preventDefault();
+        setShowError(false);
         try {
             setIsFirst(false);
             setSql(null);
@@ -42,7 +44,9 @@ const useChatViewController = ({ dbId }: Props) => {
             const res = await askQuery(formData);
             setSql(res.data.data.sql_query);
             setNlQuery("");
+            setShowError(false);
         } catch (error) {
+            setShowError(true);
             toast.error(appText.toast.errGeneric);
         }
     };
@@ -100,6 +104,7 @@ const useChatViewController = ({ dbId }: Props) => {
         setHasQueryExecuted,
         handleQueryResponse,
         queryError,
+        showError
     };
 };
 

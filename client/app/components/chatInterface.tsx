@@ -13,6 +13,7 @@ import useChatViewController from "../viewControllers/chatViewController";
 import appText from "../assets/strings";
 import QueryResultTable from "./queryResultTable";
 import ErrorBox from "@/app/components/errorBox";
+import DownloadCSV from "./downloadCSV";
 
 type Props = {
   dbId: string;
@@ -36,7 +37,8 @@ const ChatInterface = ({ dbId }: Props):React.JSX.Element => {
     queryResult,
     hasQueryExecuted,
     handleQueryResponse,
-    queryError
+    queryError,
+    showError,
   } = useChatViewController({ dbId });
 
   const text = appText.chatInterface;
@@ -117,11 +119,11 @@ const ChatInterface = ({ dbId }: Props):React.JSX.Element => {
                     setNlQuery(e.target.value);
                   }}
                 />
-                <button className="p-1" type="submit" onClick={handleQuery}>
-                  <ArrowRightCircleIcon
-                    className="h-8 w-8 flex-shrink-0 text-gray-400 hover:text-blue-500"
-                    aria-hidden="true"
-                  />
+                <button disabled={!nlQuery?.length} className="p-1" type="submit" onClick={handleQuery}>
+                    <ArrowRightCircleIcon
+                      className={`h-8 w-8 flex-shrink-0 text-gray-400 ${nlQuery?.length ? 'hover:text-blue-500' : ''}`}
+                      aria-hidden="true"
+                    />
                 </button>
               </div>
             </form>
@@ -137,7 +139,7 @@ const ChatInterface = ({ dbId }: Props):React.JSX.Element => {
             
               <div className="py-2 px-6">
                 <p className="text-lg font-bold ">{text.response}</p>
-                <p>{!sql ? <Skeleton count={5} /> : null}</p>
+                <p>{!sql ? (showError ? <span>Internal server error</span> : <Skeleton count={5} />) : null}</p>
                 {sql && (
                   <div className="mt-2">
                     <CodeBlock setSql = {setSql} codeString={sql} executeFlag={window.localStorage.getItem("selectedDbExecutable")==='true'} handleQueryResponse={handleQueryResponse}/>
@@ -145,7 +147,13 @@ const ChatInterface = ({ dbId }: Props):React.JSX.Element => {
                 )}
               </div>
             </div>
-            {hasQueryExecuted && (queryError=="" ? <QueryResultTable result={queryResult}/>: <ErrorBox errorMessage={queryError}/>)}
+            {hasQueryExecuted && (queryError === "" ? 
+              <div>
+                <QueryResultTable result={queryResult} />
+                <DownloadCSV result={queryResult}/>
+              </div> 
+              :
+              <ErrorBox errorMessage={queryError}/>)}
           </div>
         </div>
       </div>

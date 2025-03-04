@@ -137,6 +137,7 @@ const appText = {
         columns: "columns",
         columnName: "Column Name",
         dataType: "Data Type",
+        column: "column",
     },
 }
 
