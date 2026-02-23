@@ -39,7 +39,7 @@ jobs:
               echo "Postgres is ready"
               exit 0
             fi
-            sleep 5
+            sleep 1
           done
           echo "Postgres did not become ready"
           docker compose logs postgres
