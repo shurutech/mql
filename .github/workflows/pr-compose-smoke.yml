@@ -22,10 +22,8 @@ jobs:
           cat > server/.env << 'EOF'
           DATABASE_URL=postgresql://postgres:password@postgres:5432/mql
           TEST_DATABASE_URL=postgresql://postgres:password@postgres:5432/mql_test
-          OPENAI_API_KEY=${OPENAI_API_KEY}
+          OPENAI_API_KEY=dummy_openai_key_for_ci
           EOF
-        env:
-          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
 
       - name: Build and start services
         shell: bash
@@ -41,7 +39,7 @@ jobs:
               echo "Postgres is ready"
               exit 0
             fi
-            sleep 5
+            sleep 1
           done
           echo "Postgres did not become ready"
           docker compose logs postgres
@@ -52,7 +50,7 @@ jobs:
         run: |
           for i in {1..30}; do
             code="$(curl -sS -o /dev/null -w "%{http_code}" http://localhost:8000 || true)"
-            if [ "$code" != "000" ]; then
+            if [ "$code" = "200" ]; then
               echo "Backend reachable with HTTP $code"
               exit 0
             fi
