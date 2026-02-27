@@ -213,3 +213,6 @@ Ready to contribute code? Follow these steps:
 
 **Conduct**
 We are committed to providing a welcoming and inspiring community for all. By participating in this project, you are expected to uphold our Code of Conduct, which promotes respect and collaboration.
+
+
+SOME CHANGES!!!
